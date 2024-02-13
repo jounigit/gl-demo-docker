@@ -9,3 +9,53 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User{
+  @@map(name: "users")
+
+  id Int  @id @default(autoincrement())
+  name String  @db.VarChar(255)
+  email String @unique @db.VarChar(255)
+  password String @db.VarChar(255)
+  albums  Album[]
+  pictures Picture[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Album{
+  @@map(name: "albums")
+  id Int @id @default(autoincrement())
+  title String  @db.VarChar(255)
+  slug String?  @db.VarChar(255)
+  year String? @db.Char(4)
+  content String?
+  user User?  @relation(fields:[userID], references:[id])
+  userID Int? 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pictures AlbumPicture[]
+}
+
+model Picture{
+  @@map(name: "pictures")
+  id Int @id @default(autoincrement())
+  title String  @db.VarChar(255)
+  year String @db.Char(4)
+  content String?
+  image String  @db.VarChar(255)
+  user User? @relation(fields:[userID], references:[id])
+  userID Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  albums AlbumPicture[]
+}
+
+model AlbumPicture{
+  album Album  @relation(fields:[albumId], references:[id])
+  albumId Int
+  picture Picture  @relation(fields:[pictureId], references:[id])
+  pictureId Int
+
+  @@id([albumId, pictureId])
+}

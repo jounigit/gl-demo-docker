@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "albums" ALTER COLUMN "slug" DROP NOT NULL,
+ALTER COLUMN "year" DROP NOT NULL;
