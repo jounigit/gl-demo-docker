@@ -3,5 +3,6 @@
         "terminal.foreground" : "#05f93a",
         "terminal.background":"#0000ff",
         "terminalCursor.foreground": "#ffae00"
-    }
+    },
+    "workbench.settings.editor": "json"
 }

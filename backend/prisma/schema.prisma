@@ -41,7 +41,7 @@ model Picture{
   @@map(name: "pictures")
   id Int @id @default(autoincrement())
   title String  @db.VarChar(255)
-  year String @db.Char(4)
+  year String? @db.Char(4)
   content String?
   image String  @db.VarChar(255)
   user User? @relation(fields:[userID], references:[id])
