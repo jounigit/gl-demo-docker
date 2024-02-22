@@ -34,27 +34,27 @@ model Album{
   userID Int? 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  pictures AlbumPicture[]
+  pictures AlbumsOnPictures[]
 }
 
 model Picture{
   @@map(name: "pictures")
   id Int @id @default(autoincrement())
-  title String  @db.VarChar(255)
+  title String @db.VarChar(255)
   year String? @db.Char(4)
   content String?
-  image String  @db.VarChar(255)
+  image String @db.VarChar(255)
   user User? @relation(fields:[userID], references:[id])
   userID Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  albums AlbumPicture[]
+  albums AlbumsOnPictures[]
 }
 
-model AlbumPicture{
-  album Album  @relation(fields:[albumId], references:[id])
+model AlbumsOnPictures{
+  album Album @relation(fields:[albumId], references:[id], onDelete: Cascade)
   albumId Int
-  picture Picture  @relation(fields:[pictureId], references:[id])
+  picture Picture @relation(fields:[pictureId], references:[id], onDelete: Cascade)
   pictureId Int
 
   @@id([albumId, pictureId])

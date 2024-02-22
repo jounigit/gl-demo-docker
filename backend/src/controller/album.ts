@@ -5,7 +5,7 @@ import { prisma } from '../app'
 export const getAll = async (req: Request, res: Response) => {
   const albums = await prisma.album.findMany({
     include: {
-      pictures: true,
+      pictures: { include: { picture: true } }
     }
   })
   return res.status(200).json(albums)
@@ -16,12 +16,8 @@ export const getOne = async (req: Request, res: Response, next: NextFunction) =>
   try{
     const album = await prisma.album.findUnique({
       where: { id: parseInt(req.params.id) },
-      select: {
-        id: true,
-        title: true,
-        content: true,
-        user: { select: { name:true } },
-        pictures: true
+      include: {
+        pictures: { include: { picture: true } }
       }
     })
     if(!album) return res.status(404).json({ error: 'User not found' })
@@ -100,3 +96,14 @@ export const deleteAlbum = async (req: Request, res: Response) => {
 
   return res.status(200).send('The album has been deleted.')
 }
+
+// const album = await prisma.album.findUnique({
+//   where: { id: parseInt(req.params.id) },
+//   select: {
+//     id: true,
+//     title: true,
+//     content: true,
+//     user: { select: { name:true } },
+//     pictures: true
+//   }
+// })
