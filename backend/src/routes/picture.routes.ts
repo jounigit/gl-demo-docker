@@ -1,7 +1,7 @@
 import express from 'express'
 import multer from  'multer'
 import * as pictures from '../controller/picture'
-import { pictureUpload } from '../controller/picture.upload'
+import { pictureUpload } from '../controller/pictureUpload'
 
 
 const upload = multer({ dest: './images' })

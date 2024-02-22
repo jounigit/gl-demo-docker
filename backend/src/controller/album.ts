@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { prisma } from '../app'
 
 // Get  all albums
@@ -12,32 +12,30 @@ export const getAll = async (req: Request, res: Response) => {
 }
 
 // Get album
-export const getOne = async (req: Request, res: Response) => {
-  const id = req.params.id
-  if (!id) return res.status(400).send('Missing parameter')
-
-  const album = await prisma.album.findUnique({
-    where: { id: parseInt(id) },
-    select: {
-      id: true,
-      title: true,
-      content: true,
-      createdAt: true,
-      updatedAt: true,
-      user: { select: { name:true } },
-      pictures: true
-    }
-  })
-
-  if(!album) return res.status(404).send('Album not found')
-
-  return res.status(200).json(album)
+export const getOne = async (req: Request, res: Response, next: NextFunction) => {
+  try{
+    const album = await prisma.album.findUnique({
+      where: { id: parseInt(req.params.id) },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        user: { select: { name:true } },
+        pictures: true
+      }
+    })
+    if(!album) return res.status(404).json({ error: 'User not found' })
+    return res.status(200).json(album)
+  } catch (e){
+    console.log(e)
+    next(e)
+  }
 }
 
 // Create an album
 export const createAlbum = async (req: Request, res: Response) => {
   if (!req.body.title) {
-    return res.status(400).send('Missing data')
+    return res.status(400).json({ error: 'Missing data' })
   }
   const { title, year, content, userID } = req.body
 

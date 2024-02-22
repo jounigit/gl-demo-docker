@@ -15,10 +15,6 @@ export const getAll = async (req: Request, res: Response) => {
 // Get picture
 export const getOne = async (req: Request, res: Response) => {
   const id = req.params.id
-  if (!id) {
-    return res.status(400).json({ message: 'Missing ID parameter' })
-  }
-
   try {
     const picture = await prisma.picture.findUnique({ where: { id: parseInt(id) } })
     if (!picture) {
