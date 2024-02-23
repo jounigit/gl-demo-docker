@@ -4,6 +4,6 @@ import * as albumsOnPictures from '../controller/albumsOnPictures'
 const routes = express.Router()
 
 routes.post('/', albumsOnPictures.createAlbumsOnPictures)
-routes.delete('/:id', albumsOnPictures.removeAlbumFromPicture)
+routes.delete('/', albumsOnPictures.removeAlbumFromPicture)
 
 export default routes

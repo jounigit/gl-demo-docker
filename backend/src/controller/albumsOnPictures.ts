@@ -37,7 +37,7 @@ export const removeAlbumFromPicture = async (req: Request, res: Response) => {
     if(!record){
       return res.status(404).send('The entry was not found')
     }else{
-      res.json(record)
+      res.json({ message: 'Album picture deleted successfully' })
     }
   } catch(e){
     res.status(500).send('Internal Error')
