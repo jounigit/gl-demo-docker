@@ -2,12 +2,13 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/src/app.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only --exit-child src/app.ts",
+    "start": "node build/src/app.js",
+    "dev": "ts-node-dev --respawn --transpile-only --exit-child src/app.ts",
     "db:migrate": "npx prisma migrate dev --name user-entity --create-only && npx prisma generate",
     "db:push": "npx prisma db push",
-    "build": "tsc . -p",
+    "build": "tsc",
     "lint": "eslint . --ext .ts"
   },
   "keywords": [],

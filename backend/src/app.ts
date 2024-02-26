@@ -24,19 +24,6 @@ async function main() {
   app.use(middleware.unknownEndpoint)
   app.use(middleware.errorHandler)
 
-  // Catch unregistered routes
-  // app.all('*', (req: Request, res: Response) => {
-  //   res.status(404).json({ error: `Route ${req.originalUrl} not found` })
-  // })
-
-  // app.use(function (err:  Error, req: Request, res: Response, next: NextFunction): void {
-  //   if (err.name === 'UnauthorizedError') {
-  //     res.status(401).send('invalid token...')
-  //   } else {
-  //     next(err)
-  //   }
-  // })
-
   app.listen(config.PORT, () => {
     console.log(`Server is listening on port ${config.PORT}`)
   })
