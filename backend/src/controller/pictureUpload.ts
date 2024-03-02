@@ -33,7 +33,8 @@ export const pictureUpload =  async (req:Request, res:Response) => {
         await prisma.picture.create({
           data : {
             title: req.file?.originalname  || newName,
-            image: newName
+            image: newName,
+            userID: 1
           }
         })
       })

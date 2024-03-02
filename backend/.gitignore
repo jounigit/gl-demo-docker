@@ -3,6 +3,8 @@ node_modules/
 .env
 images/
 postgresDB/
+redis_data/
+requests/
 
 # Logs
 logs

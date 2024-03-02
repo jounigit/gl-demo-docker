@@ -4,6 +4,7 @@ import cors from 'cors'
 import routes from './routes'
 import config from './utils/config'
 import middleware from './utils/middleware'
+import { getFromCache, setToCache } from './services/redis'
 // import UserRouter from "./routes/user";
 
 export const prisma = new PrismaClient()
@@ -17,6 +18,26 @@ async function main() {
   app.get('/health', (req, res) => {
     res.send('ok')
   })
+
+  app.get('/see',  async (req:express.Request,res:express.Response) => {
+    console.log('URL SEEE')
+    try{
+      // await redis.connect()
+      // const pingCommandResult = await redis.ping()
+      // console.log('Ping command result: ', pingCommandResult)
+      // const data = await redis.get('users')
+      await setToCache('test', 'ÄÄÄÄÄÄÄÄÄÄ')
+      const data = await getFromCache('users')
+      if(data!==null){
+        console.log('data')
+        // res.send(data)
+        res.send({ payload:JSON.parse(data) })
+      }
+    }catch(e){
+      console.error(e)
+      res.send(e)
+    }
+  } )
 
   // Register API routes
   app.use('/api', routes)

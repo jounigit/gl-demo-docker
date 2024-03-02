@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { prisma } from '../app'
+import { getUserFromHeader } from './userFromHeader'
 
 // Get  all albums
 export const getAll = async (req: Request, res: Response) => {
@@ -30,10 +31,11 @@ export const getOne = async (req: Request, res: Response, next: NextFunction) =>
 
 // Create an album
 export const createAlbum = async (req: Request, res: Response) => {
-  if (!req.body.title) {
-    return res.status(400).json({ error: 'Missing data' })
+  const user = getUserFromHeader(req.headers['authorization']!)
+  if (!req.body.title  || !user || !user.id) {
+    return res.status(400).json({ error: 'Missing data or authentication' })
   }
-  const { title, year, content, userID } = req.body
+  const { title, year, content } = req.body
 
   try{
     const newAlbum = await prisma.album.create({
@@ -42,8 +44,7 @@ export const createAlbum = async (req: Request, res: Response) => {
         slug: title.toLowerCase().replace(/[^a-zA-Z0-9]/g,'-'),
         year,
         content,
-        userID: parseInt(userID as string)
-        // userID: { connect: { id: userID } }
+        userID: user.id
       },
     })
 
@@ -92,7 +93,7 @@ export const deleteAlbum = async (req: Request, res: Response) => {
     where: { id }
   })
 
-  if (!album) return res.status(404).send('The album with the given ID was not found.')
+  if (!album) return res.status(404).send('The album was not found.')
 
   return res.status(200).send('The album has been deleted.')
 }
