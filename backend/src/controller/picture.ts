@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
 import { prisma } from '../app'
+import { deleteFileIfExists, makeSourcePath } from './helper'
+import config from '../utils/config'
+
 
 // Get all pictures
 export const getAll = async (req: Request, res: Response) => {
@@ -79,6 +82,12 @@ export const deletePicture = async (req: Request, res: Response) => {
   if (!picture) {
     return res.status(404).json({ message: 'Picture not found' })
   }
+
+  const bigPicture = makeSourcePath(config.IMAGES, picture.image)
+  const smallPicture = makeSourcePath(config.THUMBS, picture.image)
+
+  deleteFileIfExists(bigPicture)
+  deleteFileIfExists(smallPicture)
 
   return res.status(200).json({ message: 'Picture deleted successfully' })
 }

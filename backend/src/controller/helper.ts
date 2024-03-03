@@ -2,10 +2,11 @@
 import { Response } from 'express'
 import util from  'util'
 import sharp from 'sharp'
-import fsPromise from  'fs/promises'
+import { existsSync, unlinkSync } from 'fs'
+// import fsPromise from  'fs/promises'
 const sizeOf = util.promisify(require('image-size'))
 
-export function validations(ext: string, fileSize: number, res: Response) {
+export function imageValidations(ext: string, fileSize: number, res: Response) {
   if( ['.jpg','.jpeg','.png'].indexOf(ext) === -1 ) {
     return res.send({ error: 'Invalid file type!' })
   }
@@ -16,12 +17,13 @@ export function validations(ext: string, fileSize: number, res: Response) {
   }
 }
 
-export async function deleteFile(srcUrl: string) {
-  try {
-    await fsPromise.unlink(srcUrl)
-    console.log('File deleted successfully')
-  } catch (error) {
-    console.error('Error deleting file:', error)
+export function makeSourcePath(dir: string, newName: string) {
+  return `${dir}/${newName}`
+}
+
+export const deleteFileIfExists = (filePath: string) => {
+  if (existsSync(filePath)) {
+    unlinkSync(filePath)
   }
 }
 
