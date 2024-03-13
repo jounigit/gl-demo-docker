@@ -1,8 +1,14 @@
-import { NextFunction, Request, Response } from 'express'
-import { prisma } from '../app'
-import { getUserFromHeader } from './userFromHeader'
+import { Request, Response } from 'express'
+import { prisma } from '../services/prisma'
 
-// Get  all albums
+// Returns an album or throws an error
+async function getAlbumOrThrowError(id: number) {
+  const album = await prisma.album.findUnique({ where: { id } })
+  if (!album) throw new Error( `No album found with id ${id}`, )
+  return album
+}
+
+// ****************** Get all  **********************************
 export const getAll = async (req: Request, res: Response) => {
   const albums = await prisma.album.findMany({
     include: {
@@ -12,99 +18,59 @@ export const getAll = async (req: Request, res: Response) => {
   return res.status(200).json(albums)
 }
 
-// Get album
-export const getOne = async (req: Request, res: Response, next: NextFunction) => {
-  try{
-    const album = await prisma.album.findUnique({
-      where: { id: parseInt(req.params.id) },
-      include: {
-        pictures: { include: { picture: true } }
-      }
-    })
-    if(!album) return res.status(404).json({ error: 'User not found' })
-    return res.status(200).json(album)
-  } catch (e){
-    console.log(e)
-    next(e)
-  }
+// ****************** Get one  **********************************
+export const getOne = async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id as string)
+
+  const album = await getAlbumOrThrowError(id)
+
+  return res.status(200).json(album)
 }
 
-// Create an album
+// ****************** Create ************************************
 export const createAlbum = async (req: Request, res: Response) => {
-  const user = getUserFromHeader(req.headers['authorization']!)
-  if (!req.body.title  || !user || !user.id) {
-    return res.status(400).json({ error: 'Missing data or authentication' })
-  }
-  const { title, year, content } = req.body
+  if (!req.body.title || !req.user || !req.user.id) throw new Error( 'Missing data or authentication' )
 
   try{
     const newAlbum = await prisma.album.create({
-      data:{
-        title,
-        slug: title.toLowerCase().replace(/[^a-zA-Z0-9]/g,'-'),
-        year,
-        content,
-        userID: user.id
-      },
+      data:{ userID: req.user.id,  ...req.body },
+      select: { id: true, title: true, createdAt: true, updatedAt: true }
     })
 
     return res.status(201).json(newAlbum)
   }catch(e){
-    console.log(e)
-    return res.status(500).json({ 'error': e })
+    console.log('error', e)
+    return res.status(500).json({ error: 'Could not create the album' })
   }
 }
 
-// Update an album
+// ***************** Update *******************************
 export const updateAlbum = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id as string)
-  const { title, year, content } = req.body
+
+  if (!Object.keys(req.body).length) throw new Error('Nothing to update.' )
 
   // Check if the album exists in the database
-  const album = await prisma.album.findUnique({ where: { id } })
+  await getAlbumOrThrowError(id)
 
-  if(!album) return res.status(404).send('The album was not found.')
+  const updatedAlbum = await prisma.album.update({
+    where: { id },
+    data: { ...req.body }
+  })
 
-  // If fields are provided, update them in the database
-  if (Object.keys(req.body).length > 0) {
-    try{
-      const updatedAlbum = await prisma.album.update({
-        where: { id },
-        data: {
-          title: title ? title : album.title,
-          slug: title.toLowerCase().replace(/[^a-zA-Z0-9]/g,'-'),
-          year: isNaN(year) ? album.year : year,
-          content: content ? content : album.content,
-        }
-      })
-
-      return res.status(200).json(updatedAlbum)
-    } catch(e) {
-      return res.status(400).json({ 'error': e })
-    }
-  }
+  return res.status(200).json(updatedAlbum)
 }
 
-// Delete an album
+// ********* Delete a specific picture by its ID **********************
 export const deleteAlbum = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id as string)
 
-  const album = await prisma.album.delete({
+  await getAlbumOrThrowError(id)
+
+  await prisma.album.delete({
     where: { id }
   })
-
-  if (!album) return res.status(404).send('The album was not found.')
 
   return res.status(200).send('The album has been deleted.')
 }
 
-// const album = await prisma.album.findUnique({
-//   where: { id: parseInt(req.params.id) },
-//   select: {
-//     id: true,
-//     title: true,
-//     content: true,
-//     user: { select: { name:true } },
-//     pictures: true
-//   }
-// })

@@ -1,8 +1,8 @@
 import express from 'express'
-import { logout } from '../controller/auth'
+import logoutController from '../controller/auth/logout'
 
 const routes = express.Router()
 
-routes.delete('/', logout)
+routes.delete('/', logoutController)
 
 export default routes

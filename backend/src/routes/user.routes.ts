@@ -1,18 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import express from 'express'
-// import jwtAuth from 'express-jwt'
-const { expressjwt:jwt } = require('express-jwt')
 import * as users from '../controller/user'
-import config from '../utils/config'
+import Auth from '../utils/middleware'
 
 const routes = express.Router()
 
-const routeAuth = jwt( { secret: `${config.JWT_SECRET}`,  algorithms: ['HS256'] } )
-
-routes.get('/', routeAuth, users.getAll)
+routes.get('/', Auth.authenticateToken, users.getAll)
 routes.get('/:id', users.getOne)
-routes.post('/', users.createUser)
-routes.put('/:id', users.updateUser)
-routes.delete('/:id', users.deleteUser)
+routes.post('/', Auth.authenticateToken, users.createUser)
+routes.put('/:id', Auth.authenticateToken, users.updateUser)
+routes.delete('/:id', Auth.authenticateToken, users.deleteUser)
 
 export default routes

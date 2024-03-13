@@ -5,8 +5,8 @@ import config from '../utils/config'
 
 function getAuthTokenFromHeader(header: string): string | null {
   const authHeader = header.split(' ')
-
-  if (authHeader[0] === 'bearer') {
+  console.log(`Auth user: ${authHeader}`)
+  if (authHeader[0].toLowerCase() === 'bearer') {
     return authHeader[1]
   }
   return null
@@ -31,8 +31,8 @@ export function getUserFromHeader(header: string): Partial<User> | null {
     return null
   }
   const token = getAuthTokenFromHeader(header)
-  if (token) {
-    return decodeAuthToken(token)
+  if (!token) {
+    throw new Error('Invalid Authorization Header')
   }
-  return null
+  return decodeAuthToken(token)
 }

@@ -5,7 +5,7 @@ import Path from  'path'
 import { deleteFileIfExists, imageValidations, makeSourcePath, resizeImage } from './helper'
 import config from '../utils/config'
 import { prisma } from '../app'
-import { Picture } from '@prisma/client'
+import { Picture, User } from '@prisma/client'
 
 const IMAGES = config.IMAGES
 const THUMBS = config.THUMBS
@@ -16,8 +16,11 @@ async function ensureDir(path: string) {
 
 // ********************************************************************
 export const pictureUpload =  async (req:Request, res:Response) => {
-  if( req.file === undefined ) return res.status(400).send('No file sent')
+  if( !req.user || req.file === undefined ) {
+    return res.status(400).send('No file sent or user not logged in')
+  }
   const uploadedFile = req.file.path
+  const user = req.user  as Partial<User>
   const imgBuffer =  await fsPromise.readFile(req.file.path)
   const ext = Path.extname(req.file.originalname).toLowerCase()
   const newName =  Date.now() + ext
@@ -39,7 +42,7 @@ export const pictureUpload =  async (req:Request, res:Response) => {
           data : {
             title: req.file?.originalname  || newName,
             image: newName,
-            userID: 1
+            userID: user.id!
           }
         })
       })
@@ -56,18 +59,18 @@ export const pictureUpload =  async (req:Request, res:Response) => {
 // ********************************************************************
 const handleFileUpload = async (newName: string, getExistingFiles: string[], isAllFilesDone: boolean, res: Response) => {
   const existingFiles = checkFilesExistence(getExistingFiles)
+  const picture = await prisma.picture.findFirst({ where: { image: newName } })
 
   if (!isAllFilesDone) {
     for (const file of existingFiles) {
       deleteFileIfExists(file)
     }
 
-    const picture = await prisma.picture.findFirst({ where: { image: newName } })
     picture && await deletePicture(picture)
     return res.status(500).json({ msg: 'Server error' })
   }
 
-  return res.json('File Uploaded Successfully!')
+  return res.json(picture)
 }
 
 const deletePicture = async (picture: Picture) => {
