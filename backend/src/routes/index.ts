@@ -5,6 +5,7 @@ import pictureRoutes from './picture.routes'
 import loginRoutes from './login.routes'
 import logoutRoutes from './logout.routes'
 import albumsOnPictures from './albumsOnPicture.routes'
+import signinRoutes from  './signin.routes'
 
 const routes = Router()
 
@@ -14,6 +15,7 @@ routes.use('/pictures', pictureRoutes)
 routes.use('/album-picture', albumsOnPictures)
 routes.use('/login', loginRoutes)
 routes.use('/logout', logoutRoutes)
+routes.use('/signin', signinRoutes)
 
 export default routes
 

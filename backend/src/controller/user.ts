@@ -8,6 +8,7 @@ import { routeAuth } from '../routes/routeHelper'
 import { getUserFromHeader } from './userFromHeader'
 import { prisma } from '../services/prisma'
 import { UnauthorizedError } from 'express-jwt'
+import { User } from '@prisma/client'
 
 // GET /users - Get all users
 export const getAll = async (req: Request, res: Response) => {
@@ -34,34 +35,16 @@ export const getOne = async (req: Request, res: Response) => {
   return res.json(user)
 }
 
+// interface NewUser  extends Pick<User, 'username'| 'email'| 'password'>
+interface Data {
+  username: string;
+  email: string;
+  password: string;
+}
+
 // Create  a new user
-export const createUser = async (req: Request, res: Response) => {
-  const { username, email, password } = req.body
-  if (!username || !email || !password) throw new Error( 'Missing data' )
-
-  const  existingUser = await prisma.user.findFirst({
-    where: { email }
-  })
-
-  if (existingUser) throw new Error('Email already in use')
-
-  const saltRounds = 10
-  const passwordHash = await bcrypt.hash(password, saltRounds)
-
-  const data = {
-    username,
-    email,
-    password: passwordHash
-  }
-
-  try {
-    const newUser = await prisma.user.create({ data })
-    if (!newUser) throw new Error('Failed to create user')
-    else return res.status(201).json(newUser)
-  } catch (err) {
-    console.error(err)
-    return res.status(500).json({ error: err })
-  }
+export const createUser = async (data: Data): Promise<User> => {
+  return await prisma.user.create({ data })
 }
 
 // Update an existing user

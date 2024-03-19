@@ -13,6 +13,7 @@ services:
       - "3001:3001"
     environment:
       - DATABASE_URL=postgresql://admin:password123@postgres:5432/galleria_db?schema=public
+      - REDIS_URL=redis://redis:6379
     container_name: galleria-backend-dev
     depends_on:
       - postgres
@@ -29,8 +30,16 @@ services:
       # POSTGRES_PORT: 6500
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password123
-      POSTGRES_DB: galleria_db
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - ./redis_data:/data
 
 volumes:
   postgresDB:
+  redis_data:
 

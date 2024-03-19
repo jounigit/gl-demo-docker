@@ -10,7 +10,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/health', (req, res) => {
-  res.send('ok')
+  res.send('ok health')
 })
 
 app.get('/protected', middleware.authenticateToken, (req, res) => {

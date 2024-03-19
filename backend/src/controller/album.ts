@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
 import { prisma } from '../services/prisma'
+import { BadRequestError } from '../helpers/api-errors'
 
 // Returns an album or throws an error
-async function getAlbumOrThrowError(id: number) {
+export async function getAlbumOrThrowError(id: number) {
   const album = await prisma.album.findUnique({ where: { id } })
-  if (!album) throw new Error( `No album found with id ${id}`, )
+  if (!album) throw new BadRequestError('Invalid id')
   return album
 }
-
+// throw new BadRequestError( `No album found with id ${id}`, )
 // ****************** Get all  **********************************
 export const getAll = async (req: Request, res: Response) => {
   const albums = await prisma.album.findMany({

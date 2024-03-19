@@ -12,7 +12,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password123
-      POSTGRES_DB: galleria_db
+      # POSTGRES_DB: galleria_db
 
   redis:
     image: redis:alpine

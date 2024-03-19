@@ -10,10 +10,14 @@
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "outDir": "./build",
-    "rootDir": "."
+    "rootDir": ".",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["vitest/globals"],
   },
   "exclude": [
       "node_modules"
   ],
 }
-
