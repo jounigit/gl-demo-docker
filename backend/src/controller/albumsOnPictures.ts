@@ -1,5 +1,5 @@
+import { prisma } from '../services/prisma'
 import { Request, Response } from 'express'
-import { prisma } from '../app'
 
 export const createAlbumsOnPictures = async (req: Request, res: Response) => {
   const { albumId, pictureId } = req.body

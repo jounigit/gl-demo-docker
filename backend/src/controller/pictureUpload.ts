@@ -4,8 +4,8 @@ import  { existsSync } from  'fs'
 import Path from  'path'
 import { deleteFileIfExists, imageValidations, makeSourcePath, resizeImage } from './helper'
 import config from '../utils/config'
-import { prisma } from '../app'
 import { Picture, User } from '@prisma/client'
+import { prisma } from '../services/prisma'
 
 const IMAGES = config.IMAGES
 const THUMBS = config.THUMBS

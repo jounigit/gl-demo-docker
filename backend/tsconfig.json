@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "ESNext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
+    "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -15,9 +16,18 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vitest/globals"],
+    "types": ["jest"],
   },
   "exclude": [
-      "node_modules"
+      "node_modules",
+      "**/*.spec.ts",
+      "test",
+      "tests",
+      "build",
+      "jest.config.js"
   ],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  },
 }
