@@ -1,7 +1,12 @@
 import { PrismaClient } from '@prisma/client'
 // import { PrismaSlug } from 'prisma-slug'
+import config from '../utils/config'
 
 export const prisma = new PrismaClient({
+  datasources: {
+    db: { url: config.DB_URL_TEST },
+    // db: { url: config.NODE_ENV === 'test' ? config.DB_URL_TEST : config.DB_URL },
+  },
   log: ['query', 'error']
 }).$extends({
   query: {

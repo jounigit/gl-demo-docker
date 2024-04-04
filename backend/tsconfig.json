@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2022",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "commonjs",
+    "module": "CommonJS",
+    // "moduleResolution": undler, // Option 'bundler' can only be used when 'module' is set to 'es2015' or later
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictPropertyInitialization": false,
+    "preserveSymlinks": true,
     "skipLibCheck": true,
     "outDir": "./build",
     "rootDir": ".",
@@ -16,15 +18,11 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["jest"],
+    "types": ["vitest/globals"],
   },
+  // "include": ["src/**/*.ts", "tests/**/*.test.ts"],
   "exclude": [
-      "node_modules",
-      "**/*.spec.ts",
-      "test",
-      "tests",
-      "build",
-      "jest.config.js"
+      "node_modules"
   ],
   "ts-node": {
     "transpileOnly": true,
