@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
-import jwt  from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { User } from '@prisma/client'
 import { setToCache } from '../../services/redis'
 import { prisma } from '../../services/prisma'

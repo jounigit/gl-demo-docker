@@ -1,4 +1,10 @@
-import { INewPicture, createPicture, deletePicture, getPictures, updatePicture } from '@/model/picture.model'
+import {
+  INewPicture,
+  createPicture,
+  deletePicture,
+  getPictures,
+  updatePicture
+} from '@/model/picture.model'
 
 describe('Picture tests', () => {
   it('should find all users'  ,async() => {

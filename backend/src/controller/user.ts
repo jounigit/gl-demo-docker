@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response } from 'express'
-import bcrypt from  'bcrypt'
-import { createUser, deleteUser, getUser, getUsers, updateUser } from '@/model/user.model'
+import bcrypt from 'bcrypt'
+import { createUser, deleteUser, getUser, getUsers, updateUser } from '../model/user.model'
 
 // GET /users - Get all users
 export const getAll = async (req: Request, res: Response) => {
@@ -52,7 +52,7 @@ export const update = async (req: Request, res: Response) => {
 // This route is used for deleting a single user by their ID
 export const remove = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id as string)
-  const deleted =  await deleteUser(id)
+  const deleted = await deleteUser(id)
 
   if(!deleted) throw new Error(`No user with ID ${id}`)
   else return res.status(200).send(deleted)

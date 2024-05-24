@@ -1,10 +1,10 @@
-import { prisma } from '@/services/prisma'
+import { prisma } from '../services/prisma'
 import { Album } from '@prisma/client'
 
 export const getAlbums = async (): Promise<Album[]> => await prisma.album.findMany()
 
 export const getAlbum = async (id: number): Promise<Album | null> => {
-  if  (!id) return null
+  if (!id) return null
   return await prisma.album.findUnique({ where: { id } })
 }
 
@@ -15,13 +15,13 @@ export interface INewAlbum {
     userID: number
 }
 
-export  const createAlbum = async (data: INewAlbum) => {
-  const album  = await prisma.album.create({ data })
+export const createAlbum = async (data: INewAlbum) => {
+  const album = await prisma.album.create({ data })
   if (!album){throw new Error('Could not create the album')}
   return album
 }
 
-export const updateAlbum  = async (id: number,  data: Partial<Album>): Promise<Album> => {
+export const updateAlbum = async (id: number, data: Partial<Album>): Promise<Album> => {
   const res = await prisma.album.update({
     where:{ id },
     data

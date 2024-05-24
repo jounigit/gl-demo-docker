@@ -2,7 +2,12 @@ import { Request, Response } from 'express'
 import { deleteFileIfExists, makeSourcePath } from './helper'
 import config from '../utils/config'
 import { prisma } from '../services/prisma'
-import { deletePicture, getPictureOrThrowError, getPictures } from '@/model/picture.model'
+import {
+  createPicture,
+  deletePicture,
+  getPictureOrThrowError,
+  getPictures
+} from '../model/picture.model'
 
 // Returns an picture or throws an error
 
@@ -25,19 +30,18 @@ export const getOne = async (req: Request, res: Response) => {
 // ****************** Create a new picture  ***********************
 export const create = async (req: Request, res: Response) => {
   const { title, year, content, image, userID } = req.body
-  if (!image  || !title  || !userID) throw new Error( 'Missing data' )
+  if (!image || !title || !userID) throw new Error( 'Missing data' )
 
-  const picture = await prisma.picture.create({
-    data: {
-      title,
-      year,
-      content,
-      image,
-      userID: parseInt(userID as string)
-    },
-  })
+  const data = {
+    title,
+    year,
+    content,
+    image,
+    userID: parseInt(userID as string)
+  }
+  const picture = await createPicture(data)
 
-  if  (!picture) throw new Error('Could not add the picture')
+  if (!picture) throw new Error('Could not add the picture')
 
   return res.status(201).json({ data: picture, message: 'Picture created!' })
 }

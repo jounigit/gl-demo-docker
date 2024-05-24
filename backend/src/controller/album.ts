@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { prisma } from '../services/prisma'
 import { BadRequestError } from '../helpers/api-errors'
-import { INewAlbum, createAlbum, deleteAlbum, getAlbum, updateAlbum } from '@/model/album.model'
+import { INewAlbum, createAlbum, deleteAlbum, getAlbum, updateAlbum } from '../model/album.model'
 // import { Album } from '@prisma/client'
 
 // Returns an album or throws an error

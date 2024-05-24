@@ -1,10 +1,10 @@
-import { prisma } from '@/services/prisma'
+import { prisma } from '../services/prisma'
 import { User } from '@prisma/client'
 
-export const getUsers  = async (): Promise<User[]> => await prisma.user.findMany()
+export const getUsers = async (): Promise<User[]> => await prisma.user.findMany()
 
 export const getUser = async (id: number): Promise<User | null> => {
-  if  (!id) return null
+  if (!id) return null
 
   const user = await prisma.user.findUnique({
     where: { id },
@@ -32,7 +32,7 @@ export const createUser = async (data: NewUser): Promise<User> => {
   return user
 }
 
-export const updateUser  = async (id: number, data: Partial<User>): Promise<User> => {
+export const updateUser = async (id: number, data: Partial<User>): Promise<User> => {
   const user = await getUser(id)
   if (!user) throw new Error(`Could not find user with id ${id}`)
 

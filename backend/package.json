@@ -5,7 +5,7 @@
   "main": "build/src/app.js",
   "scripts": {
     "start": "node build/src/app.js",
-    "dev:db": "docker compose -f docker-compose.db.yml up -d dbdev",
+    "dev:db": "docker compose -f docker-compose.db.yml up -d",
     "predev": "npm run dev:db",
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/index.ts",
     "db:migrate": "npx prisma migrate dev --name user-entity --create-only && npx prisma generate",
@@ -14,9 +14,10 @@
     "lint": "eslint . --ext .ts",
     "test:db:up": "docker compose -f docker-compose.test.yml up -d dbtest",
     "test:db:down": "docker compose -f docker-compose.test.yml down dbtest",
-    "pretest:i": "npm run test:db:up && npx prisma migrate deploy",
-    "test:i": "NODE_ENV=test vitest run --config ./vitest.integration.ts",
-    "posttest:i": "npm run test:db:down"
+    "db:deploy": "npx prisma migrate deploy",
+    "XXX-pretest": "npm run test:db:up && sleep 20s && npm run db:deploy",
+    "test": "NODE_ENV=test vitest run --config ./vitest.integration.ts",
+    "posttest": "npm run test:db:down"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +34,7 @@
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
+    "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "happy-dom": "^14.3.8",
     "npm-run-all": "^4.1.5",
@@ -43,7 +45,8 @@
     "typescript": "^5.3.3",
     "vite": "^5.2.6",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^1.4.0"
+    "vitest": "^1.4.0",
+    "wait-on": "^7.2.0"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",

@@ -26,4 +26,4 @@ app.use('/api', routes)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
-export default  app
+export default app

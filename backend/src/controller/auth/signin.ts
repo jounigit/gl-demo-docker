@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import { prisma } from '../../services/prisma'
-import { createUser } from '../user'
+import { createUser } from '../../model/user.model'
 
 const signin = async (req: Request, res: Response) => {
   const { username, email, password } = req.body
   if (!username || !email || !password) returnError(res, 'Missing credentials')
 
-  const  existingUser = await prisma.user.findFirst({
+  const existingUser = await prisma.user.findFirst({
     where: { email }
   })
 

@@ -1,4 +1,4 @@
-import { prisma } from '@/services/prisma'
+import { prisma } from '../services/prisma'
 import { Album, Picture } from '@prisma/client'
 
 export const getPictures = async (): Promise<Picture[]> => await prisma.picture.findMany()
@@ -17,13 +17,13 @@ export interface INewPicture {
     userID: number
 }
 
-export const  createPicture = async (data: INewPicture): Promise<Picture> => {
-  const picture =  await prisma.picture.create({ data })
-  if (!picture) throw new Error('Could not add the picture')
+export const createPicture = async (data: INewPicture): Promise<Picture> => {
+  const picture = await prisma.picture.create({ data })
+  if (!picture) {throw new Error('Could not create the picture')}
   return picture
 }
 
-export const  updatePicture = async (id: number,  data: Partial<Album>) => {
+export const updatePicture = async (id: number, data: Partial<Album>) => {
   await getPictureOrThrowError(id)
   const updatedPicture = await prisma.picture.update({
     where: { id },
