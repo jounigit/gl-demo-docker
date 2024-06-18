@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import { deleteFileIfExists, makeSourcePath } from './helper'
 import config from '../utils/config'
 import { prisma } from '../services/prisma'
@@ -8,6 +8,7 @@ import {
   getPictureOrThrowError,
   getPictures
 } from '../model/picture.model'
+import { pictureUploadModel } from '../model/pictureUpload.model'
 
 // Returns an picture or throws an error
 
@@ -19,12 +20,26 @@ export const getAll = async (req: Request, res: Response) => {
 
 // ********************** Get picture  by ID *************************** //
 export const getOne = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id as string)
+  const id = Number.parseInt(req.params.id as string)
 
   // Check if the album exists in the database
   const picture = await getPictureOrThrowError(id)
 
   return res.status(200).json({ data: picture })
+}
+
+// ********************** Upload picture *************************** //
+export const upload = async (req: Request, res: Response) => {
+  if (!req.user || req.file === undefined) {
+    return res.status(400).send('No file sent or user not logged in')
+  }
+
+  try {
+    const result = await pictureUploadModel(req.file, req.user)
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(500).json({ msg: 'Server error' })
+  }
 }
 
 // ****************** Create a new picture  ***********************
@@ -37,7 +52,7 @@ export const create = async (req: Request, res: Response) => {
     year,
     content,
     image,
-    userID: parseInt(userID as string)
+    userID: Number.parseInt(userID as string)
   }
   const picture = await createPicture(data)
 
@@ -48,7 +63,7 @@ export const create = async (req: Request, res: Response) => {
 
 // ***************** Update picture *******************************
 export const update = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id as string)
+  const id = Number.parseInt(req.params.id as string)
 
   if (!Object.keys(req.body).length) throw new Error('Nothing to update.' )
 
@@ -67,7 +82,7 @@ export const update = async (req: Request, res: Response) => {
 
 // ********* Delete a specific picture by its ID **********************
 export const remove = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id as string)
+  const id = Number.parseInt(req.params.id as string)
 
   const picture = await deletePicture(id)
 

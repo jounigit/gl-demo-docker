@@ -1,9 +1,9 @@
-import fsPromise from 'fs/promises'
-import { existsSync } from 'fs'
-import Path from 'path'
+import fsPromise from 'node:fs/promises'
+import { existsSync } from 'node:fs'
+import Path from 'node:path'
 import { deleteFileIfExists, makeSourcePath, resizeImage } from './helper'
 import config from '../utils/config'
-import { Picture, User } from '@prisma/client'
+import type { Picture, User } from '@prisma/client'
 import { prisma } from '../services/prisma'
 
 const IMAGES = config.IMAGES
@@ -42,6 +42,7 @@ export async function pictureUploadModel(file: Express.Multer.File, user: Partia
     data : {
       title: newName,
       image: newName,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       userID: user.id!
     }
   })

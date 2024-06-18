@@ -1,5 +1,5 @@
 import { prisma } from '../services/prisma'
-import { Album, Picture } from '@prisma/client'
+import type { Album, Picture } from '@prisma/client'
 
 export const getPictures = async (): Promise<Picture[]> => await prisma.picture.findMany()
 
