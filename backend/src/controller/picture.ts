@@ -25,7 +25,7 @@ export const getOne = async (req: Request, res: Response) => {
   // Check if the album exists in the database
   const picture = await getPictureOrThrowError(id)
 
-  return res.status(200).json({ data: picture })
+  return res.status(200).json(picture)
 }
 
 // ********************** Upload picture *************************** //

@@ -1,7 +1,7 @@
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import { prisma } from '../services/prisma'
 import { BadRequestError } from '../helpers/api-errors'
-import { INewAlbum, createAlbum, deleteAlbum, getAlbum, updateAlbum } from '../model/album.model'
+import { type INewAlbum, createAlbum, deleteAlbum, getAlbum, updateAlbum } from '../model/album.model'
 // import { Album } from '@prisma/client'
 
 // Returns an album or throws an error
@@ -23,7 +23,7 @@ export const getAll = async (req: Request, res: Response) => {
 
 // ****************** Get one  **********************************
 export const getOne = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id as string)
+  const id = Number.parseInt(req.params.id as string)
   const album = await getAlbum(id)
   return res.status(200).json(album)
 }
@@ -31,10 +31,12 @@ export const getOne = async (req: Request, res: Response) => {
 // ****************** Create ************************************
 
 export const create = async (req: Request, res: Response) => {
-  if (!req.body.title || !req.user || !req.user.id)
+  if (!req.body.title || !req.user)
     throw new Error( 'Missing data or authentication' )
 
-  const created = await createAlbum({ ...req.body , userId : req.user.id })
+  const data = { userID: req.user.id, ...req.body }
+
+  const created = await createAlbum(data)
 
   return res.status(201).json(created)
 }
@@ -54,7 +56,7 @@ export const create = async (req: Request, res: Response) => {
 
 // ***************** Update *******************************
 export const update = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id as string)
+  const id = Number.parseInt(req.params.id as string)
   const body = req.body as INewAlbum
 
   if (!Object.keys(body).length) throw new Error('Nothing to update.' )
@@ -69,7 +71,7 @@ export const update = async (req: Request, res: Response) => {
 
 // ********* Delete a specific picture by its ID **********************
 export const remove = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id as string)
+  const id = Number.parseInt(req.params.id as string)
 
   await getAlbumOrThrowError(id)
 
