@@ -1,7 +1,14 @@
 import type { Request, Response } from 'express'
 import { prisma } from '../services/prisma'
 import { BadRequestError } from '../helpers/api-errors'
-import { type INewAlbum, createAlbum, deleteAlbum, getAlbum, updateAlbum } from '../model/album.model'
+import {
+  type INewAlbum,
+  createAlbum,
+  deleteAlbum,
+  getAlbum,
+  getAlbumBySlug,
+  updateAlbum
+} from '../model/album.model'
 // import { Album } from '@prisma/client'
 
 // Returns an album or throws an error
@@ -23,8 +30,19 @@ export const getAll = async (req: Request, res: Response) => {
 
 // ****************** Get one  **********************************
 export const getOne = async (req: Request, res: Response) => {
+  const slug = req.params.slug as string
   const id = Number.parseInt(req.params.id as string)
+  console.log('SLUG album getOne: ', slug, ' PARAMS: ', req.params)
   const album = await getAlbum(id)
+  return res.status(200).json(album)
+}
+
+// ****************** Get by slug  **********************************
+export const getBySlug = async (req: Request, res: Response) => {
+  const slug = req.params.slug as string
+  console.log('SLUG album: ', slug, ' PARAMS: ', req.params)
+  // res.send({ slug })
+  const album = await getAlbumBySlug(slug)
   return res.status(200).json(album)
 }
 

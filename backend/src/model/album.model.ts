@@ -8,6 +8,12 @@ export const getAlbum = async (id: number): Promise<Album | null> => {
   return await prisma.album.findUnique({ where: { id } })
 }
 
+export const getAlbumBySlug = async (slug: string): Promise<Album | null> => {
+  // if (!slug) return null
+  console.log('SLUG album model: ', slug)
+  return await prisma.album.findFirst({ where:{ slug } })
+}
+
 export interface INewAlbum {
     title: string;
     year?: string;

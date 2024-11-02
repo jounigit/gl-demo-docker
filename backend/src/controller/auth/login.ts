@@ -1,23 +1,29 @@
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
 import { setToCache } from '../../services/redis'
 import { prisma } from '../../services/prisma'
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body
 
-  let user
-  let passwordCorrect
+  if (!email || !password)
+    throw new Error( 'Missing data or authentication' )
 
-  if (email) {
-    user = await prisma.user.findUnique({ where: { email } })
+  // let user: User | null
+  // let passwordCorrect
+
+  // if (email) {
+  //   user = await prisma.user.findUnique({ where: { email } })
+  // }
+
+  const user = await prisma.user.findUnique({ where: { email } })
+  if (!user) {
+    throw new Error('Invalid email or password')
   }
 
-  if (user) {
-    passwordCorrect = await bcrypt.compare(password, user.password)
-  }
+  const passwordCorrect = await bcrypt.compare(password, user.password)
 
   if (!(user && passwordCorrect)) {
     return res.status(401).json({ message: 'Invalid email or password.' })
@@ -29,6 +35,7 @@ const login = async (req: Request, res: Response) => {
     email: user.email
   }
 
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   const token = jwt.sign(userForToken, process.env.JWT_SECRET!)
 
   const toCache = {

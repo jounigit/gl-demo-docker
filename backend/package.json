@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node build/src/app.js",
     "dev:db": "docker compose -f docker-compose.db.yml up -d",
+    "dev:db:down": "docker compose -f docker-compose.db.yml down",
     "predev": "npm run dev:db",
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/index.ts",
     "db:migrate": "npx prisma migrate dev --name user-entity --create-only && npx prisma generate",

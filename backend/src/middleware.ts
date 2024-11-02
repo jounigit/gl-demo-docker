@@ -1,6 +1,7 @@
-import { NextFunction, Request, Response } from 'express'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import config from '../utils/config'
+import config from './utils/config'
 
 export function notFound( req: Request, res: Response, next: NextFunction) {
   res.status(404)
@@ -18,9 +19,8 @@ export function errorHandler(err: Error, _: Request, res: Response) {
   })
 }
 
-export function isAuthenticated(err: Error, req: Request, res: Response, next: NextFunction) {
+export function isAuthenticated(_err: Error, req: Request, res: Response, next: NextFunction) {
   const { authorization } = req.headers
-  const err
 
   if (!authorization) {
     res.status(401)
@@ -29,13 +29,14 @@ export function isAuthenticated(err: Error, req: Request, res: Response, next: N
 
   try {
     const token = authorization.split(' ')[1]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const payload = jwt.verify(token,  config.JWT_SECRET!) as any //
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const payload = jwt.verify(token, config.JWT_SECRET!) as any //
     req.user = payload
   } catch (err) {
     res.status(401)
     if (err === 'TokenExpiredError') {
-      throw new Error(err.name)
+      throw new Error(err)
     }
     throw new Error('🚫 Un-Authorized 🚫')
   }

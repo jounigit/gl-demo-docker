@@ -28,7 +28,7 @@ model Album{
   @@map(name: "albums")
   id Int @id @default(autoincrement())
   title String  @db.VarChar(255)
-  slug String?  @db.VarChar(255)
+  slug String @unique @db.VarChar(255)
   year String? @db.Char(4)
   content String?
   user User  @relation(fields:[userID], references:[id])
