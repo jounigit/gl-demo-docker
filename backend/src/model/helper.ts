@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Response } from 'express'
-import util from 'util'
+import type { Response } from 'express'
+import util from 'node:util'
 import sharp from 'sharp'
-import { existsSync, unlinkSync } from 'fs'
-import fsPromise from 'fs/promises'
+import { existsSync, unlinkSync } from 'node:fs'
+import fsPromise from 'node:fs/promises'
 const sizeOf = util.promisify(require('image-size'))
 
 export async function ensureDir(path: string) {
@@ -63,6 +63,7 @@ async function getOrientation (file: string): Promise<string> {
 }
 
 function getOptions(orientation: string, size: number): object {
+  // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
   let options
   if (orientation === 'isPortrait') {
     options = {

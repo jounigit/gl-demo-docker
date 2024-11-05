@@ -5,43 +5,52 @@ import {
   type INewAlbum,
   createAlbum,
   deleteAlbum,
-  getAlbum,
   getAlbumBySlug,
   updateAlbum
 } from '../model/album.model'
-// import { Album } from '@prisma/client'
 
 // Returns an album or throws an error
 export async function getAlbumOrThrowError(id: number) {
-  const album = await prisma.album.findUnique({ where: { id } })
+  const album = await prisma.album.findUnique({
+    where: { id },
+    include: {
+      pictures: {
+        include: {
+          picture: true
+        }
+      }
+    }
+  })
   if (!album) throw new BadRequestError('Invalid id')
   return album
 }
-// throw new BadRequestError( `No album found with id ${id}`, )
+
 // ****************** Get all  **********************************
 export const getAll = async (req: Request, res: Response) => {
-  const albums = await prisma.album.findMany({
+  const result = await prisma.album.findMany({
     include: {
       pictures: { include: { picture: true } }
     }
+  })
+  /** Takes only pictures-property. */
+  const albums = result.map((a) => {
+    return { ...a, pictures: a.pictures.map((pic) => pic.picture) }
   })
   return res.status(200).json(albums)
 }
 
 // ****************** Get one  **********************************
 export const getOne = async (req: Request, res: Response) => {
-  const slug = req.params.slug as string
   const id = Number.parseInt(req.params.id as string)
-  console.log('SLUG album getOne: ', slug, ' PARAMS: ', req.params)
-  const album = await getAlbum(id)
+  const result = await getAlbumOrThrowError(id)
+  /** Takes only pictures-property. */
+  const album = { ...result, pictures: result.pictures.map((pic) => pic.picture) }
   return res.status(200).json(album)
 }
 
 // ****************** Get by slug  **********************************
 export const getBySlug = async (req: Request, res: Response) => {
   const slug = req.params.slug as string
-  console.log('SLUG album: ', slug, ' PARAMS: ', req.params)
-  // res.send({ slug })
   const album = await getAlbumBySlug(slug)
   return res.status(200).json(album)
 }
@@ -58,19 +67,6 @@ export const create = async (req: Request, res: Response) => {
 
   return res.status(201).json(created)
 }
-
-// try{
-//   const newAlbum = await prisma.album.create({
-//     data:{ userID: req.user.id,  ...req.body },
-//     select: { id: true, title: true, createdAt: true, updatedAt: true }
-//   })
-
-//   return res.status(201).json(newAlbum)
-// }catch(e){
-//   console.log('error', e)
-//   return res.status(500).json({ error: 'Could not create the album' })
-// }
-// }
 
 // ***************** Update *******************************
 export const update = async (req: Request, res: Response) => {
