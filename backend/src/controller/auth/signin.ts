@@ -1,4 +1,5 @@
-import { Request, Response } from 'express'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import { prisma } from '../../services/prisma'
 import { createUser } from '../../model/user.model'
@@ -30,8 +31,7 @@ const signin = async (req: Request, res: Response) => {
 
 export default signin
 
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function returnError(res: Response<any, Record<string, any>>, msg: string) {
   return res.status(400).json({ error: msg })
 }
