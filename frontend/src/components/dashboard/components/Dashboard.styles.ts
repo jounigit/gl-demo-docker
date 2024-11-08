@@ -14,7 +14,6 @@ interface Props {
 
 export const GridDb = styled.div`
     display: grid;
-    /* grid-template-rows: auto; */
     grid-template-areas: 
     "header"
     "sidebar"
@@ -71,11 +70,12 @@ export const MainDb = styled.div`
     grid-area: main;
     /* width: 100%; */
 `
+/*********************************************** */
 export const MainWrapper = styled.div<Props>`
     margin: 4rem auto 2rem;
     width: 100%;
     height: 100vh;
-    background-color: ${(props) => props.bgColor};
+    background-color: ${({ bgColor }) => bgColor};
     h2 {
         font-size: 1.5rem;
     }
@@ -114,8 +114,9 @@ export const NavbarLink = styled(Link)`
     }
 `
 
+/*********************************************** */
 export const Grid = styled.div<Props>`
-    margin-bottom: ${(props) => props.size}px;
+    margin-bottom: ${({ size }) => size}px;
     width: 100%;
 `
 
@@ -123,11 +124,60 @@ export const Row = styled.div<Props>`
     display: flex;
     border: 1px solid grey;
     min-width: 100%;
-    background-color: ${(props) => props.bgColor};
+    background-color: ${({ bgColor }) => bgColor};
 `
 export const Col = styled.div<Props>`
-    flex: ${(props) => props.size};
+    flex: ${({ size }) => size};
 `
+
+/****************** Picture related ********************* */
+export const ImgContainerDb = styled.div`
+   flex: 1 100%;
+
+@media ${TABLET} {
+    flex: '1 0 100%',
+}
+`
+interface GridImgArrProps {
+	$width: number
+	$imgheight: number
+	$gap?: string
+}
+
+export const ImgGridDb = styled.div<GridImgArrProps>`
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 auto;
+
+    div {
+        flex-basis: 100%;
+        height: auto;
+    }
+
+    img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    }
+
+    @media ${TABLET} {
+        display: grid;
+        grid-template-columns: 
+        repeat(auto-fit, ${({ $width }) => $width}px);
+        padding: 1rem;
+        grid-gap: ${({ $gap }) => ($gap ? $gap : '.5rem')};
+
+        div {
+            height: auto;
+        }
+
+        img {
+            height: ${({ $imgheight }) => $imgheight}px;
+        }
+    }
+`
+
 export const ArticlePicture = styled.article`
     display: flex;
     flex-direction: column; 

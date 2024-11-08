@@ -21,7 +21,6 @@ const Content = styled.div`
 `
 const Links = styled.div`
 `
-
 const Container = styled.div`
   background: ${colors.grey1};
   border: 1px solid grey;
@@ -30,7 +29,6 @@ const Container = styled.div`
     display: grid;  
     grid-template-columns: 1fr 2fr 1fr;
   }
-  
 `
 
 interface ListProps {

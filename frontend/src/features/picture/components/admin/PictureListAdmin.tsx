@@ -1,6 +1,6 @@
 import { PictureListItemAdmin } from './PictureListItemAdmin'
 import { usePictures } from '../../usePicture'
-import { GridImgArray, ImageArrBox } from '../../../shared/GridImageArray.styles'
+import { ImgContainerDb, ImgGridDb } from '../../../../components/dashboard/components/Dashboard.styles'
 
 export const PictureListAdmin = () => {
   const { data } = usePictures()
@@ -10,10 +10,10 @@ export const PictureListAdmin = () => {
     <h4>no images yet.</h4>
 
   return (
-    <ImageArrBox>
-      <GridImgArray $width={200} $imgheight={200}>
+    <ImgContainerDb>
+      <ImgGridDb $width={200} $imgheight={200}>
         {showdata}
-      </GridImgArray>
-    </ImageArrBox>
+      </ImgGridDb>
+    </ImgContainerDb>
   )
 }

@@ -7,8 +7,8 @@ import { addPictureToAlbum, deletePictureFromAlbum } from '../../../albumpicture
 import { isPictureArray } from '../../../../types'
 import { Button } from '../../../../components/atoms/Button'
 import ImageChoise from '../../../shared/ImageChoise'
-import { GridImgArray, ImageArrBox } from '../../../shared/GridImageArray.styles'
 import { Divider } from '../../../../styles/styles'
+import { ImgContainerDb, ImgGridDb } from '../../../../components/dashboard/components/Dashboard.styles'
 
 const ChoosePictures = () => {
   const params = useParams()
@@ -78,22 +78,22 @@ const ChoosePictures = () => {
         <h4 style={{ margin: '10px 0 0 20px' }}>
           VALITUT KUVAT:
         </h4>
-        <ImageArrBox>
-          <GridImgArray $width={180} $imgheight={180} $gap='.8rem'>
+        <ImgContainerDb>
+          <ImgGridDb $width={180} $imgheight={180} $gap='.8rem'>
             {showChosen}
-          </GridImgArray>
-        </ImageArrBox>
+          </ImgGridDb>
+        </ImgContainerDb>
 
         <Divider />
 
         <h4 style={{ marginLeft: '20px' }}>
           VALITTAVAT KUVAT:
         </h4>
-        <ImageArrBox>
-          <GridImgArray $width={190} $imgheight={160}>
+        <ImgContainerDb>
+          <ImgGridDb $width={190} $imgheight={160}>
             {chooseablePics}
-          </GridImgArray>
-        </ImageArrBox>
+          </ImgGridDb>
+        </ImgContainerDb>
       </>
     )
   }

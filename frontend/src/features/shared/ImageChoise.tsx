@@ -1,8 +1,8 @@
+import { SmallButton } from "../../components/atoms/Button"
 import { formatUrl } from "../../components/atoms/utils"
 import { ArticlePicture } from "../../components/dashboard/components/Dashboard.styles"
 import config from "../../data/config"
 import type { Picture } from "../../types"
-import { ChooseButton } from "./chooseImg.styles"
 
 type Props = {
   handleChoise: (id: number) => void
@@ -26,7 +26,6 @@ export default function ImageChoise(props: Props) {
 
   return (
     <ArticlePicture style={{ height: '13rem'
-      //  position: 'relative', zIndex: '-1'
        }}>
       <div>
         <img src={picSrc} alt={title} />
@@ -36,13 +35,9 @@ export default function ImageChoise(props: Props) {
         <p>{picture.year}</p>
         <p>{picture.content}</p>
       </details> */}
-      <ChooseButton
-        $color={btnColor}
-        $pd='5px'
-        onClick={handleCheck}
-      >
+      <SmallButton color={btnColor} onClick={handleCheck}>
         {btnTxt}
-      </ChooseButton>
+      </SmallButton>
     </ArticlePicture>
   )
 }

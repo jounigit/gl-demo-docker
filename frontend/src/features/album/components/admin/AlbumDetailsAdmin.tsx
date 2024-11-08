@@ -1,6 +1,6 @@
 import { type FC, Fragment } from 'react'
 import { PictureGalleria } from '../../../picture/components/PictureGalleria'
-import type { Album } from '../../../../types'
+import { isPictureArray, type Album } from '../../../../types'
 import { DetailsImgBox, DetailsText, DetailsTitle } from '../../../../styles/styles'
 
 interface Props {
@@ -11,7 +11,9 @@ export const AlbumDetailsAdmin: FC<Props> = (props) => {
 
   const { title, content, year, pictures } = props.album
 
-  const images = !pictures ? <p>no pics</p> :
+  console.log({pictures})
+
+  const images = isPictureArray(pictures) &&
     <DetailsImgBox>
       <PictureGalleria
         imageList={pictures}
