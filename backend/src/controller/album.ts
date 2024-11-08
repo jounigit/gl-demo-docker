@@ -5,7 +5,6 @@ import {
   type INewAlbum,
   createAlbum,
   deleteAlbum,
-  getAlbumBySlug,
   updateAlbum
 } from '../model/album.model'
 
@@ -51,8 +50,21 @@ export const getOne = async (req: Request, res: Response) => {
 // ****************** Get by slug  **********************************
 export const getBySlug = async (req: Request, res: Response) => {
   const slug = req.params.slug as string
-  const album = await getAlbumBySlug(slug)
-  return res.status(200).json(album)
+  const album = await prisma.album.findFirst({
+    where:{ slug },
+    include: {
+      pictures: {
+        include: {
+          picture: true
+        }
+      }
+    }
+  })
+  if (!album) throw new BadRequestError('Invalid id')
+
+  /** Takes only pictures-property. */
+  const albumWithPics = { ...album, pictures: album.pictures.map((pic) => pic.picture) }
+  return res.status(200).json(albumWithPics)
 }
 
 // ****************** Create ************************************
