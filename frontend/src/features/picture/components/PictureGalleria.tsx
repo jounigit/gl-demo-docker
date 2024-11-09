@@ -10,6 +10,14 @@ import { Modal } from '../../../components/modal/modal'
 import { ImageModal } from '../../../components/image-modal/image-modal'
 import { formatUrl } from '../../../components/atoms/utils'
 
+/**
+ * The AlbumDetails component is responsible for displaying the title, 
+ * images, and content of a given album. 
+ * It leverages styled components for layout and styling and utilizes a separate PictureGalleria 
+ * component to handle the display of images. 
+ * The component is structured to be reusable and type-safe through the use of TypeScript.
+ */
+
 
 interface PictureMediaProps extends ImageGridProps {
   imageList: Picture[]
@@ -18,7 +26,7 @@ interface PictureMediaProps extends ImageGridProps {
 const picFolder = config.IMAGES_BIG_URL as string
 
 export const PictureGalleria: FC<PictureMediaProps> =
-  ({ imageList, width, height }) => {
+  ({ imageList, $gridwidth, $imgheight }) => {
     const { isShown, toggle } = useModal()
     const [img, setImg] = useState<Picture>()
     const { width: winWidth } = useWindowSize()
@@ -32,7 +40,7 @@ export const PictureGalleria: FC<PictureMediaProps> =
 
     return (
       <>
-        <ImageGrid width={width} height={height}>
+        <ImageGrid $gridwidth={$gridwidth} $imgheight={$imgheight}>
 
           {mobile &&
             <ImagesInDiv
@@ -68,8 +76,3 @@ export const PictureGalleria: FC<PictureMediaProps> =
       </>
     )
   }
-
-// {
-//   <ImageModal
-// imgUrl={formatUrl(picFolder, img.image)} message={img.content} />
-// }

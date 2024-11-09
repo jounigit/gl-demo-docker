@@ -5,6 +5,8 @@ import NotFoundPage from '../pages/NotFoundPage'
 import { Login } from '../features/login/components/Login'
 import HomePage from '../pages/HomePage'
 import { getDashBoardRoutes } from './GetDashBoardRoutes'
+import GalleriaPage from '../pages/GalleriaPage'
+import Album from '../features/album/components/Album'
 
 const routes: RouteObject[] = [
   {
@@ -22,25 +24,25 @@ const routes: RouteObject[] = [
             <Login />
           </QueryBoundaries>
       },
-      // {
-      //   path: 'galleria',
-      //   children: [
-      //     {
-      //       index: true,
-      //       element:
-      //       <QueryBoundaries>
-      //         <GalleriaPage />
-      //       </QueryBoundaries>
-      //     },
-      //     {
-      //       path: ':slug',
-      //       element:
-      //       <QueryBoundaries>
-      //         <Album />
-      //       </QueryBoundaries>
-      //     }
-      //   ]
-      // },
+      {
+        path: 'galleria',
+        children: [
+          {
+            index: true,
+            element:
+              <QueryBoundaries>
+                <GalleriaPage />
+              </QueryBoundaries>
+          },
+          {
+            path: ':slug',
+            element:
+              <QueryBoundaries>
+                <Album />
+              </QueryBoundaries>
+          }
+        ]
+      },
       {
         path: '*',
         element: <NotFoundPage />

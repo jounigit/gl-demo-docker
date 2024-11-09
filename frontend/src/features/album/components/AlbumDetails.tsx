@@ -1,6 +1,10 @@
 import { type FC, Fragment } from 'react'
 import type { Album } from '../../../types';
-import { DetailsImgBox, DetailsText, DetailsTitle } from '../../../styles/styles';
+import {
+  DetailsImgBox,
+  DetailsImgBoxTwoColumn,
+  DetailsInfoTxt,
+} from '../../../styles/styles';
 import { PictureGalleria } from '../../picture/components/PictureGalleria';
 
 interface Props {
@@ -9,25 +13,35 @@ interface Props {
 }
 
 export const AlbumDetails: FC<Props> = ({ album }) => {
+  const isAlbumContent = !!album.content
+  console.log({ isAlbumContent })
+  const galleria = <PictureGalleria
+    imageList={album.pictures}
+    $gridwidth={250}
+    $imgheight={250}
+  />
 
-  const images =
+  const imagesOneColumn =
     <DetailsImgBox>
-      <PictureGalleria
-        imageList={album.pictures}
-        width={250}
-        height={250}
-      />
+      {galleria}
     </DetailsImgBox>
+
+  const imagesTwoColumn =
+    <DetailsImgBoxTwoColumn>
+      {galleria}
+    </DetailsImgBoxTwoColumn>
+
+  const images = isAlbumContent ? imagesTwoColumn : imagesOneColumn
 
   return (
     <Fragment>
-      <DetailsTitle>
-        <h2>{album.title}</h2>
-      </DetailsTitle>
       {images}
-      <DetailsText>
-        {album.content}
-      </DetailsText>
+
+      <DetailsInfoTxt>
+        <h2>{album.title}</h2>
+        <p>{album.year}</p>
+        <p>{album.content}</p>
+      </DetailsInfoTxt>
     </Fragment>
   )
 }

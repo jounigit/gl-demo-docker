@@ -1,8 +1,7 @@
 import { SmallButton } from "../../components/atoms/Button"
-import { formatUrl } from "../../components/atoms/utils"
 import { ArticlePicture } from "../../components/dashboard/components/Dashboard.styles"
-import config from "../../data/config"
 import type { Picture } from "../../types"
+import { ImageWithTooltipInfo } from "./ImageWithTooltipInfo"
 
 type Props = {
   handleChoise: (id: number) => void
@@ -11,30 +10,21 @@ type Props = {
   btnColor: string
 }
 
-const picFolder = config.IMAGES_BIG_URL as string
-
 export default function ImageChoise(props: Props) {
-  const { 
-    handleChoise, 
-    picture, btnTxt, btnColor } = props
-  const { id, image, title } = picture
-  const picSrc = formatUrl(picFolder, image)
+  const { handleChoise, picture, btnTxt, btnColor } = props
+  const { id } = picture
 
   const handleCheck = () => {
     handleChoise(id)
   }
 
   return (
-    <ArticlePicture style={{ height: '13rem'
-       }}>
+    <ArticlePicture style={{
+      height: '13rem'
+    }}>
       <div>
-        <img src={picSrc} alt={title} />
+        {ImageWithTooltipInfo(picture)}
       </div>
-      {/* <details>
-        <summary>{title}</summary>
-        <p>{picture.year}</p>
-        <p>{picture.content}</p>
-      </details> */}
       <SmallButton color={btnColor} onClick={handleCheck}>
         {btnTxt}
       </SmallButton>

@@ -39,10 +39,15 @@
 	},
 
 	"javascript": {
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		},
 		"formatter": {
 			"semicolons": "asNeeded",
 			"bracketSpacing": true,
-			"quoteStyle": "single"
+			"quoteStyle": "single",
+			"jsxQuoteStyle": "single",
+			"trailingCommas": "none"
 		}
 	}
 }

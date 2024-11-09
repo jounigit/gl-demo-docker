@@ -6,7 +6,7 @@ import { useGoBack } from '../../../../hooks/useGoBack'
 import { addPictureToAlbum, deletePictureFromAlbum } from '../../../albumpictures'
 import { isPictureArray } from '../../../../types'
 import { Button } from '../../../../components/atoms/Button'
-import ImageChoise from '../../../shared/ImageChoise'
+import ImageChoise from '../../../utils/ImageChoise'
 import { Divider } from '../../../../styles/styles'
 import { ImgContainerDb, ImgGridDb } from '../../../../components/dashboard/components/Dashboard.styles'
 

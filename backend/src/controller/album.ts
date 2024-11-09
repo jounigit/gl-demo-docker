@@ -5,7 +5,7 @@ import {
   type INewAlbum,
   createAlbum,
   deleteAlbum,
-  updateAlbum
+  updateAlbum,
 } from '../model/album.model'
 
 // Returns an album or throws an error
@@ -15,10 +15,10 @@ export async function getAlbumOrThrowError(id: number) {
     include: {
       pictures: {
         include: {
-          picture: true
-        }
-      }
-    }
+          picture: true,
+        },
+      },
+    },
   })
   if (!album) throw new BadRequestError('Invalid id')
   return album
@@ -28,8 +28,8 @@ export async function getAlbumOrThrowError(id: number) {
 export const getAll = async (req: Request, res: Response) => {
   const result = await prisma.album.findMany({
     include: {
-      pictures: { include: { picture: true } }
-    }
+      pictures: { include: { picture: true } },
+    },
   })
   /** Takes only pictures-property. */
   const albums = result.map((a) => {
@@ -43,35 +43,32 @@ export const getOne = async (req: Request, res: Response) => {
   const id = Number.parseInt(req.params.id as string)
   const result = await getAlbumOrThrowError(id)
   /** Takes only pictures-property. */
-  const album = { ...result, pictures: result.pictures.map((pic) => pic.picture) }
+  const album = {
+    ...result,
+    pictures: result.pictures.map((pic) => pic.picture),
+  }
   return res.status(200).json(album)
 }
 
 // ****************** Get by slug  **********************************
 export const getBySlug = async (req: Request, res: Response) => {
   const slug = req.params.slug as string
-  const album = await prisma.album.findFirst({
-    where:{ slug },
-    include: {
-      pictures: {
-        include: {
-          picture: true
-        }
-      }
-    }
-  })
-  if (!album) throw new BadRequestError('Invalid id')
+  const result = await prisma.album.findFirst({ where: { slug } }, )
+  if (!result) throw new BadRequestError('Invalid slug')
+  const album = await getAlbumOrThrowError(result.id)
 
   /** Takes only pictures-property. */
-  const albumWithPics = { ...album, pictures: album.pictures.map((pic) => pic.picture) }
+  const albumWithPics = {
+    ...album,
+    pictures: album.pictures.map((pic) => pic.picture),
+  }
   return res.status(200).json(albumWithPics)
 }
 
 // ****************** Create ************************************
-
 export const create = async (req: Request, res: Response) => {
   if (!req.body.title || !req.user)
-    throw new Error( 'Missing data or authentication' )
+    throw new Error('Missing data or authentication')
 
   const data = { userID: req.user.id, ...req.body }
 
@@ -85,7 +82,7 @@ export const update = async (req: Request, res: Response) => {
   const id = Number.parseInt(req.params.id as string)
   const body = req.body as INewAlbum
 
-  if (!Object.keys(body).length) throw new Error('Nothing to update.' )
+  if (!Object.keys(body).length) throw new Error('Nothing to update.')
 
   // Check if the album exists in the database
   await getAlbumOrThrowError(id)
@@ -105,4 +102,3 @@ export const remove = async (req: Request, res: Response) => {
 
   return res.status(200).send('The album has been deleted.')
 }
-

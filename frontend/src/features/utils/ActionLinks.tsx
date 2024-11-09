@@ -30,9 +30,9 @@ export function ActionLinks({ id, path, slug, toggle }: Props) {
   const linkRemove = (
     <SmallButton
       color='red'
-      onClick={() => toggle && toggle()}
+      onClick={() => toggle?.()}
     >
-        Poista
+      Poista
     </SmallButton >
   )
   return { link, linkUpdate, linkRemove }
