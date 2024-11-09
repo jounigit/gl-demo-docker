@@ -1,17 +1,17 @@
 import { useParams } from 'react-router-dom'
-import { AlbumDetailsAdmin } from './AlbumDetailsAdmin'
 import { ActionLinks } from './ActionLinks'
 import { useSuspenseAlbumBySlug } from '../../useAlbum'
 import { useGoBack } from '../../../../hooks/useGoBack'
 import { Button } from '../../../../components/atoms/Button'
 import { Col, Grid, Row } from '../../../../components/dashboard/components/Dashboard.styles'
-import { DetailsAdminContainer } from '../../../../styles/styles'
+import { DetailsContainer } from '../../../../styles/styles'
+import { AlbumDetails } from '../AlbumDetails'
 
 const AlbumAdmin = (): JSX.Element => {
   const { slug } = useParams() as { slug: string }
-  console.log({slug})
+  console.log({ slug })
   const { data } = useSuspenseAlbumBySlug(slug)
-  console.log({data})
+  console.log({ data })
   const goBack = useGoBack()
 
   const { linkUpdate, linkPictures } = ActionLinks({ id: data.id })
@@ -25,14 +25,16 @@ const AlbumAdmin = (): JSX.Element => {
           <Col size={1}>
             {linkUpdate}
             {linkPictures}
-            {/*  <Links>{linkRemove}</Links>  */}
           </Col>
         </Row>
       </Grid>
 
-      <DetailsAdminContainer>
+      <DetailsContainer data-cy='albumDetails'>
+        <AlbumDetails album={data} full />
+      </DetailsContainer>
+      {/* <DetailsAdminContainer>
         <AlbumDetailsAdmin album={data} />
-      </DetailsAdminContainer>
+      </DetailsAdminContainer> */}
     </>
   )
 }

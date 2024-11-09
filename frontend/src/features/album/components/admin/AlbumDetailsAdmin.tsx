@@ -11,14 +11,14 @@ export const AlbumDetailsAdmin: FC<Props> = (props) => {
 
   const { title, content, year, pictures } = props.album
 
-  console.log({pictures})
+  console.log({ pictures })
 
   const images = isPictureArray(pictures) &&
     <DetailsImgBox>
       <PictureGalleria
         imageList={pictures}
-        width={150}
-        height={150}
+        $gridwidth={150}
+        $imgheight={150}
       />
     </DetailsImgBox>
 

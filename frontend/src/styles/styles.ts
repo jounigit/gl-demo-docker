@@ -198,6 +198,17 @@ export const DetailsText = styled.div`
     flex: 1 0 40%;
     margin: 0.5em;
 `
+export const DetailsInfoTxt = styled.article`
+    flex: 1;
+    margin: 0.5em;
+    max-width: 32rem;
+    h2 {
+      margin-bottom: 0.8rem;
+    }
+    p {
+      line-height: normal;
+    }
+`
 
 export const DetailsImgBox = styled.div`
 flex: 1 100%;
@@ -207,9 +218,9 @@ flex: 1 100%;
   }
 `
 
-export const detailsImgBoxTwoColumn = styled(DetailsImgBox)`
+export const DetailsImgBoxTwoColumn = styled(DetailsImgBox)`
   @media ${TABLET} {
-      flex: 0 0 55%;
+      flex: 0 0 45%;
   }
 `
 

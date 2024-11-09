@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import { TABLET } from '../../../styles/theme/breakpoints'
 
 export interface ImageGridProps {
-  width: number,
-  height: number,
+  $gridwidth: number,
+  $imgheight: number,
 }
 
 export const ImageGrid = styled.div<ImageGridProps>`
@@ -27,21 +27,24 @@ img {
 @media ${TABLET} {
   display: grid;
   grid-template-columns: 
-  repeat(auto-fit, minmax(${({ width }) => width}px, 1fr));
+  repeat(auto-fit, ${({ $gridwidth }) => $gridwidth}px);
   padding: 1rem;
-  grid-gap: .5rem;
+  /* grid-gap: .5rem; */
 
   div {
-    height: ${({ height }) => height}px;
+    height: auto;
+    /* height: ${({ $imgheight }) => $imgheight}px;
+     */
   }
 
   img {
-    height: 100%;
-    transition: all 100ms ease-out;
+    height: ${({ $imgheight }) => $imgheight}px;
+    /* height: 100%; */
+    /* transition: all 100ms ease-out; */
 
-    :hover {
+    /* :hover {
       cursor: pointer;
-    }
+    } */
 
     /* &:hover {
       transform: scale(2);

@@ -23,7 +23,8 @@ const GlobalStyles = createGlobalStyle<Prop>`
     box-sizing: border-box;
     outline: 0;
       -webkit-font-smoothing: antialiased;
-    font-size: clamp(16px, 2vw, 20px);
+    font-size: clamp(14px, 2vw, 18px);
+    line-height: clamp(0, 4vw, 20px);
     /* vars */
     --bg-white: rgb(255,255,255,0.8);
     --bg-primary: rgb(255,255,255,0.7);
