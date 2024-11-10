@@ -1,19 +1,31 @@
 import { useParams } from 'react-router-dom'
 import { AlbumDetails } from './AlbumDetails'
 import { useAlbumBySlug } from '../useAlbum'
-import { DetailsContainer } from '../../../styles/styles'
+import { DetailsContainer, DetailsContainerForTwoCol } from '../../../styles/styles'
 
 const Album = (): JSX.Element => {
   const { slug } = useParams() as { slug: string }
-  const { data } = useAlbumBySlug(slug)
+  const { data: album } = useAlbumBySlug(slug)
 
-  const showData = data ?
-    <AlbumDetails album={data} full /> :
-    <p>No data yet.</p>
+  if (album === undefined) {
+    return (
+      <DetailsContainer data-cy='albumDetails'>
+        <h4>No data yet.</h4>
+      </DetailsContainer>
+    )
+  }
+
+  if (album.content) {
+    return (
+      <DetailsContainerForTwoCol data-cy='albumDetails'>
+        <AlbumDetails album={album} isContent />
+      </DetailsContainerForTwoCol>
+    )
+  }
 
   return (
     <DetailsContainer data-cy='albumDetails'>
-      {showData}
+      <AlbumDetails album={album} />
     </DetailsContainer>
   )
 }

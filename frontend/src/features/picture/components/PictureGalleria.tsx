@@ -1,5 +1,6 @@
+
 import { type FC, useState } from 'react'
-import { ImageGrid, type ImageGridProps } from './pictureGalleria.style'
+import { ImageGrid, ImageGridAllWidth, type ImageGridProps } from './pictureGalleria.style'
 import { useWindowSize } from 'usehooks-ts'
 import type { Picture } from '../../../types'
 import config from '../../../data/config'
@@ -10,69 +11,73 @@ import { Modal } from '../../../components/modal/modal'
 import { ImageModal } from '../../../components/image-modal/image-modal'
 import { formatUrl } from '../../../components/atoms/utils'
 
-/**
- * The AlbumDetails component is responsible for displaying the title, 
- * images, and content of a given album. 
- * It leverages styled components for layout and styling and utilizes a separate PictureGalleria 
- * component to handle the display of images. 
- * The component is structured to be reusable and type-safe through the use of TypeScript.
- */
-
-
 interface PictureMediaProps extends ImageGridProps {
   imageList: Picture[]
+  isContent?: boolean
 }
 
 const picFolder = config.IMAGES_BIG_URL as string
 
-export const PictureGalleria: FC<PictureMediaProps> =
-  ({ imageList, $gridwidth, $imgheight }) => {
-    const { isShown, toggle } = useModal()
-    const [img, setImg] = useState<Picture>()
-    const { width: winWidth } = useWindowSize()
+export const PictureGalleria: FC<PictureMediaProps> = (props) => {
+  const { imageList, $gridwidth, $imgheight, isContent } = props
+  const { isShown, toggle } = useModal()
+  const [img, setImg] = useState<Picture>()
+  const { width: winWidth } = useWindowSize()
 
-    const mobile = winWidth < 768
+  const mobile = winWidth < 768
 
-    const handleClick = (imgSrc: Picture): void => {
-      setImg(imgSrc)
-      toggle()
-    }
+  const showMobile = mobile &&
+    <ImagesInDiv
+      data={imageList}
+      url={picFolder}
+    />
 
+  const showTablet = !mobile &&
+    <ImagesLinkDiv
+      data={imageList}
+      url={picFolder}
+      onDivClick={(item) => handleClick(item)}
+    />
+
+  const showModal = img &&
+    <Modal
+      isShown={isShown}
+      hide={toggle}
+      headerText={img.title}
+      modalContent={
+        <ImageModal
+          imgUrl={formatUrl(picFolder, img.image)}
+          pic={img}
+        />
+      }
+    />
+
+  const handleClick = (imgSrc: Picture): void => {
+    setImg(imgSrc)
+    toggle()
+  }
+
+  if (isContent) {
     return (
       <>
-        <ImageGrid $gridwidth={$gridwidth} $imgheight={$imgheight}>
+        <ImageGridAllWidth $gridwidth={$gridwidth} $imgheight={$imgheight}>
+          {showMobile}
+          {showTablet}
+        </ImageGridAllWidth>
 
-          {mobile &&
-            <ImagesInDiv
-              data={imageList}
-              url={picFolder}
-            />
-          }
-
-          {!mobile &&
-            <ImagesLinkDiv
-              data={imageList}
-              url={picFolder}
-              onDivClick={(item) => handleClick(item)}
-            />
-          }
-
-        </ImageGrid>
-
-        {
-          img &&
-          <Modal
-            isShown={isShown}
-            hide={toggle}
-            headerText={img.title}
-            modalContent={
-              <ImageModal
-                imgUrl={formatUrl(picFolder, img.image)}
-                pic={img}
-              />
-            }
-          />
-        }
+        {showModal}
       </>
     )
   }
+
+  return (
+    <>
+      <ImageGrid $gridwidth={$gridwidth} $imgheight={$imgheight}>
+        {showMobile}
+        {showTablet}
+      </ImageGrid>
+
+      {showModal}
+    </>
+  )
+}
