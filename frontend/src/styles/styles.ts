@@ -181,11 +181,16 @@ export const BtnInline = styled.div`
     flex-direction: row;
     max-height: 50px;
 `
-/* ************* details components related ****************************/
+/* ********** details components related eg. album, album admin ***********/
 export const DetailsContainer = styled(BaseContainer)`
     flex-wrap: wrap;
     padding: 1em;
 `
+export const DetailsContainerForTwoCol = styled(DetailsContainer)`
+    max-width: 1250px;
+    margin: 0 auto;
+`
+
 export const DetailsAdminContainer = styled(
 	DetailsContainer,
 )`
