@@ -32,7 +32,7 @@ const LinkStyle = styled(NavLink)`
     };
 `
 
-export type LinkFormer = (path: string, text: string, cytxt: string) => JSX.Element
+type LinkFormer = (path: string, text: string, cytxt: string) => JSX.Element
 
 export const NavLinksDetailsDb = ({ toggle }: Props) => {
   const token = useTokenStore(state => state.token)
