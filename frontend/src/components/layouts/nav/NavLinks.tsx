@@ -46,7 +46,9 @@ export const NavLinks: FC<Props> = ({ open, toggle }) => {
       {/* end section */}
 
       {token &&
-        linkFormer(toggle, '/dashboard', 'admin', 'adminlink')
+        <li>
+          {linkFormer(toggle, '/dashboard', 'admin', 'adminlink')}
+        </li>
       }
       {token &&
         <li>
@@ -54,7 +56,9 @@ export const NavLinks: FC<Props> = ({ open, toggle }) => {
         </li>
       }
       {!token &&
-        linkFormer(toggle, '/login', 'login', 'loginLink')
+        <li>
+          {linkFormer(toggle, '/login', 'login', 'loginLink')}
+        </li>
       }
     </Ul>
   )
