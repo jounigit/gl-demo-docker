@@ -12,7 +12,7 @@ export const prisma = new PrismaClient({
   query: {
     album: {
       create({ args, query }) {
-        if (args.data && args.data?.title) {
+        if (args.data?.title) {
           const slug = args.data?.title.toLowerCase().replace(/ /g, '-')
           args.data.slug = slug
         }
@@ -20,7 +20,7 @@ export const prisma = new PrismaClient({
       },
       update({ args, query }) {
         // If title is updated, regenerate the slug field
-        if (args.data && args.data?.title) {
+        if (args.data?.title) {
           const slug = args.data?.title.toString().toLowerCase().replace(/ /g, '-')
           args.data.slug = slug
         }

@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
 
   dbdev:
-    image: postgres:latest
+    image: postgres:16
     container_name: galleria-db
     ports:
       - '6500:5432'
