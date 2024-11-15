@@ -29,6 +29,7 @@ function Dashboard() {
           <li>Lisää ja poista albumitietoja.</li>
           <li>Poista albumeja.</li>
           <li>Lisää ja poista kuvia albumiin &quot;vaihda kuvia&quot;-linkistä.</li>
+          <li>Albumit näkyvät linkkeinä galleria-linkin alla.</li>
         </ul>
       </Article>
       <Article>
