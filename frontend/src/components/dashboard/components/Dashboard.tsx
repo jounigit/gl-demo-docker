@@ -38,13 +38,6 @@ function Dashboard() {
           <li>Poista kuvia.</li>
         </ul>
       </Article>
-      <Article>
-        <h3>CV</h3>
-        <ul>
-          <li>Lisää ja poista cvtietoja.</li>
-          <li>Poista cv-osio.</li>
-        </ul>
-      </Article>
     </DashboardWrapper>
   )
 }

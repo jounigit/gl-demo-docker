@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-1.1.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -11,51 +11,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
+model User {
+
+  id        Int       @id @default(autoincrement())
+  username  String    @db.VarChar(255)
+  email     String    @unique @db.VarChar(255)
+  password  String    @db.VarChar(255)
+  albums    Album[]
+  pictures  Picture[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
   @@map(name: "users")
-
-  id Int  @id @default(autoincrement())
-  username String  @db.VarChar(255)
-  email String @unique @db.VarChar(255)
-  password String @db.VarChar(255)
-  albums  Album[]
-  pictures Picture[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
-model Album{
+model Album {
+  id        Int                @id @default(autoincrement())
+  title     String             @db.VarChar(255)
+  slug      String             @unique @db.VarChar(255)
+  year      String?            @db.Char(4)
+  content   String?
+  user      User               @relation(fields: [userID], references: [id])
+  userID    Int
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  pictures  AlbumsOnPictures[]
+
   @@map(name: "albums")
-  id Int @id @default(autoincrement())
-  title String  @db.VarChar(255)
-  slug String @unique @db.VarChar(255)
-  year String? @db.Char(4)
-  content String?
-  user User  @relation(fields:[userID], references:[id])
-  userID Int 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  pictures AlbumsOnPictures[]
 }
 
-model Picture{
+model Picture {
+  id        Int                @id @default(autoincrement())
+  title     String             @db.VarChar(255)
+  year      String?            @db.Char(4)
+  content   String?
+  image     String             @db.VarChar(255)
+  user      User               @relation(fields: [userID], references: [id])
+  userID    Int
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  albums    AlbumsOnPictures[]
+
   @@map(name: "pictures")
-  id Int @id @default(autoincrement())
-  title String @db.VarChar(255)
-  year String? @db.Char(4)
-  content String?
-  image String @db.VarChar(255)
-  user User @relation(fields:[userID], references:[id])
-  userID Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  albums AlbumsOnPictures[]
 }
 
-model AlbumsOnPictures{
-  album Album @relation(fields:[albumId], references:[id], onDelete: Cascade)
-  albumId Int
-  picture Picture @relation(fields:[pictureId], references:[id], onDelete: Cascade)
+model AlbumsOnPictures {
+  album     Album   @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  albumId   Int
+  picture   Picture @relation(fields: [pictureId], references: [id], onDelete: Cascade)
   pictureId Int
 
   @@id([albumId, pictureId])
