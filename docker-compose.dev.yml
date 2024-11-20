@@ -1,0 +1,66 @@
+
+services:
+  app:
+    image: galleria-front-dev
+    build: 
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - 5173:5173
+    container_name: galleria-front-dev
+
+  server:
+    image: galleria-back-dev
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgresql://admin:password123@postgres:5432/galleria_db?schema=public
+      - REDIS_URL=redis://redis:6379
+    container_name: galleria-back-dev
+    depends_on:
+      - postgres
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy
+    depends_on:
+      - app
+      - server
+  
+  postgres:
+    image: postgres:16
+    container_name: galleria-db
+    ports:
+      - '6500:5432'
+    volumes:
+      - ./backend/postgresDB:/var/lib/postgresql/data
+    environment:
+      PSQL_USER: "admin"
+      PSQL_PASSWORD: "password123"
+      PSQL_HOST: "postgres"
+      PSQL_PORT: "5432"
+      PSQL_DB: "galleria_db"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - ./backend/redis_data:/data
+
+volumes:
+  postgresDB:
+  redis_data:
+

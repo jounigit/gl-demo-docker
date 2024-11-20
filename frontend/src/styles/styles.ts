@@ -90,7 +90,7 @@ export const ListHomeDetails = styled.div<{
   background-size: cover;
   h2 {
     color: var(--gray-2);
-    margin: 1rem;
+    margin: 1.2rem 0 0 1.4rem;
   }
 `;
 
