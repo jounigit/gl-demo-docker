@@ -12,7 +12,7 @@ export const UploadPicture = (): JSX.Element => {
     formData.append('image', file)
 
     try {
-      const promise = apiClient.post('upload', formData)
+      const promise = apiClient.post('pictures/upload', formData)
 
       const { data } = await toast.promise(promise, {
         loading: 'Loading...',

@@ -1,90 +1,86 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePicture = exports.updatePicture = exports.createPicture = exports.getOne = exports.getAll = void 0;
-const app_1 = require("../app");
-// Get all pictures
-const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const pictures = yield app_1.prisma.picture.findMany();
-        return res.status(200).json(pictures);
-    }
-    catch (error) {
-        console.log('Error getting pictures', error);
-        return res.status(500).json({ message: 'Server Error' });
-    }
-});
+exports.remove = exports.update = exports.create = exports.upload = exports.getOne = exports.getAll = void 0;
+const helper_1 = require("./helper");
+const config_1 = __importDefault(require("../utils/config"));
+const prisma_1 = require("../services/prisma");
+const picture_model_1 = require("../model/picture.model");
+const pictureUpload_model_1 = require("../model/pictureUpload.model");
+// Returns an picture or throws an error
+//**************** Get all pictures */
+const getAll = async (req, res) => {
+    const pictures = await (0, picture_model_1.getPictures)();
+    return res.status(200).json(pictures);
+};
 exports.getAll = getAll;
-// Get picture
-const getOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    try {
-        const picture = yield app_1.prisma.picture.findUnique({ where: { id: parseInt(id) } });
-        if (!picture) {
-            return res.status(404).json({ message: 'No picture found with that ID' });
-        }
-        return res.status(200).json({ data: picture });
-    }
-    catch (error) {
-        console.log(`Error getting picture ${id}`, error);
-        return res.status(500).json({ message: `Failed to get picture ${id}` });
-    }
-});
+// ********************** Get picture  by ID *************************** //
+const getOne = async (req, res) => {
+    const id = Number.parseInt(req.params.id);
+    // Check if the album exists in the database
+    const picture = await (0, picture_model_1.getPictureOrThrowError)(id);
+    return res.status(200).json(picture);
+};
 exports.getOne = getOne;
-// Create a new picture
-const createPicture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, year, content, image, userID } = req.body;
-    if (!image || !title) {
-        return res.status(400).json({ message: 'Missing data' });
+// ********************** Upload picture *************************** //
+const upload = async (req, res) => {
+    if (!req.user || req.file === undefined) {
+        return res.status(400).send('No file sent or user not logged in');
     }
-    const picture = yield app_1.prisma.picture.create({
-        data: {
-            title,
-            year,
-            content,
-            image,
-            userID: parseInt(userID)
-        },
-    });
-    return res.status(201).json({ data: picture, message: 'Picture created!' });
-});
-exports.createPicture = createPicture;
-// Update picture
-const updatePicture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = parseInt(req.params.id);
-    if (!Object.keys(req.body).length)
-        return res.status(400).json({ message: 'Nothing to update.' });
-    const picture = yield app_1.prisma.picture.findUnique({ where: { id } });
-    if (!picture)
-        return res.status(404).json({ message: 'Could not find the picture.' });
     try {
-        const picture = yield app_1.prisma.picture.update({
-            where: { id },
-            data: Object.assign({}, req.body),
-        });
-        return res.status(200).json({ data: picture, message: 'Successfully updated' });
+        console.log({ req });
+        const result = await (0, pictureUpload_model_1.pictureUploadModel)(req.file, req.user);
+        res.status(200).send(result);
     }
     catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ msg: 'Server error' });
     }
-});
-exports.updatePicture = updatePicture;
-// Delete a specific picture by its ID
-const deletePicture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = parseInt(req.params.id);
-    const picture = yield app_1.prisma.picture.delete({ where: { id } });
-    if (!picture) {
-        return res.status(404).json({ message: 'Picture not found' });
-    }
+};
+exports.upload = upload;
+// ****************** Create a new picture  ***********************
+const create = async (req, res) => {
+    const { title, year, content, image, userID } = req.body;
+    if (!image || !title || !userID)
+        throw new Error('Missing data');
+    const data = {
+        title,
+        year,
+        content,
+        image,
+        userID: Number.parseInt(userID)
+    };
+    const picture = await (0, picture_model_1.createPicture)(data);
+    if (!picture)
+        throw new Error('Could not add the picture');
+    return res.status(201).json({ data: picture, message: 'Picture created!' });
+};
+exports.create = create;
+// ***************** Update picture *******************************
+const update = async (req, res) => {
+    const id = Number.parseInt(req.params.id);
+    if (!Object.keys(req.body).length)
+        throw new Error('Nothing to update.');
+    // Check if the album exists in the database
+    await (0, picture_model_1.getPictureOrThrowError)(id);
+    const picture = await prisma_1.prisma.picture.update({
+        where: { id },
+        data: { ...req.body },
+    });
+    if (!picture)
+        throw new Error('Could not update the picture');
+    return res.status(200).json(picture);
+};
+exports.update = update;
+// ********* Delete a specific picture by its ID **********************
+const remove = async (req, res) => {
+    const id = Number.parseInt(req.params.id);
+    const picture = await (0, picture_model_1.deletePicture)(id);
+    const bigPicture = (0, helper_1.makeSourcePath)(config_1.default.IMAGES, picture.image);
+    const smallPicture = (0, helper_1.makeSourcePath)(config_1.default.THUMBS, picture.image);
+    (0, helper_1.deleteFileIfExists)(bigPicture);
+    (0, helper_1.deleteFileIfExists)(smallPicture);
     return res.status(200).json({ message: 'Picture deleted successfully' });
-});
-exports.deletePicture = deletePicture;
+};
+exports.remove = remove;

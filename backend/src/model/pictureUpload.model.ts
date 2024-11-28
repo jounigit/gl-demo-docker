@@ -22,6 +22,8 @@ export async function pictureUploadModel(file: Express.Multer.File, user: Partia
   const imgPath = makeSourcePath(IMAGES, newName)
   const thumbPath = makeSourcePath(THUMBS, newName)
 
+  console.log({ uploadedFile })
+
   const validationResult = imageValidations(ext, file.size)
   if (!validationResult) {
     throw new Error(`Image validation failed: ${validationResult}`)
