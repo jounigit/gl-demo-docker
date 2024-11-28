@@ -26,17 +26,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* eslint-disable @typescript-eslint/no-var-requires */
 const express_1 = __importDefault(require("express"));
-// import jwtAuth from 'express-jwt'
-const { expressjwt: jwt } = require('express-jwt');
 const users = __importStar(require("../controller/user"));
-const config_1 = __importDefault(require("../utils/config"));
+const middleware_1 = __importDefault(require("../utils/middleware"));
 const routes = express_1.default.Router();
-const routeAuth = jwt({ secret: `${config_1.default.JWT_SECRET}`, algorithms: ['HS256'] });
-routes.get('/', routeAuth, users.getAll);
+routes.get('/', middleware_1.default.authenticateToken, users.getAll);
 routes.get('/:id', users.getOne);
-routes.post('/', users.createUser);
-routes.put('/:id', users.updateUser);
-routes.delete('/:id', users.deleteUser);
+routes.post('/', middleware_1.default.authenticateToken, users.create);
+routes.put('/:id', middleware_1.default.authenticateToken, users.update);
+routes.delete('/:id', middleware_1.default.authenticateToken, users.remove);
 exports.default = routes;

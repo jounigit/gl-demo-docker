@@ -35,6 +35,7 @@ export const upload = async (req: Request, res: Response) => {
   }
 
   try {
+    console.log({ req })
     const result = await pictureUploadModel(req.file, req.user)
     res.status(200).send(result)
   } catch (error) {
