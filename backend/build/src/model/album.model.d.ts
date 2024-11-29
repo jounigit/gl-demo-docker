@@ -10,7 +10,7 @@ export interface INewAlbum {
 }
 export declare const createAlbum: (data: INewAlbum) => Promise<{
     title: string;
-    slug: string;
+    slug: string | null;
     year: string | null;
     content: string | null;
     createdAt: Date;
@@ -21,7 +21,7 @@ export declare const createAlbum: (data: INewAlbum) => Promise<{
 export declare const updateAlbum: (id: number, data: Partial<Album>) => Promise<Album>;
 export declare const deleteAlbum: (id: number) => Promise<{
     title: string;
-    slug: string;
+    slug: string | null;
     year: string | null;
     content: string | null;
     createdAt: Date;

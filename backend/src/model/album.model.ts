@@ -1,3 +1,4 @@
+// import type { AlbumCreateInput } from './../../node_modules/.prisma/client/index.d';
 import { prisma } from '../services/prisma'
 import type { Album } from '@prisma/client'
 

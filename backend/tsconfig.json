@@ -13,7 +13,7 @@
     "preserveSymlinks": true,
     "skipLibCheck": true,
     "outDir": "./build",
-    "rootDir": ".",
+    "rootDir": "./src",
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]

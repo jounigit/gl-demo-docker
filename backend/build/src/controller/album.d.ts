@@ -17,7 +17,7 @@ export declare function getAlbumOrThrowError(id: number): Promise<{
     })[];
 } & {
     title: string;
-    slug: string;
+    slug: string | null;
     year: string | null;
     content: string | null;
     createdAt: Date;

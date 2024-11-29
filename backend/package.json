@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "build/src/app.js",
+  "main": "build/src/index.js",
   "scripts": {
-    "start": "node build/src/app.js",
+    "start": "node build/src/index.js",
     "db:up": "docker compose -f docker-compose.db.yml up -d",
     "db:down": "docker compose -f docker-compose.db.yml down",
     "dev": "ts-node-dev --respawn --transpile-only --exit-child src/index.ts",

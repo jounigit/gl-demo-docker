@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAlbum = exports.updateAlbum = exports.createAlbum = exports.getAlbumBySlug = exports.getAlbum = exports.getAlbums = void 0;
+// import type { AlbumCreateInput } from './../../node_modules/.prisma/client/index.d';
 const prisma_1 = require("../services/prisma");
 const getAlbums = async () => await prisma_1.prisma.album.findMany();
 exports.getAlbums = getAlbums;
