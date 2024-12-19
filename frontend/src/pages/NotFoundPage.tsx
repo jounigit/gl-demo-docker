@@ -16,10 +16,10 @@ const Wrapper = styled(BaseContainer)`
 `
 
 const NotFoundPage = () => (
-  <Wrapper>
-    <h4>404 - Page Not Found!</h4>
-    <Link to="/">Go Home</Link>
-  </Wrapper>
+	<Wrapper>
+		<h4>404 - Page Not Found!</h4>
+		<Link to='/'>Go Home</Link>
+	</Wrapper>
 )
 
 export default NotFoundPage

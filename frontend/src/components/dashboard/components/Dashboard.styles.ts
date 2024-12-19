@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { DESKTOP, LAPTOP, TABLET } from '../../../styles'
 import {
 	BIGSCREEN,
-	WIDE,
+	WIDE
 } from '../../../styles/theme/breakpoints'
 import { colors } from '../../../styles/theme'
 

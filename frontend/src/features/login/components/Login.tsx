@@ -8,55 +8,66 @@ import { useUserStore } from '../../../store/userStore'
 import { LoadingHandler } from '../../../components/handlers'
 import { injectTokenToHeaders } from '../../../services/http-common'
 import type { UseMutateFunction } from '@tanstack/react-query'
-import type { LoginResponse, Login as LoginType } from '../../../types'
+import type {
+	LoginResponse,
+	Login as LoginType
+} from '../../../types'
 
 interface Params {
-  email: string;
-  password: string;
+	email: string
+	password: string
 }
 
 export const Login = (): JSX.Element => {
-  const { mutate, isPending, isSuccess, data } = useLogin()
-  const navigate = useNavigate()
-  const updateToken = useTokenStore(state => state.updateToken)
-  const updateUser = useUserStore(state => state.updateUser)
+	const { mutate, isPending, isSuccess, data } = useLogin()
+	const navigate = useNavigate()
+	const updateToken = useTokenStore(
+		(state) => state.updateToken
+	)
+	const updateUser = useUserStore(
+		(state) => state.updateUser
+	)
 
-  useEffect(() => {
-    if (isSuccess) {
-      console.log('LOGIN DATA: ', data)
-      const logRes = data as LoginResponse
-      toast.success('Login successfully.', { className: 'success' })
+	useEffect(() => {
+		if (isSuccess) {
+			console.log('LOGIN DATA: ', data)
+			const logRes = data as LoginResponse
+			toast.success('Login successfully.', {
+				className: 'success'
+			})
 
-      console.log('LOGIN DATA TOKEN: ',)
-      updateToken(logRes.data.token)
-      tokenToHeaders(logRes.data.token)
-      updateUser(logRes.data.user)
-      navigate('/dashboard')
-    }
-  }, [data, isSuccess, navigate, updateToken, updateUser])
+			console.log('LOGIN DATA TOKEN: ')
+			updateToken(logRes.data.token)
+			tokenToHeaders(logRes.data.token)
+			updateUser(logRes.data.user)
+			navigate('/dashboard')
+		}
+	}, [data, isSuccess, navigate, updateToken, updateUser])
 
-  if (isPending) return <LoadingHandler />
+	if (isPending) return <LoadingHandler />
 
-  const handleData = addTokenAndUser(mutate)
+	const handleData = addTokenAndUser(mutate)
 
-  return (
-    <LoginForm
-      handleData={handleData}
-      formName='LOGIN'
-    />
-  )
+	return (
+		<LoginForm handleData={handleData} formName='LOGIN' />
+	)
 }
 
 function tokenToHeaders(token: string): void {
-  injectTokenToHeaders(token)
+	injectTokenToHeaders(token)
 }
 
 function addTokenAndUser(
-  mutate: UseMutateFunction<unknown, unknown, Params, unknown>,
+	mutate: UseMutateFunction<
+		unknown,
+		unknown,
+		Params,
+		unknown
+	>
 ) {
-  const handleData = (data: LoginType) => {
-    mutate(data)
-  }
+	const handleData = (data: LoginType) => {
+		mutate(data)
+	}
 
-  return handleData
+	return handleData
 }

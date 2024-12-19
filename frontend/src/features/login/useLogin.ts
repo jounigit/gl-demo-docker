@@ -1,7 +1,7 @@
 import {
 	type UseMutationResult,
 	useMutation,
-	useQueryClient,
+	useQueryClient
 } from '@tanstack/react-query'
 import type { LoginResponse } from '../../types'
 import { apiClient } from '../../services/http-common'
@@ -16,11 +16,11 @@ export interface LogoutResponse {
 }
 
 export const login = async (
-	payload: Params,
+	payload: Params
 ): Promise<LoginResponse> => {
 	const response = await apiClient.post('/login', {
 		email: payload.email,
-		password: payload.password,
+		password: payload.password
 	})
 	return response.data
 }
@@ -43,7 +43,7 @@ export function useLogin(): UseMutationResult<
 		onSuccess: (data) => {
 			useClient.invalidateQueries({ queryKey: ['user'] })
 			console.log('-UseLogin: ', data)
-		},
+		}
 	})
 }
 
@@ -57,6 +57,6 @@ export function useLogout(): UseMutationResult<
 		mutationFn: logout,
 		onSuccess: (data) => {
 			console.log('-UseLogout: ', data)
-		},
+		}
 	})
 }

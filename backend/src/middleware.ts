@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import config from './utils/config'
+import config from '@/config'
 
 export function notFound( req: Request, res: Response, next: NextFunction) {
   res.status(404)

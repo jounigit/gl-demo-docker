@@ -2,8 +2,10 @@ import styled from 'styled-components'
 import { TABLET } from '../../../styles/theme/breakpoints'
 
 export interface ImageGridProps {
-  $gridwidth: number,
-  $imgheight: number,
+	$gridwidth: number
+	$imgheight: number
+  $centered?: boolean
+  $gap?: string
 }
 
 export const ImageGrid = styled.div<ImageGridProps>`
@@ -28,13 +30,13 @@ export const ImageGrid = styled.div<ImageGridProps>`
     display: grid;
     grid-template-columns: 
     repeat(auto-fit, ${({ $gridwidth }) => $gridwidth}px);
+    grid-gap: ${({ $gap }) => $gap};
+    justify-content: ${(p) => (p.$centered ? 'center' : 'normal')};
     padding: 1rem;
-    /* grid-gap: .5rem; */
 
     div {
       height: auto;
-      /* height: ${({ $imgheight }) => $imgheight}px;
-      */
+      margin-bottom: -5px;
     }
 
     img {
@@ -42,9 +44,9 @@ export const ImageGrid = styled.div<ImageGridProps>`
     }
 }
 `
-export const ImageGridAllWidth = styled(ImageGrid)`
-    @media ${TABLET} {
-      grid-template-columns: 
-      repeat(auto-fit, minmax(200px, 1fr));
-    }
-`
+// export const ImageGridAllWidth = styled(ImageGrid)`
+//     @media ${TABLET} {
+//       grid-template-columns: 
+//       repeat(auto-fit, minmax(200px, 1fr));
+//     }
+// `

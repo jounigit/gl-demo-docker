@@ -14,8 +14,8 @@ export const useTokenStore = create<Token & Action>(
 		token: null,
 		updateToken: (newToken: string) =>
 			set({ token: newToken }),
-		deleteToken: () => set({ token: null }),
-	}),
+		deleteToken: () => set({ token: null })
+	})
 )
 
 export const TokenStore = (): string | null =>

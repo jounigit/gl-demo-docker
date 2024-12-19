@@ -1,21 +1,23 @@
-import { NextFunction, Request, Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import { prisma } from '../services/prisma'
 import jwt from 'jsonwebtoken'
-import config from '../utils/config'
-
+import config from '../config'
 import { ForbiddenError, UnauthorizedError } from '../helpers/api-errors'
+import type { TokenFromUser } from '@/controller/auth/authHelper'
+
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const JWTSECRET = config.JWT_SECRET!
 
 export const verifyToken = async (req: Request, _: Response, next: NextFunction) => {
   try {
     const { authorization } = req.headers
-    const token = authorization && authorization.split(' ')[1] || ''
+    const token = authorization?.split(' ')[1] || ''
 
     if (!token || !authorization) {
       throw new UnauthorizedError()
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const payload = jwt.verify(token, config.JWT_SECRET!) as any
+    const payload = jwt.verify(token, JWTSECRET) as TokenFromUser
 
     if (!payload )
       throw new UnauthorizedError()

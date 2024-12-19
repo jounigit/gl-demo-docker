@@ -7,7 +7,9 @@ import { useTokenStore } from '../../../store/tokenStore'
 import { Divider } from '../../../styles/styles'
 import { Logout } from '../../../features/login/components/Logout'
 
-interface Props { toggle?: () => void }
+interface Props {
+	toggle?: () => void
+}
 
 const Wrap = styled.div`
   margin-left: 1.5rem;
@@ -32,39 +34,58 @@ const LinkStyle = styled(NavLink)`
     };
 `
 
-type LinkFormer = (path: string, text: string, cytxt: string) => JSX.Element
+type LinkFormer = (
+	path: string,
+	text: string,
+	cytxt: string
+) => JSX.Element
 
 export const NavLinksDetailsDb = ({ toggle }: Props) => {
-  const token = useTokenStore(state => state.token)
+	const token = useTokenStore((state) => state.token)
 
-  const linkForm: LinkFormer = (path, text, cytxt) => (
-    <LinkStyle to={path} data-cy={cytxt} onClick={toggle}>
-      {text}
-    </LinkStyle>
-  )
+	const linkForm: LinkFormer = (path, text, cytxt) => (
+		<LinkStyle to={path} data-cy={cytxt} onClick={toggle}>
+			{text}
+		</LinkStyle>
+	)
 
-  return (
-    <Wrap>
-      <LinkStyle to="/dashboard" onClick={toggle} data-cy='home'>
-        <FaHome />
-      </LinkStyle>
+	return (
+		<Wrap>
+			<LinkStyle
+				to='/dashboard'
+				onClick={toggle}
+				data-cy='home'
+			>
+				<FaHome />
+			</LinkStyle>
 
-      {linkForm('/dashboard/albums', 'Albumit', 'albumslink')}
+			{linkForm(
+				'/dashboard/albums',
+				'Albumit',
+				'albumslink'
+			)}
 
-      {linkForm('/dashboard/pictures', 'Kuva-arkisto', 'pictureslink')}
+			{linkForm(
+				'/dashboard/pictures',
+				'Kuva-arkisto',
+				'pictureslink'
+			)}
 
-      <Divider />
+			<Divider />
 
-      {linkForm('/dashboard/albums/create', '- Uusi albumi', 'createalbum')}
+			{linkForm(
+				'/dashboard/albums/create',
+				'- Uusi albumi',
+				'createalbum'
+			)}
 
-      {linkForm('/dashboard/pictures/upload', '- Uusi kuva', 'createpicture')}
+			{linkForm(
+				'/dashboard/pictures/upload',
+				'- Uusi kuva',
+				'createpicture'
+			)}
 
-      {token &&
-        <Logout />
-      }
-
-    </Wrap>
-  )
+			{token && <Logout />}
+		</Wrap>
+	)
 }
-
-

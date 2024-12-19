@@ -7,17 +7,17 @@ const Wrapper = styled.div`
 `
 
 const AlbumListAdmin = (): JSX.Element => {
-  const { data: Albums } = useAlbums()
+	const { data: Albums } = useAlbums()
 
-  const showAlbums = Albums?.length ?
-    Albums.map(a => <AlbumListItemAdmin key={a.id} album={a} />) :
-    <p>no albums yet.</p>
+	const showAlbums = Albums?.length ? (
+		Albums.map((a) => (
+			<AlbumListItemAdmin key={a.id} album={a} />
+		))
+	) : (
+		<p>no albums yet.</p>
+	)
 
-  return (
-    <Wrapper>
-      {showAlbums}
-    </Wrapper>
-  )
+	return <Wrapper>{showAlbums}</Wrapper>
 }
 
 export default AlbumListAdmin

@@ -1,3 +1,6 @@
+import { getOne, getBySlug } from '@/services/apiService'
+import { apiClient } from '@/services/http-common'
+import type { Album, NewAlbum, UpdateAlbum } from '@/types'
 import {
 	useMutation,
 	type UseMutationResult,
@@ -5,15 +8,9 @@ import {
 	useQueryClient,
 	type UseQueryResult,
 	useSuspenseQuery,
-	type UseSuspenseQueryResult,
+	type UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { apiClient } from '../../services/http-common'
-import {
-	getOne,
-	getBySlug,
-} from '../../services/apiService'
-import type { Album, NewAlbum, UpdateAlbum } from '../../types'
 
 // ####################### services ########################################
 //**  Get all */
@@ -26,29 +23,29 @@ export const fetchAlbumList = async (): Promise<
 
 //**  Delete */
 export const deleteAlbum = async (
-	id: number,
+	id: number
 ): Promise<unknown> => {
 	const promise = apiClient.delete(`/albums/${id}`)
 	const response = await toast.promise(promise, {
 		loading: 'Working...',
 		success: 'Album removed!',
-		error: (e) => `Failed to remove -\n${e.message}`,
+		error: (e) => `Failed to remove -\n${e.message}`
 	})
 	return response.data
 }
 
 //**  Create */
 export const createAlbum = async (
-	newAlbum: NewAlbum,
+	newAlbum: NewAlbum
 ): Promise<unknown> => {
 	const promise = apiClient.post<unknown>(
 		'/albums',
-		newAlbum,
+		newAlbum
 	)
 	const response = await toast.promise(promise, {
 		loading: 'Loading...',
 		success: 'Album stored successfully!',
-		error: (e) => `Failed to store album -\n${e.message}`,
+		error: (e) => `Failed to store album -\n${e.message}`
 	})
 	return response.data
 }
@@ -60,13 +57,13 @@ interface UpdateProps {
 
 export const updateAlbum = async ({
 	id,
-	album,
+	album
 }: UpdateProps): Promise<Album> => {
 	const promise = apiClient.put(`/albums/${id}`, album)
 	const response = await toast.promise(promise, {
 		loading: 'Loading...',
 		success: 'Album updated successfully!',
-		error: (e) => `Failed to update album -\n${e.message}`,
+		error: (e) => `Failed to update album -\n${e.message}`
 	})
 	return response.data
 }
@@ -79,39 +76,39 @@ export function useAlbums(): UseQueryResult<
 	return useQuery({
 		queryKey: ['albums'],
 		queryFn: fetchAlbumList,
-		throwOnError: true,
+		throwOnError: true
 	})
 }
 
 export function useAlbum(
-	id: number,
+	id: number
 ): UseQueryResult<Album, unknown> {
 	return useQuery({
 		queryKey: ['albums', id],
 		queryFn: async () =>
 			await getOne<Album>({ id, url: 'albums' }),
-		throwOnError: true,
+		throwOnError: true
 	})
 }
 
 export function useAlbumBySlug(
-	slug: string,
+	slug: string
 ): UseQueryResult<Album, unknown> {
 	return useQuery({
 		queryKey: ['albums', slug],
 		queryFn: async () =>
 			await getBySlug<Album>({ slug, url: 'album' }),
-		throwOnError: true,
+		throwOnError: true
 	})
 }
 
 export function useSuspenseAlbumBySlug(
-	slug: string,
+	slug: string
 ): UseSuspenseQueryResult<Album, unknown> {
 	return useSuspenseQuery<Album, unknown>({
 		queryKey: ['albums', slug],
 		queryFn: async () =>
-			await getBySlug<Album>({ slug, url: 'album' }),
+			await getBySlug<Album>({ slug, url: 'album' })
 	})
 }
 
@@ -139,7 +136,7 @@ export function useUpdateAlbum(): UseMutationResult<
 		},
 		onError: () => {
 			toast.error('Failed to update Album!')
-		},
+		}
 	})
 }
 
@@ -155,7 +152,7 @@ export function useDeleteAlbum(): UseMutationResult<
 		onSuccess: () => {
 			toast.success('Album deleted successfully.')
 			useClient.invalidateQueries({ queryKey: ['albums'] })
-		},
+		}
 	})
 }
 

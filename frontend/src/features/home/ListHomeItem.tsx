@@ -1,41 +1,52 @@
-import { ListHomeDetails } from "../../styles/styles";
-import type { Album } from "../../types" 
-import kuva1 from '../../assets/kuva-1.jpg'
-import kuva2 from '../../assets/kuva-2.jpg'
-import kuva3 from '../../assets/kuva-3.jpg'
-import config from "../../data/config";
-import { formatUrl } from "../../components/atoms/utils";
-import { LinkTo } from "../../components/layouts/nav/NavLinks.styles";
-import styled from "styled-components";
+import { LinkTo } from '@/components/layouts/nav/NavLinks.styles'
+import { ListHomeDetails } from '@/styles/styles'
+import type { Album } from '@/types'
+import styled from 'styled-components'
+import { ImageKitComponent } from '../utils/ImageKitComponent'
 
 const LinkStyle = styled(LinkTo)`
     display: inline-block;
     position: relative;
     &:hover{
-        transform: scale(1.1);
+        transform: scale(1);
     }
 `
+const ImgBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  width: 50%;
 
-const imgs = [kuva1, kuva2, kuva3]
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`
 
-const picFolder = config.IMAGES_BIG_URL as string
+const colors = ['#db3a34ff;', '#177e89ff;', '#2bc016ff;']
 
 type Props = {
-    album: Album
+	album: Album
+	order: number
 }
 
-export const ListHomeItem = (props: Props) => {
-    const  { title, pictures, slug } = props.album;
+export const ListHomeItem = ({
+	order,
+	album: { title, pictures, slug }
+}: Props) => {
+	const firstImg = pictures?.[0]
+	const color = colors[order]
 
-    const firstImg = pictures?.[0] ?
-        formatUrl(picFolder, pictures[0].image) :
-        imgs[Math.floor(Math.random() * imgs.length)]
-
-    return ( 
-    <ListHomeDetails $bgimg={firstImg}>
-    <LinkStyle to={`/galleria/${slug}`}>
-        <h2>{title}</h2>
-        </LinkStyle>
-    </ListHomeDetails>
-    )
+	return (
+		<ListHomeDetails $bgcolor={color}>
+			<LinkStyle to={`/galleria/${slug}`}>
+				<h2>{title}</h2>
+				<ImgBox>
+					{firstImg && (
+						<ImageKitComponent url={firstImg.url} />
+					)}
+				</ImgBox>
+			</LinkStyle>
+		</ListHomeDetails>
+	)
 }

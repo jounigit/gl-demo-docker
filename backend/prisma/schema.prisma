@@ -45,7 +45,9 @@ model Picture {
   title     String             @db.VarChar(255)
   year      String?            @db.Char(4)
   content   String?
-  image     String             @db.VarChar(255)
+  fileId    String             @db.VarChar(255)
+  url       String             @db.VarChar(255)
+  thumbnailUrl String          @db.VarChar(255)
   user      User               @relation(fields: [userID], references: [id])
   userID    Int
   createdAt DateTime           @default(now())

@@ -5,11 +5,15 @@ import routes from './routes'
 import middleware from './utils/middleware'
 // import config from './utils/config'
 import path from 'node:path'
+import fileupload from 'express-fileupload'
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(fileupload({
+  useTempFiles: true
+}))
 
 app.use('/images', express.static(path.join(__dirname, '../images')))
 app.use('/thumbs', express.static(path.join(__dirname, '../images/thumbs')))

@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-interface Props { portrait: boolean }
+interface Props {
+	portrait?: boolean
+}
 
 export const Image = styled.div<Props>`
 
@@ -19,7 +21,7 @@ export const Image = styled.div<Props>`
     width: auto;
 
     img {
-        height: ${({ portrait }) => portrait ? '98%' : '90%'};
+        height: ${({ portrait }) => (portrait ? '98%' : '90%')};
         width: auto;
         object-fit: cover;
     }
@@ -31,7 +33,7 @@ export const PictureInfo = styled.div<Props>`
     margin-bottom: 10px;
     margin-left: 10px;
     text-align: left;
-    float: ${({ portrait }) => portrait ? 'right' : 'left'};
+    float: ${({ portrait }) => (portrait ? 'right' : 'left')};
     p {
         white-space: pre-wrap;
         font-size: 0.7rem;

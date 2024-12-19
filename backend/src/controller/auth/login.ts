@@ -1,22 +1,15 @@
 import type { Request, Response } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import type { User } from '@prisma/client'
 import { setToCache } from '../../services/redis'
 import { prisma } from '../../services/prisma'
+import type { TokenFromUser } from './authHelper'
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body
 
   if (!email || !password)
     throw new Error( 'Missing data or authentication' )
-
-  // let user: User | null
-  // let passwordCorrect
-
-  // if (email) {
-  //   user = await prisma.user.findUnique({ where: { email } })
-  // }
 
   const user = await prisma.user.findUnique({ where: { email } })
   if (!user) {
@@ -29,7 +22,7 @@ const login = async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'Invalid email or password.' })
   }
 
-  const userForToken: Partial<User> = {
+  const userForToken: TokenFromUser = {
     id: user.id,
     username: user.username,
     email: user.email
@@ -58,7 +51,5 @@ const login = async (req: Request, res: Response) => {
     console.log('Error setting cache ', error)
   }
 }
-
-
 
 export default login

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 // import { PrismaSlug } from 'prisma-slug'
-import config from '../utils/config'
+import config from '../config'
 
 export const prisma = new PrismaClient({
   datasources: {

@@ -2,14 +2,16 @@ import { type FC, Fragment } from 'react'
 import styled from 'styled-components'
 import { ActionLinks } from './ActionLinks'
 import { AlbumDelete } from './AlbumDelete'
-import { ListItemImageGrid, ListItemInfoText } from '../../../../styles/styles'
-import { colors } from '../../../../styles/theme'
-import { MOBILE } from '../../../../styles'
-import type { Album } from '../../../../types'
-import config from '../../../../data/config'
-import { useModal } from '../../../../hooks/useModal'
-import { ImageInDiv } from '../../../../components/atoms/ImageInDiv'
-import { Modal } from '../../../../components/modal/modal'
+import { ImageInDiv } from '@/components/atoms/ImageInDiv'
+import { Modal } from '@/components/modal/modal'
+import { useModal } from '@/hooks/useModal'
+import { MOBILE } from '@/styles'
+import {
+	ListItemImageGrid,
+	ListItemInfoText
+} from '@/styles/styles'
+import { colors } from '@/styles/theme'
+import type { Album } from '@/types'
 
 const ImageItem = styled(ListItemImageGrid)`
     grid-template-columns: 1fr;
@@ -32,73 +34,60 @@ const Container = styled.div`
 `
 
 interface ListProps {
-  album: Album,
+	album: Album
 }
 
-const picFolder = config.IMAGES_THUMB_URL as string
+export const AlbumListItemAdmin: FC<ListProps> = ({
+	album: { id, title, slug, pictures }
+}) => {
+	const { isShown, toggle } = useModal()
+	const pictureCount = pictures.length
 
-export const AlbumListItemAdmin: FC<ListProps> = (props) => {
-  const { isShown, toggle } = useModal()
-  const { id, title, slug, pictures } = props.album
-  
-  // ******************************************************************* //
-  const textForGalleria = (
-    <h4>
-      {pictures.length}
-      {' '}
-      kuvaa
-    </h4>
-  )
+	// ****************** actions *********************************** //
+	const { link, linkUpdate, linkRemove, linkPictures } =
+		ActionLinks({ id, slug, toggle })
 
-  const showFirstPic = pictures[0] ?
-    <ImageInDiv data={pictures[0]} url={picFolder} /> :
-    <h4 style={{ paddingLeft: '40px' }}>no images yet.</h4>
-    console.log({pictures})
-  // ****************** actions *********************************** //
-  const {
-    link, linkUpdate, linkRemove, linkPictures
-  } = ActionLinks({ id, slug, toggle })
+	// **************** return ***************************************** //
+	return (
+		<Fragment>
+			<Container data-cy='listItem'>
+				<ImageItem width={150} height={150}>
+					{pictures.length > 0 ? (
+						<ImageInDiv data={pictures[0]} />
+					) : (
+						<h4 style={{ paddingLeft: '40px' }}>
+							no images yet.
+						</h4>
+					)}
+				</ImageItem>
 
-  // **************** return ***************************************** //
-  return (
-    <Fragment>
+				<Content>
+					<h3>{title}</h3>
+					<ListItemInfoText>
+						<h4>{pictureCount} kuvaa</h4>
+					</ListItemInfoText>
+				</Content>
 
-      <Container data-cy='listItem'>
-        <ImageItem width={150} height={150}>
-          {showFirstPic}
-        </ImageItem>
+				<section>
+					<Links>{link}</Links>
+					<Links>{linkUpdate}</Links>
+					<Links>{linkPictures}</Links>
+					<Links>{linkRemove}</Links>
+				</section>
+			</Container>
 
-        <Content>
-          <h3>{title}</h3>
-          <ListItemInfoText>
-            {textForGalleria}
-          </ListItemInfoText>
-        </Content>
-
-        <section>
-          <Links>
-            {link}
-          </Links>
-          <Links>
-            {linkUpdate}
-          </Links>
-          <Links>
-            {linkPictures}
-          </Links>
-          <Links>
-            {linkRemove}
-          </Links>
-        </section>
-      </Container>
-
-      <Modal
-        isShown={isShown}
-        hide={toggle}
-        headerText='Albumin poisto'
-        modalContent={
-          <AlbumDelete id={id} title={title} toggle={toggle} />
-        }
-      />
-    </Fragment>
-  )
+			<Modal
+				isShown={isShown}
+				hide={toggle}
+				headerText='Albumin poisto'
+				modalContent={
+					<AlbumDelete
+						id={id}
+						title={title}
+						toggle={toggle}
+					/>
+				}
+			/>
+		</Fragment>
+	)
 }

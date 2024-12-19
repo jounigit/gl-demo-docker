@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import styled from 'styled-components'
 import Burger from './Burger'
 import { NavbarContainer } from './Navbar.styles'
-import { useNavScroll } from './useNavScroll';
+import { useNavScroll } from './useNavScroll'
 
 const Transition = styled.div`
   .active {
@@ -17,23 +17,21 @@ const Transition = styled.div`
 `
 
 const Navbar: FC = () => {
-  const { show } = useNavScroll();
+	const { show } = useNavScroll()
 
-  // console.log(' Show: ', show, ' Scrollpos: ', scrollpos)
+	// console.log(' Show: ', show, ' Scrollpos: ', scrollpos)
 
-  return (
-    <Transition>
-      <NavbarContainer
-        $scrollpos={scrollY}
-        className={show ? 'active' : 'hidden'}
-      >
-        <Burger />
-        <div className="name">
-          PORTFOLIO
-        </div>
-      </NavbarContainer>
-    </Transition>
-  )
+	return (
+		<Transition>
+			<NavbarContainer
+				$scrollpos={scrollY}
+				className={show ? 'active' : 'hidden'}
+			>
+				<Burger />
+				<div className='name'>PORTFOLIO</div>
+			</NavbarContainer>
+		</Transition>
+	)
 }
 
 export default Navbar

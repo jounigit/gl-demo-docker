@@ -3,45 +3,45 @@ import {
 	type UseQueryResult,
 	useMutation,
 	useQuery,
-	useQueryClient,
+	useQueryClient
 } from '@tanstack/react-query'
 import type {
 	AlbumPicture,
 	AlbumPictureProps
-} from '../../types'
+} from '@/types'
 import toast from 'react-hot-toast'
-import { apiClient } from '../../services/http-common'
-import { getAll } from '../../services/apiService'
+import { apiClient } from '@/services/http-common'
+import { getAll } from '@/services/apiService'
 
 // ###################### services #########################################
 const addAlbumPicture = async (
-	albumPictureProps: AlbumPictureProps,
+	albumPictureProps: AlbumPictureProps
 ): Promise<unknown> => {
 	const promise = apiClient.post<unknown>(
 		'/album-picture',
-		albumPictureProps,
+		albumPictureProps
 	)
 
 	const response = await toast.promise(promise, {
 		loading: 'Loading...',
 		success: 'Picture chosen successfully!',
-		error: (e) => `Failed to choose album -\n${e.message}`,
+		error: (e) => `Failed to choose album -\n${e.message}`
 	})
 
 	return response.data
 }
 
 export const deleteAlbumPicture = async (
-	albumPictureProps: AlbumPictureProps,
+	albumPictureProps: AlbumPictureProps
 ): Promise<unknown> => {
 	const promise = apiClient.delete<unknown>(
 		'/album-picture',
-		{data: albumPictureProps}
+		{ data: albumPictureProps }
 	)
 	const response = await toast.promise(promise, {
 		loading: 'Working...',
 		success: 'Picture removed!',
-		error: (e) => `Failed to remove -\n${e.message}`,
+		error: (e) => `Failed to remove -\n${e.message}`
 	})
 	return response
 }
@@ -54,7 +54,7 @@ export function useAlbumPictures(): UseQueryResult<
 	return useQuery({
 		queryKey: ['album-pictures'],
 		queryFn: async () => await getAll('album-picture'),
-		throwOnError: true,
+		throwOnError: true
 	})
 }
 
@@ -70,7 +70,7 @@ export function useAddAlbumPicture(): UseMutationResult<
 		mutationFn: addAlbumPicture,
 		onSuccess: () => {
 			useClient.invalidateQueries()
-		},
+		}
 	})
 }
 
@@ -89,6 +89,6 @@ export function useDeleteAlbumPicture(): UseMutationResult<
 		},
 		onError: () => {
 			console.log('- Use delete error')
-		},
+		}
 	})
 }

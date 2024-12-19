@@ -1,9 +1,8 @@
-import styled from "styled-components"
-import { LAPTOP } from "../../../styles"
-import type { FC } from "react"
-import { useToggle } from "../../../hooks/useToggle"
-import { NavLinksDb } from "./NavLinksDb"
-
+import styled from 'styled-components'
+import { LAPTOP } from '../../../styles'
+import type { FC } from 'react'
+import { useToggle } from '../../../hooks/useToggle'
+import { NavLinksDb } from './NavLinksDb'
 
 const LaptopBurger = styled.div<{ open: boolean }>`
     display: flex;
@@ -43,16 +42,20 @@ const LaptopBurger = styled.div<{ open: boolean }>`
 `
 
 export const BurgerDb: FC = () => {
-  const [isOpen, toggleOpen] = useToggle(false)
+	const [isOpen, toggleOpen] = useToggle(false)
 
-  return (
-    <>
-      <LaptopBurger data-cy='burger' open={isOpen} onClick={toggleOpen}>
-        <div />
-        <div />
-        <div />
-      </LaptopBurger>
-      <NavLinksDb open={isOpen} toggle={toggleOpen} />
-    </>
-  )
+	return (
+		<>
+			<LaptopBurger
+				data-cy='burger'
+				open={isOpen}
+				onClick={toggleOpen}
+			>
+				<div />
+				<div />
+				<div />
+			</LaptopBurger>
+			<NavLinksDb open={isOpen} toggle={toggleOpen} />
+		</>
+	)
 }

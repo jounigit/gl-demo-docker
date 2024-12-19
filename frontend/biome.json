@@ -7,7 +7,11 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["index.d.ts"]
+		"ignore": [
+			"index.d.ts",
+			"tsconfig.app.json",
+			"tsconfig.node.json"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -29,7 +33,7 @@
 			"style": {
 				"noShoutyConstants": "warn",
 				"useNamingConvention": {
-					"level":"warn",
+					"level": "warn",
 					"options": {
 						"strictCase": false
 					}

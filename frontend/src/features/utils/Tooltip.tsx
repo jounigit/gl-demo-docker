@@ -41,15 +41,17 @@ const ToolTipContainer = styled.span`
     }
 `
 interface Props {
-    children: React.ReactNode
-    tip: JSX.Element
+	children: React.ReactNode
+	tip: JSX.Element
 }
 
 const Tooltip: FC<Props> = ({ children, tip }) => {
-    return <ToolTipContainer>
-        {children}
-        <span className="tip">{tip}</span>
-    </ToolTipContainer>
+	return (
+		<ToolTipContainer>
+			{children}
+			<span className='tip'>{tip}</span>
+		</ToolTipContainer>
+	)
 }
 
 export default Tooltip

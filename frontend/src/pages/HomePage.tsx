@@ -11,26 +11,25 @@ const Wrapper = styled.div`
 `
 
 const HomePage: FC = () => {
+	// const logIn = async () => {
+	//   try {
+	//     const response = await apiClient.post('/login', {
+	//       email: 'user-a@user.com',
+	//       password: 'password-a',
+	//     })
+	//     console.log(response.data);
 
-  // const logIn = async () => {
-  //   try {
-  //     const response = await apiClient.post('/login', {
-  //       email: 'user-a@user.com',
-  //       password: 'password-a',
-  //     })
-  //     console.log(response.data);
+	//   } catch (error) {
+	//     console.error('ERROR::  ', error);
+	//   }
+	// }
 
-  //   } catch (error) {
-  //     console.error('ERROR::  ', error);
-  //   }
-  // }
-
-  return (
-    <Wrapper>
-      <Info />
-      <HomeAlbums />
-    </Wrapper>
-  )
+	return (
+		<Wrapper>
+			<Info />
+			<HomeAlbums />
+		</Wrapper>
+	)
 }
 
 export default HomePage

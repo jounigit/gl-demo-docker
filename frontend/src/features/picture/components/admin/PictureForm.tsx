@@ -1,14 +1,22 @@
-import { type SubmitHandler, useForm } from 'react-hook-form'
+import {
+	type SubmitHandler,
+	useForm
+} from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import styled from 'styled-components'
-import type { Picture, UpdatePicture } from '../../../../types'
-import config from '../../../../data/config'
-import { ImageInDiv } from '../../../../components/atoms/ImageInDiv'
-import { FormContainer } from '../../../../styles'
-import { Form, Input, InputWrapper, Label, Textarea } from '../../../../styles/styles'
-import { GreenButton } from '../../../../components/atoms'
+import type { Picture, UpdatePicture } from '@/types'
+import { ImageInDiv } from '@/components/atoms/ImageInDiv'
+import { FormContainer } from '@/styles'
+import {
+	Form,
+	Input,
+	InputWrapper,
+	Label,
+	Textarea
+} from '@/styles/styles'
+import { GreenButton } from '@/components/atoms'
 
 export const ImageDiv = styled.div`
     display: block;
@@ -19,87 +27,109 @@ export const ImageDiv = styled.div`
 `
 
 const schema = yup.object().shape({
-  title: yup.string().required(),
+	title: yup.string().required(),
+	content: yup
+		.string()
+		.min(20, 'Content must be at least 20 characters long')
 })
 
 type Inputs = {
-  title: string;
-  year?: number;
-  content?: string;
+	title: string
+	year?: number
+	content?: string
 }
 
 type Props = {
-  handleData: (data: UpdatePicture) => void
-  picture?: Picture
-  formName: string;
+	handleData: (data: UpdatePicture) => void
+	picture?: Picture
+	formName: string
 }
 
-const picFolder = config.IMAGES_THUMB_URL as string
+function PictureForm({
+	handleData,
+	picture,
+	formName
+}: Props) {
+	const [content, setContent] = useState(
+		picture?.content || ''
+	)
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset
+	} = useForm<Inputs>({
+		values: picture,
+		resolver: yupResolver(schema)
+	})
 
-function PictureForm({ handleData, picture, formName }: Props) {
-  const [content, setContent] = useState(picture?.content || '')
-  const { register, handleSubmit, formState: { errors }, reset } =
-    useForm<Inputs>({
-      values: picture,
-      resolver: yupResolver(schema),
-    })
+	const showPic = picture && <ImageInDiv data={picture} />
 
-  const showPic = picture && <ImageInDiv data={picture} url={picFolder} />
+	console.log({ picture })
+	//************* handle submit *************/
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
+		const newPicture = {
+			title: data.title,
+			year: data?.year,
+			content: content
+		}
 
-  console.log({ picture })
-  //************* handle submit *************/
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+		handleData(newPicture)
+		reset()
+	}
 
-    const newPicture = {
-      title: data.title,
-      year: data?.year,
-      content: content,
-    }
+	//************* handle content *************/
+	const onChange = (
+		e: React.ChangeEvent<HTMLTextAreaElement>
+	) => {
+		setContent(e.target.value)
+	}
 
-    handleData(newPicture)
-    reset()
-  }
+	//************* return *******************/
+	return (
+		<FormContainer>
+			<Form onSubmit={handleSubmit(onSubmit)}>
+				{showPic}
 
-  //************* handle content *************/
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value)
-  }
+				<h3 style={{ color: 'white', marginTop: '20px' }}>
+					{formName}
+				</h3>
 
-  //************* return *******************/
-  return (
-    <FormContainer>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        {showPic}
+				<InputWrapper>
+					{/* ........... */}
+					<Label htmlFor='title'>Title</Label>
+					<Input
+						id='title'
+						{...register('title')}
+						required
+					/>
+					{errors.title?.message}
 
-        <h3 style={{ color: 'white', marginTop: '20px' }}>{formName}</h3>
+					{/* ........... */}
+					<Label htmlFor='year'>Year</Label>
+					<Input
+						id='year'
+						type='number'
+						{...register('year')}
+					/>
+					{errors.year?.message}
 
-        <InputWrapper>
+					{/* ........... */}
+					<Label htmlFor='content'>Kuvaus</Label>
+					<Textarea
+						id='content'
+						name='content'
+						value={content}
+						onChange={onChange}
+					/>
+				</InputWrapper>
 
-          {/* ........... */}
-          <Label>Title</Label>
-          <Input
-            {...register('title')}
-            required
-          />
-          {errors.title?.message}
-
-          {/* ........... */}
-          <Label>Year</Label>
-          <Input
-            {...register('year')}
-          />
-          {errors.year?.message}
-
-          {/* ........... */}
-          <Label>Kuvaus</Label>
-          <Textarea name='content' value={content} onChange={onChange} />
-
-        </InputWrapper>
-
-        <GreenButton type='submit' size={0.5}>Lähetä</GreenButton>
-      </Form>
-    </FormContainer>
-  )
+				<GreenButton type='submit' size={0.5}>
+					Lähetä
+				</GreenButton>
+			</Form>
+		</FormContainer>
+	)
 }
 
 export default PictureForm

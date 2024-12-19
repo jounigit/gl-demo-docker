@@ -13,7 +13,9 @@ export interface INewPicture {
     title: string;
     year?: string;
     content?: string;
-    image: string;
+    fileId: string;
+    url: string;
+    thumbnailUrl: string;
     userID: number
 }
 

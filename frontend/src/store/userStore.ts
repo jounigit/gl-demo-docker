@@ -10,7 +10,7 @@ interface UserStore {
 export const useUserStore = create<UserStore>((set) => ({
 	user: null,
 	updateUser: (newUser: User) => set({ user: newUser }),
-	deleteUser: () => set({ user: null }),
+	deleteUser: () => set({ user: null })
 }))
 
 export const UserStore = (): User | null =>

@@ -7,12 +7,14 @@ export const apiClient = axios.create({
 	baseURL: apiUrl
 })
 
-apiClient.defaults.headers.common['Content-Type'] = 'application/json'
-apiClient.defaults.headers.common['Content-Type'] = 'multipart/form-data'
+apiClient.defaults.headers.common['Content-Type'] =
+	'application/json'
+apiClient.defaults.headers.common['Content-Type'] =
+	'multipart/form-data'
 
 // used in login and logout
 export const injectTokenToHeaders = (
-	token: string | null,
+	token: string | null
 ) => {
 	apiClient.defaults.headers.common.Authorization = token
 		? `Bearer ${token}`
