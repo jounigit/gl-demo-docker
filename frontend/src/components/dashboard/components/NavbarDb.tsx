@@ -24,18 +24,13 @@ const Container = styled.div`
 `
 
 const NavbarDb: FC = () => (
-  <Container>
-    <BurgerDb />
-    <NavbarLink
-      to="/"
-      style={{ marginLeft: '50%' }}
-    >
-      Etusivu/yleisösivu
-    </NavbarLink>
-    <div className="name">
-      HALLINTASIVU
-    </div>
-  </Container>
+	<Container>
+		<BurgerDb />
+		<NavbarLink to='/' style={{ marginLeft: '50%' }}>
+			Etusivu/yleisösivu
+		</NavbarLink>
+		<div className='name'>HALLINTASIVU</div>
+	</Container>
 )
 
 export default NavbarDb

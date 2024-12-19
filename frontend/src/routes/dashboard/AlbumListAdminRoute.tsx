@@ -1,8 +1,8 @@
-import AlbumListAdmin from "../../features/album/components/admin/AlbumListAdmin"
+import AlbumListAdmin from '../../features/album/components/admin/AlbumListAdmin'
 
 const AlbumListAdminRoute = {
-  index: true,
-  element: <AlbumListAdmin />
+	index: true,
+	element: <AlbumListAdmin />
 }
 
 export default AlbumListAdminRoute

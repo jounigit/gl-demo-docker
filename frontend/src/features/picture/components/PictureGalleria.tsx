@@ -1,83 +1,82 @@
-
 import { type FC, useState } from 'react'
-import { ImageGrid, ImageGridAllWidth, type ImageGridProps } from './pictureGalleria.style'
+import { ImageGrid, type ImageGridProps } from './pictureGalleria.style'
 import { useWindowSize } from 'usehooks-ts'
-import type { Picture } from '../../../types'
-import config from '../../../data/config'
-import { useModal } from '../../../hooks/useModal'
-import { ImagesInDiv } from '../../../components/atoms/ImagesInDiv'
-import { ImagesLinkDiv } from '../../../components/atoms/ImagesLinkDiv'
-import { Modal } from '../../../components/modal/modal'
-import { ImageModal } from '../../../components/image-modal/image-modal'
-import { formatUrl } from '../../../components/atoms/utils'
+import type { Picture } from '@/types'
+import { useModal } from '@/hooks/useModal'
+import { RenderImagesWithLinks } from '@/components/atoms/RenderImagesWithLinks'
+import { Modal } from '@/components/modal/modal'
+import { ImageModal } from '@/components/image-modal/image-modal'
+import { RenderImages } from '@/components/atoms/RenderImages'
 
 interface PictureMediaProps extends ImageGridProps {
-  imageList: Picture[]
-  isContent?: boolean
+	imageList: Picture[]
 }
 
-const picFolder = config.IMAGES_BIG_URL as string
+export const PictureGalleria: FC<PictureMediaProps> = ({
+	imageList,
+	$gridwidth,
+	$imgheight,
+	$gap
+}) => {
+	const { isShown, toggle } = useModal()
+	const [selectedImage, setSelectedImage] = useState<
+		Picture | undefined
+	>()
+	const { width: winWidth } = useWindowSize()
+	const isMobile = winWidth < 768
 
-export const PictureGalleria: FC<PictureMediaProps> = (props) => {
-  const { imageList, $gridwidth, $imgheight, isContent } = props
-  const { isShown, toggle } = useModal()
-  const [img, setImg] = useState<Picture>()
-  const { width: winWidth } = useWindowSize()
+	const handleImageClick = (imgSrc: Picture): void => {
+		setSelectedImage(imgSrc)
+		toggle()
+	}
 
-  const mobile = winWidth < 768
+	const renderImages = () => {
+		if (isMobile) {
+			return <RenderImages data={imageList} />
+		}
+		return (
+			<RenderImagesWithLinks
+				data={imageList}
+				onDivClick={handleImageClick}
+			/>
+		)
+	}
 
-  const showMobile = mobile &&
-    <ImagesInDiv
-      data={imageList}
-      url={picFolder}
-    />
+	// const GridContainer = isContent
+	// 	? ImageGridAllWidth
+	// 	: ImageGrid
 
-  const showTablet = !mobile &&
-    <ImagesLinkDiv
-      data={imageList}
-      url={picFolder}
-      onDivClick={(item) => handleClick(item)}
-    />
+	return (
+		<>
+			<ImageGrid
+				$gridwidth={$gridwidth}
+				$imgheight={$imgheight}
+				$centered
+				$gap={$gap}
+			>
+				{renderImages()}
+			</ImageGrid>
 
-  const showModal = img &&
-    <Modal
-      isShown={isShown}
-      hide={toggle}
-      headerText={img.title}
-      modalContent={
-        <ImageModal
-          imgUrl={formatUrl(picFolder, img.image)}
-          pic={img}
-        />
-      }
-    />
-
-  const handleClick = (imgSrc: Picture): void => {
-    setImg(imgSrc)
-    toggle()
-  }
-
-  if (isContent) {
-    return (
-      <>
-        <ImageGridAllWidth $gridwidth={$gridwidth} $imgheight={$imgheight}>
-          {showMobile}
-          {showTablet}
-        </ImageGridAllWidth>
-
-        {showModal}
-      </>
-    )
-  }
-
-  return (
-    <>
-      <ImageGrid $gridwidth={$gridwidth} $imgheight={$imgheight}>
-        {showMobile}
-        {showTablet}
-      </ImageGrid>
-
-      {showModal}
-    </>
-  )
+			{selectedImage && (
+				<ImageModalComponent
+					img={selectedImage}
+					isShown={isShown}
+					toggle={toggle}
+				/>
+			)}
+		</>
+	)
 }
+
+const ImageModalComponent: FC<{
+	img: Picture
+	isShown: boolean
+	toggle: () => void
+}> = ({ img, isShown, toggle }) => (
+	<Modal
+		isShown={isShown}
+		hide={toggle}
+		headerText={img.title}
+		modalContent={<ImageModal pic={img} />}
+	/>
+)

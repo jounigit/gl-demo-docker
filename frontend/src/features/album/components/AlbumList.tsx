@@ -1,23 +1,26 @@
-import { getAll } from '../../../services/apiService'
-import { ListContainer } from '../../../styles/styles'
-import type { Album } from '../../../types'
-import { AlbumListItem } from './AlbumListItem'
-// import { fetchAlbumList } from '../useAlbum'
+import { getAll } from '@/services/apiService'
+import { ListContainer } from '@/styles/styles'
+import type { Album } from '@/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { AlbumListItem } from './AlbumListItem'
 
 export const AlbumList = (): JSX.Element => {
-  const { data } = useSuspenseQuery({
-    queryKey: ['albums'],
-    queryFn: async () => await getAll<Album>('albums')
-  })
+	const { data } = useSuspenseQuery({
+		queryKey: ['albums'],
+		queryFn: async () => await getAll<Album>('albums')
+	})
 
-  const showAlbums = data.length ?
-    data.map(a => <AlbumListItem key={a.id} album={a} />) :
-    <h4>no albums yet.</h4>
+	return (
+		<ListContainer>{renderAlbumList(data)}</ListContainer>
+	)
+}
 
-  return (
-    <ListContainer>
-      {showAlbums}
-    </ListContainer>
-  )
+const renderAlbumList = (albums: Album[]) => {
+	if (albums.length === 0) {
+		return <h4>No albums yet.</h4>
+	}
+
+	return albums.map((album) => (
+		<AlbumListItem key={album.id} album={album} />
+	))
 }

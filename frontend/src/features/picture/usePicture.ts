@@ -8,7 +8,7 @@ import {
 	useQueryClient,
 	type UseQueryResult,
 	useSuspenseQuery,
-	type UseSuspenseQueryResult,
+	type UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import { getAll, getOne } from '../../services/apiService'
 
@@ -25,13 +25,13 @@ interface UpdateProps {
 }
 
 export const createPicture = async (
-	newPic: CreateProps,
+	newPic: CreateProps
 ) => {
 	const promise = apiClient.post<unknown>('/upload', newPic)
 	const response = await toast.promise(promise, {
 		loading: 'Loading...',
 		success: 'Picture stored successfully!',
-		error: (e) => `Failed to store picture -\n${e.message}`,
+		error: (e) => `Failed to store picture -\n${e.message}`
 	})
 	return response.data
 }
@@ -39,17 +39,16 @@ export const createPicture = async (
 //**  Update */
 export const updatePicture = async ({
 	id,
-	newPicture,
+	newPicture
 }: UpdateProps) => {
 	const promise = apiClient.put(
 		`/pictures/${id}`,
-		newPicture,
+		newPicture
 	)
 	const response = await toast.promise(promise, {
 		loading: 'Loading...',
 		success: 'Picture updated successfully!',
-		error: (e) =>
-			`Failed to update picture -\n${e.message}`,
+		error: (e) => `Failed to update picture -\n${e.message}`
 	})
 	return response.data
 }
@@ -60,8 +59,7 @@ export const deletePicture = async (id: number) => {
 	const response = await toast.promise(promise, {
 		loading: 'Working...',
 		success: 'Picture removed!',
-		error: (e) =>
-			`Failed to remove picture -\n${e.message}`,
+		error: (e) => `Failed to remove picture -\n${e.message}`
 	})
 	return response.data
 }
@@ -74,28 +72,28 @@ export function usePictures(): UseQueryResult<
 	return useQuery({
 		queryKey: ['pictures'],
 		queryFn: async () => await getAll<Picture>('pictures'),
-		throwOnError: true,
+		throwOnError: true
 	})
 }
 
 export function usePicture(
-	id: number,
+	id: number
 ): UseQueryResult<Picture, unknown> {
 	return useQuery({
 		queryKey: ['pictures', id],
 		queryFn: async () =>
 			await getOne<Picture>({ id, url: 'pictures' }),
-		throwOnError: true,
+		throwOnError: true
 	})
 }
 
 export function useSuspensePicture(
-	id: number,
+	id: number
 ): UseSuspenseQueryResult<Picture, unknown> {
 	return useSuspenseQuery({
 		queryKey: ['pictures', id],
 		queryFn: async () =>
-			await getOne<Picture>({ id, url: 'pictures' }),
+			await getOne<Picture>({ id, url: 'pictures' })
 	})
 }
 
@@ -108,7 +106,7 @@ export const useCreatePicture = () => {
 		},
 		onError: (error) => {
 			console.log({ error })
-		},
+		}
 	})
 }
 
@@ -123,12 +121,12 @@ export function useUpdatePicture(): UseMutationResult<
 		mutationFn: updatePicture,
 		onSuccess: () => {
 			useClient.invalidateQueries({
-				queryKey: ['pictures'],
+				queryKey: ['pictures']
 			})
 		},
 		onError: () => {
 			toast.error('Failed to update Picture!')
-		},
+		}
 	})
 }
 
@@ -147,6 +145,6 @@ export function useDeletePicture(): UseMutationResult<
 		},
 		onError: () => {
 			console.log('- Use delete error')
-		},
+		}
 	})
 }

@@ -1,38 +1,41 @@
 import { useEffect } from 'react'
-import { SmallButton } from '../../../../components/atoms/Button'
+import { DeleteWrapper } from '@/styles/styles'
 import { useDeletePicture } from '../../usePicture'
-import { DeleteWrapper } from '../../../../styles/styles'
+import { SmallButton } from '@/components/atoms/Button'
 
 type Props = {
-  id: number,
-  title: string,
-  toggle: () => void,
+	id: number
+	title: string
+	toggle: () => void
 }
 
-export const PictureDelete = ({ id, title, toggle }: Props): JSX.Element => {
-  const { status, mutate: DeletePicture } = useDeletePicture()
+export const PictureDelete = ({
+	id,
+	title,
+	toggle
+}: Props): JSX.Element => {
+	const { status, mutate: DeletePicture } =
+		useDeletePicture()
 
-  useEffect(() => {
-    if (status === 'success' || status === 'error') {
-      toggle()
-    }
-  }, [status, toggle])
+	useEffect(() => {
+		if (status === 'success' || status === 'error') {
+			toggle()
+		}
+	}, [status, toggle])
 
-  /************** handle remove mutation ***********************/
-  const remove = () => {
-    DeletePicture(id)
-  }
+	/************** handle remove mutation ***********************/
+	const remove = () => {
+		DeletePicture(id)
+	}
 
-  /************************************************************/
-  return (
-    <DeleteWrapper>
-      <h3>Haluatko poistaa kuvan:</h3>
-      <h4>{title}</h4>
-      <SmallButton color="red"
-        onClick={() => remove()}
-      >
-        Poista kuva
-      </SmallButton>
-    </DeleteWrapper>
-  )
+	/************************************************************/
+	return (
+		<DeleteWrapper>
+			<h3>Haluatko poistaa kuvan:</h3>
+			<h4>{title}</h4>
+			<SmallButton color='red' onClick={() => remove()}>
+				Poista kuva
+			</SmallButton>
+		</DeleteWrapper>
+	)
 }

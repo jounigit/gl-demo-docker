@@ -46,12 +46,23 @@ export async function resizeImage(buf: Buffer, srcUrl: string, size: number, des
   }
 }
 
-async function getOptionsByOrientation(file: string, size: number) {
+export async function onlyResizeImage(buf: Buffer, srcUrl: string, size: number) {
+  const options = await getOptionsByOrientation(srcUrl, size)
+  try {
+    return await sharp(buf)
+      .resize(options)
+      .toBuffer()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getOptionsByOrientation(file: string, size: number) {
   const orientation = await getOrientation(file)
   return getOptions(orientation, size)
 }
 
-async function getOrientation (file: string): Promise<string> {
+export async function getOrientation (file: string): Promise<string> {
   try {
     const dimensions = await sizeOf(file)
     console.log('Dimensions: ', dimensions)
@@ -63,6 +74,7 @@ async function getOrientation (file: string): Promise<string> {
 }
 
 function getOptions(orientation: string, size: number): object {
+  console.log('Orientation: ', orientation)
   // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
   let options
   if (orientation === 'isPortrait') {

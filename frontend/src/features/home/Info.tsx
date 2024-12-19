@@ -2,7 +2,6 @@ import type { FC } from 'react'
 import styled from 'styled-components'
 import defaultBg from '../../assets/default_bg.jpg'
 
-
 const InfoContainer = styled.div`
 display: flex;
 flex-direction: column;
@@ -32,32 +31,37 @@ const TextWrapper = styled.section`
       padding-bottom: 0.7em;
     }
 `
-const infoText =
-<>
-  <h1>GALLERIA - PORTFOLIO</h1>
-  <h5>
-          Sovellusta voi käyttää portfoliona erilaisten projektien ja teosten esittelyyn.<br />
-          Mahdollisia käyttäjiä ovat eri alojen suunnittelijat, taitelijat jne.
-  </h5>
-  <h5>
-          Projektit esitellään albumeissa, jotka sisältävät teksti- ja kuvaosion.<br />
-          <br />
-          Kuvat valitaan kuva-arkistosta.
-  </h5>
-  <h4>
-          Voit testata sisällön hallintaa näillä tunnuksilla:<br />
-          Email: demo@mail.com<br />
-          Password: demopass
-  </h4>
-</>
+const infoText = (
+	<>
+		<h1>GALLERIA - PORTFOLIO</h1>
+		<h5>
+			Sovellusta voi käyttää portfoliona erilaisten
+			projektien ja teosten esittelyyn.
+			<br />
+			Mahdollisia käyttäjiä ovat eri alojen suunnittelijat,
+			taitelijat jne.
+		</h5>
+		<h5>
+			Projektit esitellään albumeissa, jotka sisältävät
+			teksti- ja kuvaosion.
+			<br />
+			<br />
+			Kuvat valitaan kuva-arkistosta.
+		</h5>
+		<h4>
+			Voit testata sisällön hallintaa näillä tunnuksilla:
+			<br />
+			Email: demo@mail.com
+			<br />
+			Password: demopass
+		</h4>
+	</>
+)
 
 export const Info: FC = () => (
-
-  <>
-    <InfoContainer>
-      <TextWrapper>
-        {infoText}
-      </TextWrapper>
-    </InfoContainer>
-  </>
+	<>
+		<InfoContainer>
+			<TextWrapper>{infoText}</TextWrapper>
+		</InfoContainer>
+	</>
 )

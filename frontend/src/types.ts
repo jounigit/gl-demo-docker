@@ -14,7 +14,9 @@ export interface Album extends BaseModel {
 export interface Picture extends BaseModel {
 	year?: number
 	content?: string
-	image: string
+	fileId: string
+	url: string
+	thumbnailUrl: string
 	userID: number
 }
 
@@ -70,21 +72,27 @@ export type LinkFormer = (
 	toggle: () => void,
 	path: string,
 	text: string,
-	cytxt?: string,
+	cytxt?: string
 ) => JSX.Element
 
 export type Path = 'albums' | 'pictures'
 // ##################### New types #########################
-export type NewAlbum = Omit<Album, 'id' | 'slug' | 'userID' | 'pictures'>
+export type NewAlbum = Omit<
+	Album,
+	'id' | 'slug' | 'userID' | 'pictures'
+>
 export type UpdateAlbum = Omit<
 	Album,
 	'id' | 'slug' | 'pictures' | 'userID'
 >
-export type FormDataAlbum = Omit<Album, 'id' | 'slug' | 'userID' | 'pictures'>
+export type FormDataAlbum = Omit<
+	Album,
+	'id' | 'slug' | 'userID' | 'pictures'
+>
 export type NewPicture = Omit<Picture, 'id'>
 export type UpdatePicture = Omit<
 	Picture,
-	'id' | 'image' | 'userID'
+	'id' | 'fileId' | 'url' | 'thumbnailUrl' | 'userID'
 >
 
 /** for albumpicture  */
@@ -120,7 +128,7 @@ export interface CreateOneParams<T> {
 export function // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 hasOwnProperty<X extends 'object', Y extends PropertyKey>(
 	obj: X,
-	prop: Y,
+	prop: Y
 ): obj is X & Record<Y, unknown> {
 	// biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
 	return obj.hasOwnProperty(prop)
@@ -149,7 +157,7 @@ export function isAlbum(value: unknown): value is Album {
 }
 
 export function isPictureArray(
-	value: unknown,
+	value: unknown
 ): value is Picture[] {
 	if (!Array.isArray(value)) {
 		return false
@@ -162,7 +170,7 @@ export function isPictureArray(
 }
 
 export function isAlbumArray(
-	value: unknown,
+	value: unknown
 ): value is Album[] {
 	if (!Array.isArray(value)) {
 		return false

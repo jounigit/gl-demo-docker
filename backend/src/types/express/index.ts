@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
 
-export {}
+// export {}
 
 declare global {
   namespace Express {

@@ -4,7 +4,7 @@ export const size = {
 	lg: '64em', // 1024px
 	xl: '80em', // ≥1280px
 	xxl: '95em', // ≥1520px
-	xxxl: '120em', // ≥1920px
+	xxxl: '120em' // ≥1920px
 }
 export const device = {
 	mobile: `screen and (min-width: ${size.sm})`,
@@ -12,7 +12,7 @@ export const device = {
 	labtop: `screen and (min-width: ${size.lg})`,
 	desktop: `screen and (min-width: ${size.xl})`,
 	widedesktop: `screen and (min-width: ${size.xxl})`,
-	bigscreen: `screen and (min-width: ${size.xxxl})`,
+	bigscreen: `screen and (min-width: ${size.xxxl})`
 }
 
 export const MOBILE = device.mobile

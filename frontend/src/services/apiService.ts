@@ -1,7 +1,7 @@
 import type {
 	IdUrlParams,
 	OneRecord,
-	SlugUrlParams,
+	SlugUrlParams
 } from '../types'
 import { apiClient } from './http-common'
 
@@ -14,7 +14,7 @@ export async function getAll<T>(url: string): Promise<T[]> {
 
 export async function getOne<T>({
 	id,
-	url,
+	url
 }: IdUrlParams): Promise<T> {
 	const { data } = await apiClient.get(`/${url}/${id}`)
 	return data
@@ -22,7 +22,7 @@ export async function getOne<T>({
 
 export async function getBySlug<T>({
 	slug,
-	url,
+	url
 }: SlugUrlParams): Promise<T> {
 	const { data } = await apiClient.get(`/${url}/${slug}`)
 	return data
@@ -30,11 +30,11 @@ export async function getBySlug<T>({
 
 export const createOne = async <T extends object>(
 	url: string,
-	newRecord: T,
+	newRecord: T
 ): Promise<unknown> => {
 	const response = await apiClient.post<unknown>(
 		`${url}`,
-		newRecord,
+		newRecord
 	)
 	return response.data
 }
@@ -42,18 +42,18 @@ export const createOne = async <T extends object>(
 export const updateOne = async <T extends object>(
 	id: number,
 	url: string,
-	newRecord: T,
+	newRecord: T
 ): Promise<OneRecord> => {
 	const { data } = await apiClient.put(
 		`/${url}/${id}`,
-		newRecord,
+		newRecord
 	)
 	return data
 }
 
 export const deleteOne = async ({
 	id,
-	url,
+	url
 }: IdUrlParams): Promise<unknown> => {
 	return await apiClient.delete(`/${url}/${id}`)
 }

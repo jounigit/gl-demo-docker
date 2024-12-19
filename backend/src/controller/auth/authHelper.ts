@@ -1,10 +1,13 @@
-import jwt  from 'jsonwebtoken'
-import config from '../../utils/config'
-import { User } from '@prisma/client'
+import jwt from 'jsonwebtoken'
+import config from '../../config'
+import type { User } from '@prisma/client'
 
+export type TokenFromUser = Pick<User, 'id' | 'username' | 'email'>
+
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
 const secret = config.JWT_SECRET!
 
-export function generateAccessToken(user: Partial<User>) {
+export function generateAccessToken(user: TokenFromUser) {
   const payload = {
     id: user.id,
     username: user.username,
@@ -26,8 +29,7 @@ export function verifyAccessToken(token: string) {
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
       return { success: false, error: 'Invalid token' }
-    } else {
-      throw error
     }
+    throw error
   }
 }

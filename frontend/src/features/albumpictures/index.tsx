@@ -1,4 +1,4 @@
 export {
-  addPictureToAlbum,
-  deletePictureFromAlbum
+	addPictureToAlbum,
+	deletePictureFromAlbum
 } from './utils/albumPictureActions'

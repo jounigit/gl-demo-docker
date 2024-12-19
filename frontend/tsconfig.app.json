@@ -20,7 +20,18 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "components/*": ["src/components/*"],
+      "features/*": ["src/features/*"],
+      "hooks/*": ["src/hooks/*"],
+      "store/*": ["src/store/*"],
+      "services/*": ["src/services/*"],
+      "styles/*": ["src/styles/*"],
+      "assets/*": ["src/assets/*"]
+      }
   },
   "include": [
     "src/**/*"

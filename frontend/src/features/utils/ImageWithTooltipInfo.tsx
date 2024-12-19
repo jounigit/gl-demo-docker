@@ -1,20 +1,21 @@
-import { formatUrl } from "../../components/atoms/utils";
-import config from "../../data/config";
-import type { Picture } from "../../types";
-import Tooltip from "./Tooltip";
+import type { Picture } from '@/types'
+import { ImageKitComponent } from './ImageKitComponent'
+import Tooltip from './Tooltip'
 
-const picFolder = config.IMAGES_BIG_URL as string
+// const urlEndpoint = config.IMAGE_KIT_ENDPOINT
 
 export function ImageWithTooltipInfo(picture: Picture) {
-    const { title, image, year, content } = picture
-    const pic1 = formatUrl(picFolder, image)
-    const info =
-        <>
-            <h4>{title}</h4><p>{year}</p><p>{content}</p>
-        </>
-    return (
-        <Tooltip tip={info}>
-            <img src={pic1} alt='' />
-        </Tooltip>
-    )
+	const { title, url, year, content } = picture
+	const info = (
+		<>
+			<h4>{title}</h4>
+			<p>{year}</p>
+			<p>{content}</p>
+		</>
+	)
+	return (
+		<Tooltip tip={info}>
+			<ImageKitComponent url={url} />
+		</Tooltip>
+	)
 }

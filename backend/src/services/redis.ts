@@ -1,6 +1,6 @@
 import type { RedisClientType } from 'redis'
 import { createClient } from 'redis'
-import config from '../utils/config'
+import config from '../config'
 
 let redisClient: RedisClientType
 let isReady: boolean
@@ -41,12 +41,14 @@ export async function getFromCache(key: string): Promise<string | null> {
   return value
 }
 
+// biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
 export async function setToCache(key: string, value: string): Promise<void | string | null> {
   const client = await getRedisClient()
+  // biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
   return client.set(key, value) as unknown as Promise<void | string | null>
 }
 
-export  async function removeFromCache(key: string): Promise<number> {
+export async function removeFromCache(key: string): Promise<number> {
   const client = await getRedisClient()
   return client.del(key)
 }

@@ -1,9 +1,11 @@
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
 import * as jwt from 'jsonwebtoken'
-import config from './config'
+import config from '../config'
 
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
 const secret = config.JWT_SECRET!
-const secret_refresh =  config.JWT_REFRESH_SECRET!
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const secret_refresh = config.JWT_REFRESH_SECRET!
 
 function generateAccessToken(user: Partial<User>) {
   return jwt.sign({ userId: user.id }, secret, {
@@ -11,7 +13,7 @@ function generateAccessToken(user: Partial<User>) {
   })
 }
 
-function generateRefreshToken(user: Partial<User>, jti:  string) {
+function generateRefreshToken(user: Partial<User>, jti: string) {
   return jwt.sign({
     userId: user.id,
     jti
@@ -20,7 +22,7 @@ function generateRefreshToken(user: Partial<User>, jti:  string) {
   })
 }
 
-function generateTokens(user: Partial<User>, jti:  string) {
+function generateTokens(user: Partial<User>, jti: string) {
   const accessToken = generateAccessToken(user)
   const refreshToken = generateRefreshToken(user, jti)
 

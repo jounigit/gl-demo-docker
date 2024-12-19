@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt from 'jsonwebtoken'
-import { User } from '@prisma/client'
-import config from '../utils/config'
+import type { User } from '@prisma/client'
+import config from '../config'
+import type { TokenFromUser } from './auth/authHelper'
 
 function getAuthTokenFromHeader(header: string): string | null {
   const authHeader = header.split(' ')
@@ -12,9 +13,13 @@ function getAuthTokenFromHeader(header: string): string | null {
   return null
 }
 
-function decodeAuthToken(token: string): Partial<User> | null {
+function decodeAuthToken(token: string): TokenFromUser | null {
+  if (!token) {
+    return null
+  }
   try {
-    const decoded = jwt.verify(token, config.JWT_SECRET!) as any //
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    const decoded = jwt.verify(token, config.JWT_SECRET!) as TokenFromUser
     return {
       id: decoded.id,
       username: decoded.username,
@@ -27,7 +32,7 @@ function decodeAuthToken(token: string): Partial<User> | null {
 }
 
 export function getUserFromHeader(header: string): Partial<User> | null {
-  if  (!header) {
+  if (!header) {
     return null
   }
   const token = getAuthTokenFromHeader(header)
