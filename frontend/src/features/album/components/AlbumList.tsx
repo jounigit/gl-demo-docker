@@ -1,8 +1,8 @@
 import { getAll } from '@/services/apiService'
-import { ListContainer } from '@/styles/styles'
 import type { Album } from '@/types'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { AlbumListItem } from './AlbumListItem'
+import { ListContainer } from './album.styles'
 
 export const AlbumList = (): JSX.Element => {
 	const { data } = useSuspenseQuery({

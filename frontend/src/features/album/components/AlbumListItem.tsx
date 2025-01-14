@@ -1,14 +1,8 @@
 import type { FC } from 'react'
 import { Link } from 'react-router-dom'
-import {
-	ListImgBox,
-	ListItemContainer,
-	ListItemImageGrid,
-	ListItemInfo,
-	ListItemInfoText
-} from '../../../styles/styles'
 import type { Album } from '@/types'
 import { RenderImages } from '@/components/atoms/RenderImages'
+import { ListImgBox, ListItemContainer, ListItemImageGrid, ListItemInfo, ListItemInfoText } from './album.styles'
 
 interface ListProps {
 	album: Album

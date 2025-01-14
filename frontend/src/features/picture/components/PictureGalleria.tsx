@@ -42,10 +42,6 @@ export const PictureGalleria: FC<PictureMediaProps> = ({
 		)
 	}
 
-	// const GridContainer = isContent
-	// 	? ImageGridAllWidth
-	// 	: ImageGrid
-
 	return (
 		<>
 			<ImageGrid

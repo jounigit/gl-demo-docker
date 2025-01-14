@@ -9,11 +9,7 @@ type Props = {
 	toggle: () => void
 }
 
-export const AlbumDelete = ({
-	id,
-	title,
-	toggle
-}: Props): JSX.Element => {
+export const AlbumDelete = ({id,title,toggle}: Props): JSX.Element => {
 	const { status, mutate: DeleteAlbum } = useDeleteAlbum()
 
 	useEffect(() => {

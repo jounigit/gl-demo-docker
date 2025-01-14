@@ -6,7 +6,7 @@ interface Props {
 	height?: string
 }
 
-export function ImageInDiv({ data }: Props): JSX.Element {
+export function RenderImageInDiv({ data }: Props): JSX.Element {
 	return (
 		<>
 			{

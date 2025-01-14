@@ -4,12 +4,8 @@ import {
 	type Picture,
 	type Album
 } from '@/types'
-import {
-	DetailsImgBox,
-	DetailsText,
-	DetailsTitle
-} from '@/styles/styles'
 import { PictureGalleria } from '@/features/picture/components/PictureGalleria'
+import { DetailsImgBox, DetailsText, DetailsTitle } from '../album.styles'
 
 interface Props {
 	album: Album

@@ -2,16 +2,13 @@ import { type FC, Fragment } from 'react'
 import styled from 'styled-components'
 import { ActionLinks } from './ActionLinks'
 import { AlbumDelete } from './AlbumDelete'
-import { ImageInDiv } from '@/components/atoms/ImageInDiv'
+import { RenderImageInDiv } from '@/components/atoms/RenderImageInDiv'
 import { Modal } from '@/components/modal/modal'
 import { useModal } from '@/hooks/useModal'
 import { MOBILE } from '@/styles'
-import {
-	ListItemImageGrid,
-	ListItemInfoText
-} from '@/styles/styles'
 import { colors } from '@/styles/theme'
 import type { Album } from '@/types'
+import { ListItemImageGrid, ListItemInfoText } from '../album.styles'
 
 const ImageItem = styled(ListItemImageGrid)`
     grid-template-columns: 1fr;
@@ -53,7 +50,7 @@ export const AlbumListItemAdmin: FC<ListProps> = ({
 			<Container data-cy='listItem'>
 				<ImageItem width={150} height={150}>
 					{pictures.length > 0 ? (
-						<ImageInDiv data={pictures[0]} />
+						<RenderImageInDiv data={pictures[0]} />
 					) : (
 						<h4 style={{ paddingLeft: '40px' }}>
 							no images yet.

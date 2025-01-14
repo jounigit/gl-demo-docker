@@ -57,13 +57,17 @@ const GlobalStyles = createGlobalStyle<Prop>`
 
   #root, body {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     /* don't show picture if dashboard */
     background-color: var(--gray-4);
     /* change color if dashboard */
-    background-image: url(${(props) => !props.dashboard && defaultBg});
+    background: 
+    url(${(props) => !props.dashboard && defaultBg})
+    no-repeat center center fixed;
     background-size: cover;
     background-color: ${(props) => props.dashboard && 'white'};
+    margin: 0;
+    padding: 0;
   }
 
   /*************************************** */

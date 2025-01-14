@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import { Fragment, type FC } from 'react'
 import { DropLink, LinkTo, Ul } from './NavLinks.styles'
 import { FaAngleDown, FaHome } from 'react-icons/fa'
 import { useTokenStore } from '../../../store/tokenStore'
@@ -31,7 +31,11 @@ export const NavLinks: FC<Props> = ({ open, toggle }) => {
 
 	// console.log('Navlinks token: ', token)
 	const dropdownlinks = Albums?.map((a) =>
-		dropdownLinkFormer(toggle, a.slug)
+	(
+		<Fragment key={a.id}>
+			{ dropdownLinkFormer( toggle, a.slug) }
+		</Fragment>
+	)
 	)
 
 	return (
