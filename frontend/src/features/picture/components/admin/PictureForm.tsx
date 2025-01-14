@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import styled from 'styled-components'
 import type { Picture, UpdatePicture } from '@/types'
-import { ImageInDiv } from '@/components/atoms/ImageInDiv'
+import { RenderImageInDiv } from '@/components/atoms/RenderImageInDiv'
 import { FormContainer } from '@/styles'
 import {
 	Form,
@@ -63,7 +63,7 @@ function PictureForm({
 		resolver: yupResolver(schema)
 	})
 
-	const showPic = picture && <ImageInDiv data={picture} />
+	const showPic = picture && <RenderImageInDiv data={picture} />
 
 	console.log({ picture })
 	//************* handle submit *************/

@@ -9,7 +9,7 @@ import {
 	Col,
 	Grid
 } from '@/components/dashboard/components/Dashboard.styles'
-import { DetailsContainer } from '@/styles/styles'
+import { DetailsContainer } from '../album.styles'
 
 const AlbumAdmin = (): JSX.Element => {
 	const { slug } = useParams() as { slug: string }

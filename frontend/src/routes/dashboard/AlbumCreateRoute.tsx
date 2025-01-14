@@ -1,4 +1,4 @@
-import { AlbumCreate } from '../../features/album/components/admin/AlbumCreate'
+import { AlbumCreate } from "@/features/album/components/admin/AlbumCreate"
 
 const AlbumCreateRoute = {
 	path: 'create',

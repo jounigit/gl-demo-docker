@@ -4,7 +4,6 @@ import { ImageKitComponent } from '../../features/utils/ImageKitComponent'
 
 interface Props {
 	data: Picture[]
-	// url: string;
 	showInfo?: false | true | undefined
 }
 

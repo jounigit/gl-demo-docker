@@ -1,11 +1,8 @@
+import { DESKTOP, LAPTOP, TABLET } from '@/styles'
+import { colors } from '@/styles/theme'
+import { BIGSCREEN, WIDE } from '@/styles/theme/breakpoints'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { DESKTOP, LAPTOP, TABLET } from '../../../styles'
-import {
-	BIGSCREEN,
-	WIDE
-} from '../../../styles/theme/breakpoints'
-import { colors } from '../../../styles/theme'
 
 interface Props {
 	size?: number
@@ -53,6 +50,7 @@ export const HeaderDb = styled.div`
     height: 1rem;
     width: 100vh;
     background-color: rgb(30, 100, 97);
+    z-index: 100;
 `
 
 export const AsideDb = styled.div`
@@ -69,6 +67,7 @@ export const AsideDb = styled.div`
 export const MainDb = styled.div`
     grid-area: main;
     /* width: 100%; */
+    border: 1.5px solid red;
 `
 /*********************************************** */
 export const MainWrapper = styled.div<Props>`
@@ -135,7 +134,7 @@ export const ImgContainerDb = styled.div`
    flex: 1 100%;
 
 @media ${TABLET} {
-    flex: '1 0 100%',
+    /* flex: '1 0 100%', */
 }
 `
 interface GridImgArrProps {
