@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import styled from 'styled-components'
-import defaultBg from '../../assets/default_bg.jpg'
+import DeviceTypeInText from '@/hooks/DeviceTypeInText'
 
 const InfoContainer = styled.div`
 display: flex;
@@ -8,12 +8,6 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 min-height: 25em;
-/* background-image: 
-linear-gradient(
-  rgba(0, 0, 0, 0.5),
-  rgba(0, 0, 0, 0.5)
-  ),
-url(${defaultBg}); */
 background-size: cover;
 ;
 `
@@ -61,7 +55,9 @@ const infoText = (
 export const Info: FC = () => (
 	<>
 		<InfoContainer>
+			<DeviceTypeInText />
 			<TextWrapper>{infoText}</TextWrapper>
 		</InfoContainer>
 	</>
 )
+

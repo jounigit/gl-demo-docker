@@ -139,7 +139,7 @@ export const AlbumWithoutContent = styled(AlbumContainer)`
 
 export const AlbumWithContent = styled(AlbumContainer)` 
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 50% 50%;
 `
 export const AlbumImages = styled.div` 
     margin: 0 auto;

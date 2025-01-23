@@ -26,6 +26,7 @@ const ToolTipContainer = styled.span`
         padding: 12px 8px;
         /* width: 100%; */
         min-width: 100px;
+        z-index: 100;
     }
 
     & > .tip::after {

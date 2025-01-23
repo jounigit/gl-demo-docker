@@ -8,7 +8,8 @@ import {
 	Form,
 	Input,
 	InputWrapper,
-	Label
+	Label,
+	Textarea
 } from '@/styles/styles'
 import type { Album, FormDataAlbum } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -82,7 +83,7 @@ function AlbumForm({ handleData, album, formName }: Props) {
 
 						{/* ........... */}
 						<Label>Content</Label>
-						<Input {...register('content')} />
+						<Textarea {...register('content')} />
 						{errors.content?.message}
 					</InputWrapper>
 

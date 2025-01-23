@@ -16,6 +16,8 @@ export const GridDb = styled.div`
     "sidebar"
     "main";
     z-index: 100;
+    width: 100vw;
+
     @media ${LAPTOP} {
         grid-template-columns: 2fr 5fr;
         grid-template-areas: 
@@ -48,7 +50,6 @@ export const GridDb = styled.div`
 export const HeaderDb = styled.div`
     grid-area: header; 
     height: 1rem;
-    width: 100vh;
     background-color: rgb(30, 100, 97);
     z-index: 100;
 `
@@ -66,8 +67,7 @@ export const AsideDb = styled.div`
 
 export const MainDb = styled.div`
     grid-area: main;
-    /* width: 100%; */
-    border: 1.5px solid red;
+    /* border: 1.5px solid red; */
 `
 /*********************************************** */
 export const MainWrapper = styled.div<Props>`

@@ -17,7 +17,7 @@ export const ImageGrid = styled.div<ImageGridProps>`
   div {
     flex-basis: 100%;
     height: auto;
-    /* border: 1px solid; */
+    /* border: 1px solid; */ 
   }
 
   img {
@@ -28,8 +28,10 @@ export const ImageGrid = styled.div<ImageGridProps>`
 
   @media ${TABLET} {
     display: grid;
+    /* grid-template-rows: minmax( ${({ $gridwidth }) => $gridwidth}px, 1fr );
+    grid-auto-rows: minmax( ${({ $gridwidth }) => $gridwidth}px, 1fr ); */
     grid-template-columns: 
-    repeat(auto-fit, ${({ $gridwidth }) => $gridwidth}px);
+    repeat(auto-fit, minmax( ${({ $gridwidth }) => $gridwidth}px, 1fr ));
     grid-gap: ${({ $gap }) => $gap};
     justify-content: ${(p) => (p.$centered ? 'center' : 'normal')};
     padding: 1rem;
@@ -37,7 +39,7 @@ export const ImageGrid = styled.div<ImageGridProps>`
     div {
       height: auto;
       margin-bottom: -5px;
-    }
+    } 
 
     img {
       height: ${({ $imgheight }) => $imgheight}px;
