@@ -2,12 +2,18 @@ import styled from 'styled-components'
 import { usePictures } from '../usePicture'
 import { PictureGalleria } from './PictureGalleria'
 import { TABLET } from '@/styles'
+import { getDeviceType } from '@/components/atoms/getDeviceType'
+import incrementByMediaQuery from '@/components/atoms/incrementByMediaQuery'
+
+const addByDevice = () => {
+    return getDeviceType()
+}
 
 export const ImagesContainer = styled.div`
    flex: 1 100%;
 
 @media ${TABLET} {
-    width: 80%;
+    width: 85%;
     margin: 0 auto;
 }
 `
@@ -15,15 +21,17 @@ export const ImagesContainer = styled.div`
 const Pictures = () => {
     const { data: pictures } = usePictures()
 
+    const meter = incrementByMediaQuery(200, 50)
     if (pictures === undefined ) return <h4>no images yet.</h4>
 
     return (
         <ImagesContainer id='imgCtr'>
+            <h3>{ addByDevice() }</h3>
             <PictureGalleria
                 imageList={pictures}
-                $gridwidth={250}
-                $imgheight={250}
-                $gap='1rem'
+                $gridwidth={meter}
+                $imgheight={meter}
+                $gap='0.5rem'
                 $centered
             />
         </ImagesContainer>

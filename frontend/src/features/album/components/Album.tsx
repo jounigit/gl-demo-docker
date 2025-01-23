@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { AlbumDetails } from './AlbumDetails'
 import { useAlbumBySlug } from '../useAlbum'
 import { FadeDiv } from '@/components/atoms'
-import { AlbumContainer, AlbumWithContent, AlbumWithoutContent, DetailsContainer, DetailsContainerForTwoCol } from './album.styles'
+import { AlbumWithContent, AlbumWithoutContent } from './album.styles'
 
 const Album = (): JSX.Element => {
 	const { slug } = useParams() as { slug: string }

@@ -7,67 +7,30 @@
  * */
 import { type FC, Fragment } from 'react'
 import type { Album } from '@/types'
+import { DetailsInfoTxt } from './album.styles'
 import { PictureGalleria } from '@/features/picture/components/PictureGalleria'
-import { AlbumImage, AlbumImages, DetailsInfoTxt } from './album.styles'
-// import { RenderImages } from '@/components/atoms/RenderImages'
-import styled from 'styled-components'
+import incrementByMediaQuery from '@/components/atoms/incrementByMediaQuery'
 
 interface Props {
 	album: Album
 }
-                            
-const Gallery = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px; /* Space between images */
-    padding: 10px; /* Padding around the gallery */
-`
-const GalleryImage = styled.div`
-    position: relative;
-    width: 100%;
-    padding-top: 100%; /* This creates a square aspect ratio */
-    overflow: hidden; /* Ensures that the image doesn't overflow */
-	
-	img {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-`
 
 export const AlbumDetails: FC<Props> = ({ album: { pictures, title, year, content } }) => {
 
-	const show = pictures.map((p) => (
-		<GalleryImage key={p.id}>
-			<img src={p.thumbnailUrl} alt="" />
-			{/* <Image src={p.thumbnailUrl} alt="" /> */}
-		</GalleryImage>
-	)
-	)
+	const measure = content
+			? incrementByMediaQuery(150, 20)
+			: incrementByMediaQuery(200, 50)
 
 	return (
 		<Fragment>
-			<Gallery>
-				{show}
-				{/* <RenderImages data={pictures} showInfo={false} /> */}
-				{/* <Card>XXX</Card>
-				<Card>YYY</Card>
-				<Card>XXX</Card>
-				<Card>YYY</Card>
-				<Card>XXX</Card>
-				<Card>YYY</Card> */}
-			</Gallery>
-			{/* <DetailsImgBoxTwoColumn>
+			<div>
 				<PictureGalleria
 					imageList={pictures}
-					$gridwidth={250}
-					$imgheight={250}
+					$gridwidth={measure}
+					$imgheight={measure}
 					$centered={false}
 				/>
-			</DetailsImgBoxTwoColumn> */}
+			</div>
 			<DetailsInfoTxt>
 				<h2>{title}</h2>
 				<p>{year}</p>
@@ -76,15 +39,3 @@ export const AlbumDetails: FC<Props> = ({ album: { pictures, title, year, conten
 		</Fragment>
 	)
 }
-
-const Card = styled.div`
-  background-color: dodgerblue;
-  color: white;
-  padding: 1rem;
-  /* height: 4rem; */
-`
-const Image = styled.img`
-	width: 100%;
-	height: auto;
-    object-fit: cover;
-`
