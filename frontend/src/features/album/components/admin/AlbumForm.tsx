@@ -8,15 +8,17 @@ import {
 	Form,
 	Input,
 	InputWrapper,
-	Label,
-	Textarea
+	Label
 } from '@/styles/styles'
 import type { Album, FormDataAlbum } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useState } from 'react'
 import {
 	type SubmitHandler,
 	useForm
 } from 'react-hook-form'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 import * as Yup from 'yup'
 
 const schema = Yup.object().shape({
@@ -26,7 +28,7 @@ const schema = Yup.object().shape({
 type Inputs = {
 	title: string
 	year?: number
-	content?: string
+	// content?: string
 }
 
 type Props = {
@@ -36,6 +38,8 @@ type Props = {
 }
 
 function AlbumForm({ handleData, album, formName }: Props) {
+	// const [content, setContent] = useState(album?.content ? album.content : '')
+	const 
 	const {
 		register,
 		handleSubmit,
@@ -47,19 +51,27 @@ function AlbumForm({ handleData, album, formName }: Props) {
 	})
 	const goBack = useGoBack()
 
+    	const cntxx = album?.content ? album.content : ''
+	console.log({ cntxx })
 	//************* handle submit *************/
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		console.log({ data })
+    	const cnt = content ? content : ''
 
 		const newAlbum = {
 			title: data.title,
 			year: data?.year,
-			content: data?.content
+			content: cnt
 		}
 
 		handleData(newAlbum)
 		reset()
 	}
+
+	  //************* handle content *************/
+	  const onChange = (value: string) => {
+		setContent(value)
+	  }
 
 	//************* return *******************/
 	return (
@@ -83,8 +95,13 @@ function AlbumForm({ handleData, album, formName }: Props) {
 
 						{/* ........... */}
 						<Label>Content</Label>
-						<Textarea {...register('content')} />
-						{errors.content?.message}
+						<div className='' style={{ background: 'white' }}>
+							<ReactQuill
+								theme="snow"
+								value={content}
+								onChange={onChange}
+							 />
+						</div>
 					</InputWrapper>
 
 					<GreenButton type='submit' size={0.5}>

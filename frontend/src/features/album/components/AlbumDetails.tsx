@@ -10,32 +10,44 @@ import type { Album } from '@/types'
 import { DetailsInfoTxt } from './album.styles'
 import { PictureGalleria } from '@/features/picture/components/PictureGalleria'
 import incrementByMediaQuery from '@/components/atoms/incrementByMediaQuery'
+import styled from 'styled-components'
 
 interface Props {
 	album: Album
 }
 
-export const AlbumDetails: FC<Props> = ({ album: { pictures, title, year, content } }) => {
+export const AlbumDetails: FC<Props> = ({ album: { pictures, content } }) => {
 
 	const measure = content
 			? incrementByMediaQuery(150, 20)
 			: incrementByMediaQuery(200, 50)
 
+	// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+	const htmlText = content ? <div dangerouslySetInnerHTML={{ __html: content }} /> : ''
+			
 	return (
 		<Fragment>
-			<div>
 				<PictureGalleria
 					imageList={pictures}
 					$gridwidth={measure}
 					$imgheight={measure}
 					$centered={false}
 				/>
-			</div>
 			<DetailsInfoTxt>
-				<h2>{title}</h2>
-				<p>{year}</p>
-				<p>{content}</p>
+				<HtmlContent>{htmlText}</HtmlContent>
 			</DetailsInfoTxt>
 		</Fragment>
 	)
 }
+
+export const HtmlContent = styled.div`
+    flex: 1;
+    margin: 0 1rem 1rem 1rem;
+	ul {
+		padding-left: 50px;
+	}
+    p {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+`

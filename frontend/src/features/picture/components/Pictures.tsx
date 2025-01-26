@@ -2,12 +2,7 @@ import styled from 'styled-components'
 import { usePictures } from '../usePicture'
 import { PictureGalleria } from './PictureGalleria'
 import { TABLET } from '@/styles'
-import { getDeviceType } from '@/components/atoms/getDeviceType'
 import incrementByMediaQuery from '@/components/atoms/incrementByMediaQuery'
-
-const addByDevice = () => {
-    return getDeviceType()
-}
 
 export const ImagesContainer = styled.div`
    flex: 1 100%;
@@ -26,7 +21,6 @@ const Pictures = () => {
 
     return (
         <ImagesContainer id='imgCtr'>
-            <h3>{ addByDevice() }</h3>
             <PictureGalleria
                 imageList={pictures}
                 $gridwidth={meter}

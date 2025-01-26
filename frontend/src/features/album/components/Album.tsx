@@ -21,6 +21,8 @@ const Album = (): JSX.Element => {
 	return (
 		<FadeDiv $timein='0.3s'>
 			<Container data-cy='albumDetails'>
+				<h2>{album.title}</h2>
+				<p>{album.year}</p>
 				<AlbumDetails album={album} />
 			</Container>
 		</FadeDiv>

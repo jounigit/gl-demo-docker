@@ -28,13 +28,11 @@ export const ImageGrid = styled.div<ImageGridProps>`
 
   @media ${TABLET} {
     display: grid;
-    /* grid-template-rows: minmax( ${({ $gridwidth }) => $gridwidth}px, 1fr );
-    grid-auto-rows: minmax( ${({ $gridwidth }) => $gridwidth}px, 1fr ); */
     grid-template-columns: 
     repeat(auto-fit, minmax( ${({ $gridwidth }) => $gridwidth}px, 1fr ));
     grid-gap: ${({ $gap }) => $gap};
     justify-content: ${(p) => (p.$centered ? 'center' : 'normal')};
-    padding: 1rem;
+    padding: 1rem 0 2rem 0;
 
     div {
       height: auto;
