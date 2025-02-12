@@ -149,12 +149,3 @@ function joditTextEditor(
 				tabIndex={1} />
 		)} />
 }
-	// const {
-	// 	register,
-	// 	handleSubmit,
-	// 	formState: { errors },
-	// 	reset
-	// } = useForm<Inputs>({
-	// 	resolver: yupResolver(schema),
-	// 	values: album
-	// })
