@@ -3,6 +3,18 @@ import { AlbumDetails } from './AlbumDetails'
 import { useAlbumBySlug } from '../useAlbum'
 import { FadeDiv } from '@/components/atoms'
 import { AlbumWithContent, AlbumWithoutContent } from './album.styles'
+import styled from 'styled-components'
+
+const Header = styled.header`
+	h2 {
+		display: inline-block;
+		margin-right: 15px;
+	}
+	h3 {
+		display: inline-block;
+	}
+
+`
 
 const Album = (): JSX.Element => {
 	const { slug } = useParams() as { slug: string }
@@ -12,15 +24,18 @@ const Album = (): JSX.Element => {
 		return <h4>No data yet.</h4>
 	}
 
-	const { content } = album
-	console.log({content})
-	const Container = content
+	const Container = album?.content
 		? AlbumWithContent
 		: AlbumWithoutContent
 
 	return (
 		<FadeDiv $timein='0.3s'>
 			<Container data-cy='albumDetails'>
+				<Header>
+					<h2>{album.title}</h2>
+					<h3>{album.year}</h3>
+				</Header>
+				<Header />
 				<AlbumDetails album={album} />
 			</Container>
 		</FadeDiv>

@@ -1,10 +1,5 @@
 import { useMediaQuery } from "usehooks-ts";
 
-// type DeviceType = 
-// enum Device {
-//   isMobile = 'isMobile'
-// }
-
 export function getDeviceType(): 'Mobile' | 'Tablet' | 'Laptop' | 'Desktop' | 'LargeDesktop' | 'Unknown' {
     // Define breakpoints for mobile, tablet, and desktop
     const isMobile = useMediaQuery('(max-width:767px)');

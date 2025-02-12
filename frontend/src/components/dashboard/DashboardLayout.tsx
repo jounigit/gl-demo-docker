@@ -16,11 +16,11 @@ function DashboardLayout() {
 	const navigate = useNavigate()
 	const token = getToken()
 
-	useEffect(() => {
-		if (!token) {
-			navigate('/login')
-		}
-	}, [navigate, token])
+	// useEffect(() => {
+	// 	if (!token) {
+	// 		navigate('/login')
+	// 	}
+	// }, [navigate, token])
 
 	return (
 		<GridDb id='grid'>

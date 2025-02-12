@@ -80,7 +80,7 @@ export const DetailsContainer = styled(BaseContainer)<{ isContent?: boolean }>`
   /* flex-wrap: wrap; */
   padding: 1em;
   margin: 0 auto;
-  width: ${({ iscontent }) => iscontent ? 800 : 600}px;
+  width: ${({ isContent }) => isContent ? 800 : 600}px;
 `
 export const DetailsContainerForTwoCol = styled(DetailsContainer)`
   max-width: 1250px;
