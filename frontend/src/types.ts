@@ -101,12 +101,15 @@ export interface AlbumPictureProps {
 	pictureId: number
 }
 
+<<<<<<< HEAD
 export type FormInputs = {
 	title: string
 	year?: number
 	content?: string
 }
 
+=======
+>>>>>>> v-20-tinymce
 // export type DeleteAlbumPicture = NewAlbumPicture
 
 // ####################### Intersection Types #########################

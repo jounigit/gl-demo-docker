@@ -2,14 +2,24 @@
 logs
 *.log
 npm-debug.log*
+<<<<<<< HEAD
+=======
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+>>>>>>> v-20-tinymce
 
 node_modules
 dist
 dist-ssr
 *.local
+<<<<<<< HEAD
 .env
 .env.local
 .vite/deps
+=======
+>>>>>>> v-20-tinymce
 
 # Editor directories and files
 .vscode/*

@@ -2,8 +2,18 @@ import styled from 'styled-components'
 import { usePictures } from '../usePicture'
 import { PictureGalleria } from './PictureGalleria'
 import { TABLET } from '@/styles'
+<<<<<<< HEAD
 import incrementByMediaQuery from '@/components/atoms/incrementByMediaQuery'
 
+=======
+import { getDeviceType } from '@/components/atoms/getDeviceType'
+import incrementByMediaQuery from '@/components/atoms/incrementByMediaQuery'
+
+const addByDevice = () => {
+    return getDeviceType()
+}
+
+>>>>>>> v-20-tinymce
 export const ImagesContainer = styled.div`
    flex: 1 100%;
 
@@ -21,6 +31,10 @@ const Pictures = () => {
 
     return (
         <ImagesContainer id='imgCtr'>
+<<<<<<< HEAD
+=======
+            <h3>{ addByDevice() }</h3>
+>>>>>>> v-20-tinymce
             <PictureGalleria
                 imageList={pictures}
                 $gridwidth={meter}

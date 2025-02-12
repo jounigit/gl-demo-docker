@@ -13,7 +13,10 @@
     // "moduleDetection": "force",
     // "noEmit": true,
     /* Linting */
+<<<<<<< HEAD
     "allowSyntheticDefaultImports": true,
+=======
+>>>>>>> v-20-tinymce
     // "strict": true,
     // "noUnusedLocals": true,
     // "noUnusedParameters": true,

@@ -80,7 +80,11 @@ export const DetailsContainer = styled(BaseContainer)<{ isContent?: boolean }>`
   /* flex-wrap: wrap; */
   padding: 1em;
   margin: 0 auto;
+<<<<<<< HEAD
   width: ${({ isContent }) => isContent ? 800 : 600}px;
+=======
+  width: ${({ iscontent }) => iscontent ? 800 : 600}px;
+>>>>>>> v-20-tinymce
 `
 export const DetailsContainerForTwoCol = styled(DetailsContainer)`
   max-width: 1250px;
