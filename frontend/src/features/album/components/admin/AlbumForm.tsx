@@ -1,60 +1,47 @@
+import { useRef, useState } from 'react'
+import {
+	type SubmitHandler,
+	FormProvider,
+	useForm
+} from 'react-hook-form'
+import { useGoBack } from '@/hooks/useGoBack'
 import {
 	Button,
 	GreenButton
 } from '@/components/atoms/Button'
-import { useGoBack } from '@/hooks/useGoBack'
 import { FormContainer } from '@/styles'
 import {
 	Form,
+	FormWrapper,
 	Input,
 	InputWrapper,
-	Label,
-	Textarea
+	Label
 } from '@/styles/styles'
-import type { Album, FormDataAlbum } from '@/types'
+import type { Album, FormDataAlbum, FormInputs, FormUnionProps } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-	type SubmitHandler,
-	useForm
-} from 'react-hook-form'
-import * as Yup from 'yup'
+import { JoditContentEditor } from '@/features/utils/JoditContentEditor'
+import { titleSchema } from '@/features/utils/formSchemas'
 
-const schema = Yup.object().shape({
-	title: Yup.string().required()
-})
-
-type Inputs = {
-	title: string
-	year?: number
-	content?: string
-}
-
-type Props = {
-	handleData: (data: FormDataAlbum) => void
-	album?: Album
-	formName: string
-}
-
-function AlbumForm({ handleData, album, formName }: Props) {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		reset
-	} = useForm<Inputs>({
-		resolver: yupResolver(schema),
-		values: album
-	})
+function AlbumForm({ handleData, object, formName }: FormUnionProps<FormDataAlbum, Album>) {
+	const editorRef = useRef(null)
+	const [content, setContent] = useState('')
 	const goBack = useGoBack()
+	const formMethods = useForm<FormInputs>({
+		resolver: yupResolver(titleSchema),
+		values: object 
+	})
 
+	const { control, register, handleSubmit, reset, formState: { errors } } = formMethods
+
+	console.log({ object })
 	//************* handle submit *************/
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
+	const onSubmit: SubmitHandler<FormInputs> = (data) => {
 		console.log({ data })
 
 		const newAlbum = {
 			title: data.title,
 			year: data?.year,
-			content: data?.content
+			content: content
 		}
 
 		handleData(newAlbum)
@@ -67,30 +54,33 @@ function AlbumForm({ handleData, album, formName }: Props) {
 			<Button onClick={goBack}>...takaisin</Button>
 
 			<FormContainer>
-				<Form onSubmit={handleSubmit(onSubmit)}>
+				<FormWrapper>
 					<h3 style={{ color: 'white' }}>{formName}</h3>
 
-					<InputWrapper>
-						{/* ........... */}
-						<Label>Title</Label>
-						<Input {...register('title')} required />
-						{errors.title?.message}
+					<Form onSubmit={handleSubmit(onSubmit)}>
+						<FormProvider {...formMethods}>
+							<InputWrapper>
+								{/* ........... */}
+								<Label>Title</Label>
+								<Input {...register('title')} required />
+								{errors.title?.message}
 
-						{/* ........... */}
-						<Label>Year</Label>
-						<Input {...register('year')} />
-						{errors.year?.message}
+								{/* ........... */}
+								<Label>Year</Label>
+								<Input type='number' {...register('year')} />
+								{errors.year?.message}
 
-						{/* ........... */}
-						<Label>Content</Label>
-						<Textarea {...register('content')} />
-						{errors.content?.message}
-					</InputWrapper>
-
-					<GreenButton type='submit' size={0.5}>
-						Lähetä
-					</GreenButton>
-				</Form>
+								{/* ........... */}
+								<Label>Content rtf</Label>
+								{JoditContentEditor({ control, editorRef, setContent, buttons: 'SEMI' })}
+							</InputWrapper>
+						</FormProvider>
+						<GreenButton type='submit' size={0.5}>
+							Lähetä
+						</GreenButton>
+					</Form>
+					
+				</FormWrapper>
 			</FormContainer>
 		</>
 	)

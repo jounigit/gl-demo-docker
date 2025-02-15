@@ -24,6 +24,7 @@ export function PictureUpdate() {
 
 	/************** handle update *************************/
 	const handleData = (data: UpdatePicture) => {
+		console.log({ data })
 		const newPicture = data
 		mutate({ id, newPicture })
 	}
@@ -34,7 +35,7 @@ export function PictureUpdate() {
 			<Button onClick={goBack}>...takaisin</Button>
 			<PictureForm
 				handleData={handleData}
-				picture={CurrentPicture}
+				object={CurrentPicture}
 				formName='PÄIVITÄ KUVATIEDOT'
 			/>
 		</Fragment>

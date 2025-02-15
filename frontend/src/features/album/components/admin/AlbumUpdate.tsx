@@ -28,7 +28,7 @@ export const AlbumUpdate: FC = () => {
 	return (
 		<AlbumForm
 			handleData={handleData}
-			album={CurrentAlbum}
+			object={CurrentAlbum}
 			formName='PÄIVITÄ ALBUMI'
 		/>
 	)

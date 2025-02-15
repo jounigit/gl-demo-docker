@@ -1,73 +1,54 @@
+import { useRef, useState } from 'react'
 import {
 	type SubmitHandler,
+	FormProvider,
 	useForm
 } from 'react-hook-form'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useState } from 'react'
-import styled from 'styled-components'
-import type { Picture, UpdatePicture } from '@/types'
-import { RenderImageInDiv } from '@/components/atoms/RenderImageInDiv'
+import {
+	GreenButton
+} from '@/components/atoms/Button'
 import { FormContainer } from '@/styles'
 import {
 	Form,
+	FormWrapper,
 	Input,
 	InputWrapper,
-	Label,
-	Textarea
+	Label
 } from '@/styles/styles'
-import { GreenButton } from '@/components/atoms'
+import styled from 'styled-components'
+import { yupResolver } from '@hookform/resolvers/yup'
+import type { FormInputs, FormUnionProps, Picture, UpdatePicture } from '@/types'
+import { RenderImageInDiv } from '@/components/atoms/RenderImageInDiv'
+import { JoditContentEditor } from '@/features/utils/JoditContentEditor'
+import { ListItemImageGrid } from '@/features/album/components/album.styles'
+import { titleSchema } from '@/features/utils/formSchemas'
 
-export const ImageDiv = styled.div`
-    display: block;
-    height: 150px;
-    width: auto;
-    margin-bottom: 20px;
-    border: 1px solid red;
+const ImageItem = styled(ListItemImageGrid)`
+    grid-template-columns: 1fr;
+    margin: 0.5rem 1rem 0.5rem 0;
 `
 
-const schema = yup.object().shape({
-	title: yup.string().required(),
-	content: yup
-		.string()
-		.min(20, 'Content must be at least 20 characters long')
-})
-
-type Inputs = {
-	title: string
-	year?: number
-	content?: string
-}
-
-type Props = {
-	handleData: (data: UpdatePicture) => void
-	picture?: Picture
-	formName: string
-}
-
-function PictureForm({
-	handleData,
-	picture,
-	formName
-}: Props) {
-	const [content, setContent] = useState(
-		picture?.content || ''
-	)
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		reset
-	} = useForm<Inputs>({
-		values: picture,
-		resolver: yupResolver(schema)
+function PictureForm({ handleData, object: picture, formName}: 
+	FormUnionProps<UpdatePicture, Picture>) {
+	const editorRef = useRef(null);
+	const [content, setContent] = useState('')
+	const formMethods = useForm<FormInputs>({
+			resolver: yupResolver(titleSchema),
+			values: picture
 	})
 
-	const showPic = picture && <RenderImageInDiv data={picture} />
+	const { control, register, handleSubmit, reset, formState: {errors} } = formMethods
 
-	console.log({ picture })
+	const showPic = picture && 
+	<ImageItem width={200} height={200}>
+		<RenderImageInDiv data={picture} />
+	</ImageItem>
+
+	// console.log({ picture })
 	//************* handle submit *************/
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
+	const onSubmit: SubmitHandler<FormInputs> = (data) => {
+		console.log({ data })
+
 		const newPicture = {
 			title: data.title,
 			year: data?.year,
@@ -78,56 +59,39 @@ function PictureForm({
 		reset()
 	}
 
-	//************* handle content *************/
-	const onChange = (
-		e: React.ChangeEvent<HTMLTextAreaElement>
-	) => {
-		setContent(e.target.value)
-	}
-
 	//************* return *******************/
 	return (
 		<FormContainer>
-			<Form onSubmit={handleSubmit(onSubmit)}>
-				{showPic}
-
-				<h3 style={{ color: 'white', marginTop: '20px' }}>
+			<FormWrapper>
+				<h3 style={{ color: 'white', marginBottom: '3rem' }}>
 					{formName}
 				</h3>
+				{showPic}
 
-				<InputWrapper>
-					{/* ........... */}
-					<Label htmlFor='title'>Title</Label>
-					<Input
-						id='title'
-						{...register('title')}
-						required
-					/>
-					{errors.title?.message}
+				<Form onSubmit={handleSubmit(onSubmit)}>
+					<FormProvider {...formMethods}>
+						<InputWrapper>
+							{/* ........... */}
+							<Label htmlFor='title'>Title</Label>
+							<Input {...register('title')} required />
+							{errors.title?.message}
 
-					{/* ........... */}
-					<Label htmlFor='year'>Year</Label>
-					<Input
-						id='year'
-						type='number'
-						{...register('year')}
-					/>
-					{errors.year?.message}
+							{/* ........... */}
+							<Label htmlFor='year'>Year</Label>
+							<Input {...register('year')} />
+							{errors.year?.message}
 
-					{/* ........... */}
-					<Label htmlFor='content'>Kuvaus</Label>
-					<Textarea
-						id='content'
-						name='content'
-						value={content}
-						onChange={onChange}
-					/>
-				</InputWrapper>
-
-				<GreenButton type='submit' size={0.5}>
-					Lähetä
-				</GreenButton>
-			</Form>
+							{/* ........... */}
+							<Label htmlFor='content'>Kuvaus</Label>
+							{JoditContentEditor({control, editorRef, setContent, buttons: 'MINIMAL'})}
+						</InputWrapper>
+					</FormProvider>
+					<GreenButton type='submit' size={0.5}>
+						Lähetä
+					</GreenButton>
+				</Form>
+				
+			</FormWrapper>
 		</FormContainer>
 	)
 }

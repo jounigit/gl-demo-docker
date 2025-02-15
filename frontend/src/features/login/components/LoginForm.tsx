@@ -4,15 +4,10 @@ import {
 } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import type { Login } from '../../../types'
-import { FormContainer } from '../../../styles'
-import {
-	Form,
-	Input,
-	InputWrapper,
-	Label
-} from '../../../styles/styles'
-import { GreenButton } from '../../../components/atoms'
+import type { FormUnionProps, Login } from '@/types'
+import { FormContainer } from '@/styles'
+import { GreenButton } from '@/components/atoms'
+import { InputWrapper, Label, Input, Form, FormWrapper } from '@/styles/styles'
 
 const schema = yup.object().shape({
 	email: yup.string().required(),
@@ -24,18 +19,15 @@ type Inputs = {
 	password: string
 }
 
-type Props = {
-	handleData: (data: Login) => void
-	formName: string
-}
+// type Props = {
+// 	handleData: (data: Login) => void
+// 	formName: string
+// }
 
-function LoginForm({ handleData, formName }: Props) {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		reset
-	} = useForm<Inputs>({ resolver: yupResolver(schema) })
+function LoginForm({ handleData, formName }: FormUnionProps<Login>) {
+	const formMethods = useForm<Inputs>({ resolver: yupResolver(schema) })
+
+	const {	register, handleSubmit, formState: { errors }, reset } = formMethods
 
 	//************* handle submit *************/
 	const onSubmit: SubmitHandler<Inputs> = (data: Login) => {
@@ -52,9 +44,18 @@ function LoginForm({ handleData, formName }: Props) {
 
 	return (
 		<FormContainer>
-			<Form onSubmit={handleSubmit(onSubmit)}>
-				<h3 style={{ color: 'white' }}>{formName}</h3>
+			<FormWrapper>
+				<h3 style={{ color: 'white', marginBottom: '15px'  }}>{formName}</h3>
+				<h4 style={{ marginBottom: '15px' }}>
+					Voit testata sisällön hallintaa näillä tunnuksilla:
+				</h4>
+				<h4>
+					Email: demo@mail.com
+					<br />
+					Password: demopass
+				</h4>
 
+			<Form onSubmit={handleSubmit(onSubmit)}>
 				<InputWrapper>
 					<Label>Email</Label>
 					<Input {...register('email')} required />
@@ -69,6 +70,8 @@ function LoginForm({ handleData, formName }: Props) {
 					</GreenButton>
 				</InputWrapper>
 			</Form>
+			</FormWrapper>
+				
 		</FormContainer>
 	)
 }

@@ -10,6 +10,7 @@ import type { Album } from '@/types'
 import { DetailsInfoTxt } from './album.styles'
 import { PictureGalleria } from '@/features/picture/components/PictureGalleria'
 import incrementByMediaQuery from '@/components/atoms/incrementByMediaQuery'
+import { sanitizeHtml } from '@/components/atoms/sanitizeHtml'
 
 interface Props {
 	album: Album
@@ -34,7 +35,7 @@ export const AlbumDetails: FC<Props> = ({ album: { pictures, title, year, conten
 			<DetailsInfoTxt>
 				<h2>{title}</h2>
 				<p>{year}</p>
-				<p>{content}</p>
+				{sanitizeHtml(content)}
 			</DetailsInfoTxt>
 		</Fragment>
 	)
