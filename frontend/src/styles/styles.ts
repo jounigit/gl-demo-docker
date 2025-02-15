@@ -102,15 +102,23 @@ export const BtnInline = styled.div`
 
 /* ************* forms ****************************/
 export const FormContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(10rem, 38rem);
+  /* flex-direction: column; */
   justify-content: center;
-  padding: 1.4rem;
 `
-export const Form = styled.form`
-  min-width: 400px;
+export const FormWrapper = styled.div`
   background: var(--gray-2);
   border-radius: 5px;
-  padding: 1.5rem;
+  padding: 1.8rem;
+  min-width: 400px;
+
+`
+
+export const Form = styled.form`
+  margin-top: 3.5rem;
+  padding-top: -0.8rem;
+  border-top: 1px solid var(--gray-3);
 `
 export const InputWrapperTwoCol = styled.div`
   display: flex;

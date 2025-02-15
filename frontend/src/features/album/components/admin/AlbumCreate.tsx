@@ -6,8 +6,6 @@ import { useCreateAlbum } from '../../useAlbum'
 import type { NewAlbum } from "@/types"
 import AlbumForm from './AlbumForm'
 
-
-
 export const AlbumCreate: FC = () => {
 	const { mutate, status } = useCreateAlbum()
 	const navigate = useNavigate()

@@ -1,3 +1,4 @@
+
 export interface BaseModel {
 	id: number
 	title: string
@@ -90,6 +91,7 @@ export type FormDataAlbum = Omit<
 	'id' | 'slug' | 'userID' | 'pictures'
 >
 export type NewPicture = Omit<Picture, 'id'>
+
 export type UpdatePicture = Omit<
 	Picture,
 	'id' | 'fileId' | 'url' | 'thumbnailUrl' | 'userID'
@@ -101,15 +103,25 @@ export interface AlbumPictureProps {
 	pictureId: number
 }
 
-<<<<<<< HEAD
+// ####################### Form Types #########################
 export type FormInputs = {
 	title: string
 	year?: number
 	content?: string
 }
 
-=======
->>>>>>> v-20-tinymce
+export interface FormUnionProps<T extends object,S = undefined> {
+	handleData: (data: T) => void
+	object?: S
+	formName: string
+}
+
+
+// export interface FormUnionProps<T,P extends object> {
+// 	handleData: (data: T) => void
+// 	object?: P
+// 	formName: string
+// }
 // export type DeleteAlbumPicture = NewAlbumPicture
 
 // ####################### Intersection Types #########################

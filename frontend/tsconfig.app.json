@@ -12,15 +12,12 @@
     /* Bundler mode */
     "moduleResolution": "Node",
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
     /* Linting */
-<<<<<<< HEAD
-    "allowSyntheticDefaultImports": true,
-=======
->>>>>>> v-20-tinymce
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

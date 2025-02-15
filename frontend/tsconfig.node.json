@@ -8,15 +8,12 @@
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
     // "allowImportingTsExtensions": true,
     // "isolatedModules": true,
     // "moduleDetection": "force",
     // "noEmit": true,
     /* Linting */
-<<<<<<< HEAD
-    "allowSyntheticDefaultImports": true,
-=======
->>>>>>> v-20-tinymce
     // "strict": true,
     // "noUnusedLocals": true,
     // "noUnusedParameters": true,
